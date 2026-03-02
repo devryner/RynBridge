@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/ui/showAlert.request.json",
+  "title": "UIShowAlertRequest",
+  "description": "Request payload for ui.showAlert action",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Alert title"
+    },
+    "message": {
+      "type": "string",
+      "description": "Alert message body"
+    },
+    "buttonText": {
+      "type": "string",
+      "description": "Custom button text (defaults to platform default)"
+    }
+  },
+  "required": ["title", "message"],
+  "additionalProperties": false
+}

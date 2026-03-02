@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/ui/showConfirm.request.json",
+  "title": "UIShowConfirmRequest",
+  "description": "Request payload for ui.showConfirm action",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Confirm dialog title"
+    },
+    "message": {
+      "type": "string",
+      "description": "Confirm dialog message body"
+    },
+    "confirmText": {
+      "type": "string",
+      "description": "Custom confirm button text"
+    },
+    "cancelText": {
+      "type": "string",
+      "description": "Custom cancel button text"
+    }
+  },
+  "required": ["title", "message"],
+  "additionalProperties": false
+}

@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/storage/clear.request.json",
+  "title": "StorageClearRequest",
+  "description": "Request payload for storage.clear action",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

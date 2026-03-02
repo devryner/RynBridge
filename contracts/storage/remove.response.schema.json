@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/storage/remove.response.json",
+  "title": "StorageRemoveResponse",
+  "description": "Response payload for storage.remove action",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

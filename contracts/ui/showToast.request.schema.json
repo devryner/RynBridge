@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/ui/showToast.request.json",
+  "title": "UIShowToastRequest",
+  "description": "Request payload for ui.showToast action (fire-and-forget)",
+  "type": "object",
+  "properties": {
+    "message": {
+      "type": "string",
+      "description": "Toast message text"
+    },
+    "duration": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Toast display duration in milliseconds"
+    }
+  },
+  "required": ["message"],
+  "additionalProperties": false
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/storage/keys.response.json",
+  "title": "StorageKeysResponse",
+  "description": "Response payload for storage.keys action",
+  "type": "object",
+  "properties": {
+    "keys": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of all storage keys"
+    }
+  },
+  "required": ["keys"],
+  "additionalProperties": false
+}

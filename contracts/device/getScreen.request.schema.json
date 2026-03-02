@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/device/getScreen.request.json",
+  "title": "DeviceGetScreenRequest",
+  "description": "Request payload for device.getScreen action",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/storage/set.request.json",
+  "title": "StorageSetRequest",
+  "description": "Request payload for storage.set action",
+  "type": "object",
+  "properties": {
+    "key": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Storage key"
+    },
+    "value": {
+      "type": "string",
+      "description": "Value to store"
+    }
+  },
+  "required": ["key", "value"],
+  "additionalProperties": false
+}

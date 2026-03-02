@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/ui/setStatusBar.request.json",
+  "title": "UISetStatusBarRequest",
+  "description": "Request payload for ui.setStatusBar action",
+  "type": "object",
+  "properties": {
+    "style": {
+      "type": "string",
+      "description": "Status bar style (e.g., 'light', 'dark', 'default')"
+    },
+    "hidden": {
+      "type": "boolean",
+      "description": "Whether to hide the status bar"
+    }
+  },
+  "additionalProperties": false
+}

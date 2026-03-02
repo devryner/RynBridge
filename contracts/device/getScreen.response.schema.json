@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/device/getScreen.response.json",
+  "title": "DeviceGetScreenResponse",
+  "description": "Response payload for device.getScreen action",
+  "type": "object",
+  "properties": {
+    "width": {
+      "type": "number",
+      "description": "Screen width in points"
+    },
+    "height": {
+      "type": "number",
+      "description": "Screen height in points"
+    },
+    "scale": {
+      "type": "number",
+      "description": "Screen pixel density scale factor"
+    },
+    "orientation": {
+      "type": "string",
+      "enum": ["portrait", "landscape"],
+      "description": "Current screen orientation"
+    }
+  },
+  "required": ["width", "height", "scale", "orientation"],
+  "additionalProperties": false
+}

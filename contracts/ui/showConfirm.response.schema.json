@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/ui/showConfirm.response.json",
+  "title": "UIShowConfirmResponse",
+  "description": "Response payload for ui.showConfirm action",
+  "type": "object",
+  "properties": {
+    "confirmed": {
+      "type": "boolean",
+      "description": "Whether the user confirmed the dialog"
+    }
+  },
+  "required": ["confirmed"],
+  "additionalProperties": false
+}

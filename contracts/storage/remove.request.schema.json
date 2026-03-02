@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/storage/remove.request.json",
+  "title": "StorageRemoveRequest",
+  "description": "Request payload for storage.remove action",
+  "type": "object",
+  "properties": {
+    "key": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Storage key to remove"
+    }
+  },
+  "required": ["key"],
+  "additionalProperties": false
+}

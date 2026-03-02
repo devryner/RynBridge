@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/secure-storage/has.request.json",
+  "title": "SecureStorageHasRequest",
+  "description": "Request payload for secure-storage.has action",
+  "type": "object",
+  "properties": {
+    "key": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Secure storage key to check existence"
+    }
+  },
+  "required": ["key"],
+  "additionalProperties": false
+}

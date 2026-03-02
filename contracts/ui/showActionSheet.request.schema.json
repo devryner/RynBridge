@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/ui/showActionSheet.request.json",
+  "title": "UIShowActionSheetRequest",
+  "description": "Request payload for ui.showActionSheet action",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Action sheet title"
+    },
+    "options": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "description": "List of action options"
+    }
+  },
+  "required": ["options"],
+  "additionalProperties": false
+}

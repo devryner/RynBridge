@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/secure-storage/has.response.json",
+  "title": "SecureStorageHasResponse",
+  "description": "Response payload for secure-storage.has action",
+  "type": "object",
+  "properties": {
+    "exists": {
+      "type": "boolean",
+      "description": "Whether the key exists in secure storage"
+    }
+  },
+  "required": ["exists"],
+  "additionalProperties": false
+}

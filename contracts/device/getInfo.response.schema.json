@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/device/getInfo.response.json",
+  "title": "DeviceGetInfoResponse",
+  "description": "Response payload for device.getInfo action",
+  "type": "object",
+  "properties": {
+    "platform": {
+      "type": "string",
+      "description": "Platform identifier (e.g., 'ios', 'android')"
+    },
+    "osVersion": {
+      "type": "string",
+      "description": "Operating system version"
+    },
+    "model": {
+      "type": "string",
+      "description": "Device model name"
+    },
+    "appVersion": {
+      "type": "string",
+      "description": "Application version string"
+    }
+  },
+  "required": ["platform", "osVersion", "model", "appVersion"],
+  "additionalProperties": false
+}

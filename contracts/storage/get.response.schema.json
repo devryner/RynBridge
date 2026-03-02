@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/storage/get.response.json",
+  "title": "StorageGetResponse",
+  "description": "Response payload for storage.get action",
+  "type": "object",
+  "properties": {
+    "value": {
+      "type": ["string", "null"],
+      "description": "Stored value, or null if key does not exist"
+    }
+  },
+  "required": ["value"],
+  "additionalProperties": false
+}

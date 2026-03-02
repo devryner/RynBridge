@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/device/vibrate.request.json",
+  "title": "DeviceVibrateRequest",
+  "description": "Request payload for device.vibrate action (fire-and-forget)",
+  "type": "object",
+  "properties": {
+    "pattern": {
+      "type": "array",
+      "items": {
+        "type": "number",
+        "minimum": 0
+      },
+      "description": "Vibration pattern as alternating durations in milliseconds"
+    }
+  },
+  "additionalProperties": false
+}

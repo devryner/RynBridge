@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/storage/get.request.json",
+  "title": "StorageGetRequest",
+  "description": "Request payload for storage.get action",
+  "type": "object",
+  "properties": {
+    "key": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Storage key to retrieve"
+    }
+  },
+  "required": ["key"],
+  "additionalProperties": false
+}

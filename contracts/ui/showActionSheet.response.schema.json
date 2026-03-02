@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/ui/showActionSheet.response.json",
+  "title": "UIShowActionSheetResponse",
+  "description": "Response payload for ui.showActionSheet action",
+  "type": "object",
+  "properties": {
+    "selectedIndex": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Index of the selected option"
+    }
+  },
+  "required": ["selectedIndex"],
+  "additionalProperties": false
+}
