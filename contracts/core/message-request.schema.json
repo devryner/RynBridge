@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/core/message-request.json",
+  "title": "BridgeRequest",
+  "description": "Request message sent from Web to Native (or Native to Web)",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "UUID v4 correlation ID for request-response matching"
+    },
+    "module": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Target module name (e.g., 'device', 'storage')"
+    },
+    "action": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Action to invoke on the target module"
+    },
+    "payload": {
+      "type": "object",
+      "description": "Action-specific payload data",
+      "default": {}
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version of the calling module"
+    }
+  },
+  "required": ["id", "module", "action", "payload", "version"],
+  "additionalProperties": false
+}

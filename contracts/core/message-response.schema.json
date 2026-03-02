@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/core/message-response.json",
+  "title": "BridgeResponse",
+  "description": "Response message sent from Native to Web (or Web to Native)",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Correlation ID matching the original request"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["success", "error"],
+      "description": "Response status"
+    },
+    "payload": {
+      "type": "object",
+      "description": "Response data (present on success)",
+      "default": {}
+    },
+    "error": {
+      "oneOf": [
+        { "$ref": "error.schema.json" },
+        { "type": "null" }
+      ],
+      "description": "Error details (present on error, null on success)"
+    }
+  },
+  "required": ["id", "status", "payload", "error"],
+  "additionalProperties": false
+}

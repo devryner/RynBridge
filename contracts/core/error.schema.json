@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/core/error.json",
+  "title": "BridgeError",
+  "description": "Structured error object for bridge communication",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Machine-readable error code (e.g., 'TIMEOUT', 'MODULE_NOT_FOUND')"
+    },
+    "message": {
+      "type": "string",
+      "description": "Human-readable error description"
+    },
+    "details": {
+      "type": "object",
+      "description": "Additional error context",
+      "default": {}
+    }
+  },
+  "required": ["code", "message"],
+  "additionalProperties": false
+}
