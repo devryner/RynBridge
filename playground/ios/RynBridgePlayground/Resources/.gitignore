@@ -1,0 +1,4 @@
+# Copied from playground/web/dist by scripts/copy-playground-assets.sh
+*.html
+*.js
+*.js.map

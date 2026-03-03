@@ -1,0 +1,26 @@
+{
+  "name": "@rynbridge/playground-web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Web playground for RynBridge E2E testing in WebView",
+  "type": "module",
+  "scripts": {
+    "build": "rollup -c rollup.config.mjs",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@rynbridge/core": "workspace:*",
+    "@rynbridge/device": "workspace:*",
+    "@rynbridge/storage": "workspace:*",
+    "@rynbridge/secure-storage": "workspace:*",
+    "@rynbridge/ui": "workspace:*"
+  },
+  "devDependencies": {
+    "@rollup/plugin-html": "^2.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-typescript": "^12.1.0",
+    "rollup": "^4.29.0",
+    "tslib": "^2.8.0",
+    "typescript": "^5.7.0"
+  }
+}
