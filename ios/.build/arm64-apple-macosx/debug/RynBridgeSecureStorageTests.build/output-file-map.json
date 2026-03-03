@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridgeSecureStorageTests.build/master.swiftdeps"
+  },
+  "/Users/choichiwon/Documents/Project/RynBridge/ios/Tests/RynBridgeSecureStorageTests/SecureStorageModuleTests.swift": {
+    "dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridgeSecureStorageTests.build/SecureStorageModuleTests.d",
+    "object": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridgeSecureStorageTests.build/SecureStorageModuleTests.swift.o",
+    "swiftmodule": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridgeSecureStorageTests.build/SecureStorageModuleTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridgeSecureStorageTests.build/SecureStorageModuleTests.swiftdeps",
+    "diagnostics": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridgeSecureStorageTests.build/SecureStorageModuleTests.dia"
+  }
+}

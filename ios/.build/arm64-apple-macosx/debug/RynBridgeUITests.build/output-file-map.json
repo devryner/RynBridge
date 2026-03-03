@@ -1,0 +1,12 @@
+{
+  "": {
+    "swift-dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridgeUITests.build/master.swiftdeps"
+  },
+  "/Users/choichiwon/Documents/Project/RynBridge/ios/Tests/RynBridgeUITests/UIModuleTests.swift": {
+    "dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridgeUITests.build/UIModuleTests.d",
+    "object": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridgeUITests.build/UIModuleTests.swift.o",
+    "swiftmodule": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridgeUITests.build/UIModuleTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridgeUITests.build/UIModuleTests.swiftdeps",
+    "diagnostics": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridgeUITests.build/UIModuleTests.dia"
+  }
+}

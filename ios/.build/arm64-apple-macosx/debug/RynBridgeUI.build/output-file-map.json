@@ -1,0 +1,19 @@
+{
+  "": {
+    "swift-dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridgeUI.build/master.swiftdeps"
+  },
+  "/Users/choichiwon/Documents/Project/RynBridge/ios/Sources/RynBridgeUI/Types.swift": {
+    "dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridgeUI.build/Types.d",
+    "object": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridgeUI.build/Types.swift.o",
+    "swiftmodule": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridgeUI.build/Types~partial.swiftmodule",
+    "swift-dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridgeUI.build/Types.swiftdeps",
+    "diagnostics": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridgeUI.build/Types.dia"
+  },
+  "/Users/choichiwon/Documents/Project/RynBridge/ios/Sources/RynBridgeUI/UIModule.swift": {
+    "dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridgeUI.build/UIModule.d",
+    "object": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridgeUI.build/UIModule.swift.o",
+    "swiftmodule": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridgeUI.build/UIModule~partial.swiftmodule",
+    "swift-dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridgeUI.build/UIModule.swiftdeps",
+    "diagnostics": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridgeUI.build/UIModule.dia"
+  }
+}

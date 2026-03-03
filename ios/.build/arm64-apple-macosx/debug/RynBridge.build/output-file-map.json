@@ -1,0 +1,96 @@
+{
+  "": {
+    "swift-dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/master.swiftdeps"
+  },
+  "/Users/choichiwon/Documents/Project/RynBridge/ios/Sources/RynBridge/AnyCodable.swift": {
+    "dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/AnyCodable.d",
+    "object": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/AnyCodable.swift.o",
+    "swiftmodule": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/AnyCodable~partial.swiftmodule",
+    "swift-dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/AnyCodable.swiftdeps",
+    "diagnostics": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/AnyCodable.dia"
+  },
+  "/Users/choichiwon/Documents/Project/RynBridge/ios/Sources/RynBridge/CallbackRegistry.swift": {
+    "dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/CallbackRegistry.d",
+    "object": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/CallbackRegistry.swift.o",
+    "swiftmodule": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/CallbackRegistry~partial.swiftmodule",
+    "swift-dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/CallbackRegistry.swiftdeps",
+    "diagnostics": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/CallbackRegistry.dia"
+  },
+  "/Users/choichiwon/Documents/Project/RynBridge/ios/Sources/RynBridge/Errors.swift": {
+    "dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/Errors.d",
+    "object": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/Errors.swift.o",
+    "swiftmodule": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/Errors~partial.swiftmodule",
+    "swift-dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/Errors.swiftdeps",
+    "diagnostics": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/Errors.dia"
+  },
+  "/Users/choichiwon/Documents/Project/RynBridge/ios/Sources/RynBridge/EventEmitter.swift": {
+    "dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/EventEmitter.d",
+    "object": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/EventEmitter.swift.o",
+    "swiftmodule": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/EventEmitter~partial.swiftmodule",
+    "swift-dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/EventEmitter.swiftdeps",
+    "diagnostics": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/EventEmitter.dia"
+  },
+  "/Users/choichiwon/Documents/Project/RynBridge/ios/Sources/RynBridge/MessageDeserializer.swift": {
+    "dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/MessageDeserializer.d",
+    "object": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/MessageDeserializer.swift.o",
+    "swiftmodule": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/MessageDeserializer~partial.swiftmodule",
+    "swift-dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/MessageDeserializer.swiftdeps",
+    "diagnostics": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/MessageDeserializer.dia"
+  },
+  "/Users/choichiwon/Documents/Project/RynBridge/ios/Sources/RynBridge/MessageSerializer.swift": {
+    "dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/MessageSerializer.d",
+    "object": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/MessageSerializer.swift.o",
+    "swiftmodule": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/MessageSerializer~partial.swiftmodule",
+    "swift-dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/MessageSerializer.swiftdeps",
+    "diagnostics": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/MessageSerializer.dia"
+  },
+  "/Users/choichiwon/Documents/Project/RynBridge/ios/Sources/RynBridge/MockTransport.swift": {
+    "dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/MockTransport.d",
+    "object": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/MockTransport.swift.o",
+    "swiftmodule": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/MockTransport~partial.swiftmodule",
+    "swift-dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/MockTransport.swiftdeps",
+    "diagnostics": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/MockTransport.dia"
+  },
+  "/Users/choichiwon/Documents/Project/RynBridge/ios/Sources/RynBridge/ModuleRegistry.swift": {
+    "dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/ModuleRegistry.d",
+    "object": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/ModuleRegistry.swift.o",
+    "swiftmodule": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/ModuleRegistry~partial.swiftmodule",
+    "swift-dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/ModuleRegistry.swiftdeps",
+    "diagnostics": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/ModuleRegistry.dia"
+  },
+  "/Users/choichiwon/Documents/Project/RynBridge/ios/Sources/RynBridge/RynBridge.swift": {
+    "dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/RynBridge.d",
+    "object": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/RynBridge.swift.o",
+    "swiftmodule": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/RynBridge~partial.swiftmodule",
+    "swift-dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/RynBridge.swiftdeps",
+    "diagnostics": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/RynBridge.dia"
+  },
+  "/Users/choichiwon/Documents/Project/RynBridge/ios/Sources/RynBridge/Transport.swift": {
+    "dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/Transport.d",
+    "object": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/Transport.swift.o",
+    "swiftmodule": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/Transport~partial.swiftmodule",
+    "swift-dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/Transport.swiftdeps",
+    "diagnostics": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/Transport.dia"
+  },
+  "/Users/choichiwon/Documents/Project/RynBridge/ios/Sources/RynBridge/Types.swift": {
+    "dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/Types.d",
+    "object": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/Types.swift.o",
+    "swiftmodule": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/Types~partial.swiftmodule",
+    "swift-dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/Types.swiftdeps",
+    "diagnostics": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/Types.dia"
+  },
+  "/Users/choichiwon/Documents/Project/RynBridge/ios/Sources/RynBridge/VersionNegotiator.swift": {
+    "dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/VersionNegotiator.d",
+    "object": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/VersionNegotiator.swift.o",
+    "swiftmodule": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/VersionNegotiator~partial.swiftmodule",
+    "swift-dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/VersionNegotiator.swiftdeps",
+    "diagnostics": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/VersionNegotiator.dia"
+  },
+  "/Users/choichiwon/Documents/Project/RynBridge/ios/Sources/RynBridge/WKWebViewTransport.swift": {
+    "dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/WKWebViewTransport.d",
+    "object": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/WKWebViewTransport.swift.o",
+    "swiftmodule": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/WKWebViewTransport~partial.swiftmodule",
+    "swift-dependencies": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/WKWebViewTransport.swiftdeps",
+    "diagnostics": "/Users/choichiwon/Documents/Project/RynBridge/ios/.build/arm64-apple-macosx/debug/RynBridge.build/WKWebViewTransport.dia"
+  }
+}
