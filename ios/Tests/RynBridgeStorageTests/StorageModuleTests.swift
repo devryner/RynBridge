@@ -141,4 +141,24 @@ private final class MockStorageProvider: StorageProvider, @unchecked Sendable {
     func keys() -> [String] {
         Array(store.keys).sorted()
     }
+
+    func readFile(path: String, encoding: String) throws -> String {
+        throw RynBridgeError(code: .unknown, message: "Not implemented")
+    }
+
+    func writeFile(path: String, content: String, encoding: String) throws {
+        throw RynBridgeError(code: .unknown, message: "Not implemented")
+    }
+
+    func deleteFile(path: String) throws {
+        throw RynBridgeError(code: .unknown, message: "Not implemented")
+    }
+
+    func listDir(path: String) throws -> [String] {
+        throw RynBridgeError(code: .unknown, message: "Not implemented")
+    }
+
+    func getFileInfo(path: String) throws -> FileInfo {
+        throw RynBridgeError(code: .unknown, message: "Not implemented")
+    }
 }

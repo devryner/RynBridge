@@ -170,4 +170,10 @@ private final class MockUIProvider: UIProvider, @unchecked Sendable {
         lastStatusBarStyle = style
         lastStatusBarHidden = hidden
     }
+
+    func showKeyboard() async {}
+    func hideKeyboard() async {}
+    func getKeyboardHeight() async -> KeyboardInfo {
+        KeyboardInfo(height: 0, visible: false)
+    }
 }
