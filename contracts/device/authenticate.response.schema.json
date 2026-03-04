@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/device/authenticate.response.json",
+  "title": "DeviceAuthenticateResponse",
+  "description": "Response payload for device.authenticate action",
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "description": "Whether biometric authentication succeeded"
+    }
+  },
+  "required": ["success"],
+  "additionalProperties": false
+}

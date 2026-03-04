@@ -135,4 +135,10 @@ private class MockStorageProvider : StorageProvider {
     override fun remove(key: String) { store.remove(key) }
     override fun clear() { store.clear() }
     override fun keys(): List<String> = store.keys.sorted()
+
+    override fun readFile(path: String, encoding: String): String = "mock content"
+    override fun writeFile(path: String, content: String, encoding: String) {}
+    override fun deleteFile(path: String) {}
+    override fun listDir(path: String): List<String> = listOf("file1.txt", "file2.txt")
+    override fun getFileInfo(path: String): FileInfo = FileInfo(size = 1024, modifiedAt = "2024-01-15T10:30:00Z", isDirectory = false)
 }

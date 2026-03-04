@@ -38,6 +38,40 @@ class StorageModule(provider: StorageProvider) : BridgeModule {
         "keys" to { _ ->
             val allKeys = provider.keys()
             mapOf("keys" to BridgeValue.array(allKeys.map { BridgeValue.string(it) }))
+        },
+        "readFile" to { payload ->
+            val path = payload["path"]?.stringValue
+                ?: throw RynBridgeError(code = ErrorCode.INVALID_MESSAGE, message = "Missing required field: path")
+            val encoding = payload["encoding"]?.stringValue ?: "utf8"
+            val content = provider.readFile(path, encoding)
+            mapOf("content" to BridgeValue.string(content))
+        },
+        "writeFile" to { payload ->
+            val path = payload["path"]?.stringValue
+                ?: throw RynBridgeError(code = ErrorCode.INVALID_MESSAGE, message = "Missing required field: path")
+            val content = payload["content"]?.stringValue
+                ?: throw RynBridgeError(code = ErrorCode.INVALID_MESSAGE, message = "Missing required field: content")
+            val encoding = payload["encoding"]?.stringValue ?: "utf8"
+            provider.writeFile(path, content, encoding)
+            mapOf("success" to BridgeValue.bool(true))
+        },
+        "deleteFile" to { payload ->
+            val path = payload["path"]?.stringValue
+                ?: throw RynBridgeError(code = ErrorCode.INVALID_MESSAGE, message = "Missing required field: path")
+            provider.deleteFile(path)
+            mapOf("success" to BridgeValue.bool(true))
+        },
+        "listDir" to { payload ->
+            val path = payload["path"]?.stringValue
+                ?: throw RynBridgeError(code = ErrorCode.INVALID_MESSAGE, message = "Missing required field: path")
+            val files = provider.listDir(path)
+            mapOf("files" to BridgeValue.array(files.map { BridgeValue.string(it) }))
+        },
+        "getFileInfo" to { payload ->
+            val path = payload["path"]?.stringValue
+                ?: throw RynBridgeError(code = ErrorCode.INVALID_MESSAGE, message = "Missing required field: path")
+            val info = provider.getFileInfo(path)
+            info.toPayload()
         }
     )
 }

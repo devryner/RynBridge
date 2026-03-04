@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/device/authenticate.request.json",
+  "title": "DeviceAuthenticateRequest",
+  "description": "Request payload for device.authenticate action",
+  "type": "object",
+  "properties": {
+    "reason": {
+      "type": "string",
+      "description": "Reason message displayed to the user during biometric authentication"
+    }
+  },
+  "required": ["reason"],
+  "additionalProperties": false
+}

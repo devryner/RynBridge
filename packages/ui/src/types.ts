@@ -33,3 +33,13 @@ export interface SetStatusBarPayload {
   style?: string;
   hidden?: boolean;
 }
+
+export interface KeyboardHeightResponse {
+  height: number;
+  visible: boolean;
+}
+
+export interface KeyboardChangeInfo {
+  height: number;
+  visible: boolean;
+}

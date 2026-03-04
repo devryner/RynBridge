@@ -3,6 +3,7 @@ package io.rynbridge.playground.providers
 import android.app.Activity
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import io.rynbridge.ui.KeyboardInfo
 import io.rynbridge.ui.UIProvider
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.lang.ref.WeakReference
@@ -85,5 +86,25 @@ class AndroidUIProvider(activity: Activity) : UIProvider {
 
     override suspend fun setStatusBar(style: String?, hidden: Boolean?) {
         // Status bar customization is a no-op for this playground
+    }
+
+    override fun showKeyboard() {
+        val activity = activityRef.get() ?: return
+        val inputMethodManager = activity.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+        activity.currentFocus?.let {
+            inputMethodManager.showSoftInput(it, android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT)
+        }
+    }
+
+    override fun hideKeyboard() {
+        val activity = activityRef.get() ?: return
+        val inputMethodManager = activity.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+        activity.currentFocus?.let {
+            inputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
+        }
+    }
+
+    override suspend fun getKeyboardHeight(): KeyboardInfo {
+        return KeyboardInfo(height = 0.0, visible = false)
     }
 }

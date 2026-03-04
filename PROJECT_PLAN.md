@@ -401,19 +401,19 @@ RynBridge/
 ## 10. 로드맵
 
 ### v0.1.0 — Foundation
-- [ ] 코어 메시지 프로토콜 설계 및 구현
-- [ ] Web (TypeScript) core SDK
-- [ ] iOS (Swift) core SDK
-- [ ] Android (Kotlin) core SDK
-- [ ] 기본 통신 (Request-Response) 동작 검증
-- [ ] Playground 앱 (Web + iOS + Android)
+- [x] 코어 메시지 프로토콜 설계 및 구현
+- [x] Web (TypeScript) core SDK
+- [x] iOS (Swift) core SDK
+- [x] Android (Kotlin) core SDK
+- [x] 기본 통신 (Request-Response) 동작 검증
+- [x] Playground 앱 (Web + iOS + Android)
 
 ### v0.2.0 — Phase 1 모듈
-- [ ] device 모듈 (카메라, GPS, 생체인증)
-- [ ] storage 모듈 (SharedPreferences, UserDefaults, 파일시스템)
-- [ ] secure-storage 모듈 (KeyChain/KeyStore, 암호화 저장)
-- [ ] ui 모듈 (다이얼로그, 토스트, 상태바)
-- [ ] Event Stream 통신 패턴
+- [x] device 모듈 (카메라, GPS, 생체인증)
+- [x] storage 모듈 (SharedPreferences, UserDefaults, 파일시스템)
+- [x] secure-storage 모듈 (KeyChain/KeyStore, 암호화 저장)
+- [x] ui 모듈 (다이얼로그, 토스트, 상태바, 키보드)
+- [x] Event Stream 통신 패턴
 
 ### v0.3.0 — DX 강화
 - [ ] CLI 도구 (`rynbridge init`, `rynbridge add`)

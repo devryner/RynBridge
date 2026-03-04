@@ -7,4 +7,6 @@ export type {
   ShowActionSheetPayload,
   ShowActionSheetResponse,
   SetStatusBarPayload,
+  KeyboardHeightResponse,
+  KeyboardChangeInfo,
 } from './types.js';

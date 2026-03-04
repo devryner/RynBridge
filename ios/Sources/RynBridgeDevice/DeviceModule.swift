@@ -27,6 +27,23 @@ public struct DeviceModule: BridgeModule, Sendable {
                 provider.vibrate(pattern: pattern)
                 return [:]
             },
+            "capturePhoto": { payload in
+                let quality = payload["quality"]?.doubleValue ?? 0.8
+                let camera = payload["camera"]?.stringValue ?? "back"
+                let result = try await provider.capturePhoto(quality: quality, camera: camera)
+                return result.toPayload()
+            },
+            "getLocation": { _ in
+                let location = try await provider.getLocation()
+                return location.toPayload()
+            },
+            "authenticate": { payload in
+                guard let reason = payload["reason"]?.stringValue else {
+                    throw RynBridgeError(code: .invalidMessage, message: "Missing required field: reason")
+                }
+                let result = try await provider.authenticate(reason: reason)
+                return result.toPayload()
+            },
         ]
     }
 }
@@ -81,6 +98,18 @@ public final class DefaultDeviceInfoProvider: DeviceInfoProvider, @unchecked Sen
 
     public func vibrate(pattern: [Int]) {
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+    }
+
+    public func capturePhoto(quality: Double, camera: String) async throws -> CapturePhotoResult {
+        throw RynBridgeError(code: .unknown, message: "capturePhoto requires a custom provider implementation")
+    }
+
+    public func getLocation() async throws -> LocationInfo {
+        throw RynBridgeError(code: .unknown, message: "getLocation requires a custom provider implementation")
+    }
+
+    public func authenticate(reason: String) async throws -> AuthenticateResult {
+        throw RynBridgeError(code: .unknown, message: "authenticate requires a custom provider implementation")
     }
 }
 #endif

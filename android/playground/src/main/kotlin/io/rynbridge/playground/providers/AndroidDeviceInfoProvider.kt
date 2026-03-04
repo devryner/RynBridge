@@ -8,10 +8,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.DisplayMetrics
 import android.view.WindowManager
-import io.rynbridge.device.BatteryInfo
-import io.rynbridge.device.DeviceInfo
-import io.rynbridge.device.DeviceInfoProvider
-import io.rynbridge.device.ScreenInfo
+import io.rynbridge.device.*
 
 class AndroidDeviceInfoProvider(private val context: Context) : DeviceInfoProvider {
 
@@ -58,5 +55,17 @@ class AndroidDeviceInfoProvider(private val context: Context) : DeviceInfoProvid
             val timings = pattern.map { it.toLong() }.toLongArray()
             vibrator.vibrate(VibrationEffect.createWaveform(timings, -1))
         }
+    }
+
+    override suspend fun capturePhoto(quality: Double, camera: String): CapturePhotoResult {
+        throw UnsupportedOperationException("capturePhoto not implemented in playground")
+    }
+
+    override suspend fun getLocation(): LocationInfo {
+        throw UnsupportedOperationException("getLocation not implemented in playground")
+    }
+
+    override suspend fun authenticate(reason: String): AuthenticateResult {
+        throw UnsupportedOperationException("authenticate not implemented in playground")
     }
 }

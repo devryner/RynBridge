@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/storage/listDir.request.json",
+  "title": "StorageListDirRequest",
+  "description": "Request payload for storage.listDir action",
+  "type": "object",
+  "properties": {
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Directory path to list"
+    }
+  },
+  "required": ["path"],
+  "additionalProperties": false
+}

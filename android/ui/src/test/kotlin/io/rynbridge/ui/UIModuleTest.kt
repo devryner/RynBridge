@@ -191,4 +191,8 @@ private class MockUIProvider : UIProvider {
         lastStatusBarStyle = style
         lastStatusBarHidden = hidden
     }
+
+    override fun showKeyboard() {}
+    override fun hideKeyboard() {}
+    override suspend fun getKeyboardHeight(): KeyboardInfo = KeyboardInfo(height = 0.0, visible = false)
 }

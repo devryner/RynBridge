@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/device/capturePhoto.request.json",
+  "title": "DeviceCapturePhotoRequest",
+  "description": "Request payload for device.capturePhoto action",
+  "type": "object",
+  "properties": {
+    "quality": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Image quality from 0.0 to 1.0"
+    },
+    "camera": {
+      "type": "string",
+      "enum": ["front", "back"],
+      "description": "Which camera to use"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/storage/getFileInfo.response.json",
+  "title": "StorageGetFileInfoResponse",
+  "description": "Response payload for storage.getFileInfo action",
+  "type": "object",
+  "properties": {
+    "size": {
+      "type": "integer",
+      "description": "File size in bytes"
+    },
+    "modifiedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last modified timestamp in ISO 8601 format"
+    },
+    "isDirectory": {
+      "type": "boolean",
+      "description": "Whether the path is a directory"
+    }
+  },
+  "required": ["size", "modifiedAt", "isDirectory"],
+  "additionalProperties": false
+}

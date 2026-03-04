@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/storage/deleteFile.response.json",
+  "title": "StorageDeleteFileResponse",
+  "description": "Response payload for storage.deleteFile action",
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "description": "Whether the file was deleted successfully"
+    }
+  },
+  "required": ["success"],
+  "additionalProperties": false
+}

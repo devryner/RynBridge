@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/storage/writeFile.request.json",
+  "title": "StorageWriteFileRequest",
+  "description": "Request payload for storage.writeFile action",
+  "type": "object",
+  "properties": {
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "description": "File path to write"
+    },
+    "content": {
+      "type": "string",
+      "description": "Content to write (string or base64-encoded)"
+    },
+    "encoding": {
+      "type": "string",
+      "enum": ["utf8", "base64"],
+      "description": "Encoding of the content (defaults to utf8)"
+    }
+  },
+  "required": ["path", "content"],
+  "additionalProperties": false
+}

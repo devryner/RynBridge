@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/storage/readFile.request.json",
+  "title": "StorageReadFileRequest",
+  "description": "Request payload for storage.readFile action",
+  "type": "object",
+  "properties": {
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "description": "File path to read"
+    },
+    "encoding": {
+      "type": "string",
+      "enum": ["utf8", "base64"],
+      "description": "Encoding for the returned content (defaults to utf8)"
+    }
+  },
+  "required": ["path"],
+  "additionalProperties": false
+}

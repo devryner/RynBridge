@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/device/onBatteryChange.response.json",
+  "title": "DeviceOnBatteryChangeResponse",
+  "description": "Event payload for device.batteryChange event",
+  "type": "object",
+  "properties": {
+    "level": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Battery level percentage"
+    },
+    "isCharging": {
+      "type": "boolean",
+      "description": "Whether the device is currently charging"
+    }
+  },
+  "required": ["level", "isCharging"],
+  "additionalProperties": false
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/device/onLocationChange.response.json",
+  "title": "DeviceOnLocationChangeResponse",
+  "description": "Event payload for device.locationChange event",
+  "type": "object",
+  "properties": {
+    "latitude": {
+      "type": "number",
+      "description": "Latitude in degrees"
+    },
+    "longitude": {
+      "type": "number",
+      "description": "Longitude in degrees"
+    },
+    "accuracy": {
+      "type": "number",
+      "description": "Location accuracy in meters"
+    }
+  },
+  "required": ["latitude", "longitude", "accuracy"],
+  "additionalProperties": false
+}

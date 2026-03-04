@@ -122,4 +122,16 @@ private class MockDeviceInfoProvider : DeviceInfoProvider {
     override fun vibrate(pattern: List<Int>) {
         lastVibratePattern = pattern
     }
+
+    override suspend fun capturePhoto(quality: Double, camera: String): CapturePhotoResult {
+        return CapturePhotoResult(imageBase64 = "mockBase64", width = 1920, height = 1080)
+    }
+
+    override suspend fun getLocation(): LocationInfo {
+        return LocationInfo(latitude = 37.5665, longitude = 126.978, accuracy = 10.0)
+    }
+
+    override suspend fun authenticate(reason: String): AuthenticateResult {
+        return AuthenticateResult(success = true)
+    }
 }

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/storage/readFile.response.json",
+  "title": "StorageReadFileResponse",
+  "description": "Response payload for storage.readFile action",
+  "type": "object",
+  "properties": {
+    "content": {
+      "type": "string",
+      "description": "File content (string or base64-encoded depending on encoding)"
+    }
+  },
+  "required": ["content"],
+  "additionalProperties": false
+}

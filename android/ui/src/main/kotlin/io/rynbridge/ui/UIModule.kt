@@ -43,6 +43,21 @@ class UIModule(provider: UIProvider) : BridgeModule {
             val hidden = payload["hidden"]?.boolValue
             provider.setStatusBar(style, hidden)
             emptyMap()
+        },
+        "showKeyboard" to { _ ->
+            provider.showKeyboard()
+            emptyMap()
+        },
+        "hideKeyboard" to { _ ->
+            provider.hideKeyboard()
+            emptyMap()
+        },
+        "getKeyboardHeight" to { _ ->
+            val info = provider.getKeyboardHeight()
+            mapOf(
+                "height" to BridgeValue.double(info.height),
+                "visible" to BridgeValue.bool(info.visible)
+            )
         }
     )
 }

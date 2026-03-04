@@ -7,6 +7,8 @@ import type {
   ShowActionSheetPayload,
   ShowActionSheetResponse,
   SetStatusBarPayload,
+  KeyboardHeightResponse,
+  KeyboardChangeInfo,
 } from './types.js';
 
 const MODULE = 'ui';
@@ -46,5 +48,24 @@ export class UIModule {
 
   async setStatusBar(payload: SetStatusBarPayload): Promise<void> {
     await this.bridge.call(MODULE, 'setStatusBar', payload as unknown as Record<string, unknown>);
+  }
+
+  showKeyboard(): void {
+    this.bridge.send(MODULE, 'showKeyboard');
+  }
+
+  hideKeyboard(): void {
+    this.bridge.send(MODULE, 'hideKeyboard');
+  }
+
+  async getKeyboardHeight(): Promise<KeyboardHeightResponse> {
+    const result = await this.bridge.call(MODULE, 'getKeyboardHeight');
+    return result as unknown as KeyboardHeightResponse;
+  }
+
+  onKeyboardChange(listener: (data: KeyboardChangeInfo) => void): () => void {
+    const wrapper = (data: Record<string, unknown>) => listener(data as unknown as KeyboardChangeInfo);
+    this.bridge.onEvent('ui:keyboardChange', wrapper);
+    return () => this.bridge.offEvent('ui:keyboardChange', wrapper);
   }
 }

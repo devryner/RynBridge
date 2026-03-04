@@ -1,8 +1,6 @@
 package io.rynbridge.device
 
-import io.rynbridge.core.ActionHandler
-import io.rynbridge.core.BridgeModule
-import io.rynbridge.core.BridgeValue
+import io.rynbridge.core.*
 
 class DeviceModule(provider: DeviceInfoProvider) : BridgeModule {
 
@@ -24,6 +22,22 @@ class DeviceModule(provider: DeviceInfoProvider) : BridgeModule {
                 ?: emptyList()
             provider.vibrate(pattern)
             emptyMap()
+        },
+        "capturePhoto" to { payload ->
+            val quality = payload["quality"]?.doubleValue ?: 0.8
+            val camera = payload["camera"]?.stringValue ?: "back"
+            val result = provider.capturePhoto(quality, camera)
+            result.toPayload()
+        },
+        "getLocation" to { _ ->
+            val location = provider.getLocation()
+            location.toPayload()
+        },
+        "authenticate" to { payload ->
+            val reason = payload["reason"]?.stringValue
+                ?: throw RynBridgeError(code = ErrorCode.INVALID_MESSAGE, message = "Missing required field: reason")
+            val result = provider.authenticate(reason)
+            result.toPayload()
         }
     )
 }

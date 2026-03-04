@@ -25,6 +25,17 @@ describe('UIModule', () => {
     transport.simulateIncoming(JSON.stringify(response));
   }
 
+  function simulateNativeEvent(module: string, action: string, payload: Record<string, unknown>) {
+    const event = JSON.stringify({
+      id: 'event-' + Math.random().toString(36).slice(2),
+      module,
+      action,
+      payload,
+      version: '1.0.0',
+    });
+    transport.simulateIncoming(event);
+  }
+
   describe('showAlert', () => {
     it('sends correct module, action, and payload', async () => {
       const promise = ui.showAlert({ title: 'Warning', message: 'Are you sure?' });
@@ -147,6 +158,73 @@ describe('UIModule', () => {
 
       respondSuccess();
       await promise;
+    });
+  });
+
+  describe('showKeyboard', () => {
+    it('sends fire-and-forget', () => {
+      ui.showKeyboard();
+
+      expect(transport.sent).toHaveLength(1);
+      const sent = JSON.parse(transport.sent[0]);
+      expect(sent.module).toBe('ui');
+      expect(sent.action).toBe('showKeyboard');
+      expect(sent.payload).toEqual({});
+    });
+  });
+
+  describe('hideKeyboard', () => {
+    it('sends fire-and-forget', () => {
+      ui.hideKeyboard();
+
+      expect(transport.sent).toHaveLength(1);
+      const sent = JSON.parse(transport.sent[0]);
+      expect(sent.module).toBe('ui');
+      expect(sent.action).toBe('hideKeyboard');
+      expect(sent.payload).toEqual({});
+    });
+  });
+
+  describe('getKeyboardHeight', () => {
+    it('returns keyboard height and visibility', async () => {
+      const promise = ui.getKeyboardHeight();
+
+      const sent = JSON.parse(transport.sent[0]);
+      expect(sent.module).toBe('ui');
+      expect(sent.action).toBe('getKeyboardHeight');
+      expect(sent.payload).toEqual({});
+
+      respondSuccess({ height: 336, visible: true });
+
+      const result = await promise;
+      expect(result).toEqual({ height: 336, visible: true });
+    });
+
+    it('returns zero height when keyboard is hidden', async () => {
+      const promise = ui.getKeyboardHeight();
+      respondSuccess({ height: 0, visible: false });
+
+      const result = await promise;
+      expect(result).toEqual({ height: 0, visible: false });
+    });
+  });
+
+  describe('onKeyboardChange', () => {
+    it('subscribes to keyboard events and returns unsubscribe function', () => {
+      const received: unknown[] = [];
+      const unsubscribe = ui.onKeyboardChange((data) => {
+        received.push(data);
+      });
+
+      simulateNativeEvent('ui', 'keyboardChange', { height: 336, visible: true });
+
+      expect(received).toHaveLength(1);
+      expect(received[0]).toEqual({ height: 336, visible: true });
+
+      unsubscribe();
+      simulateNativeEvent('ui', 'keyboardChange', { height: 0, visible: false });
+
+      expect(received).toHaveLength(1);
     });
   });
 

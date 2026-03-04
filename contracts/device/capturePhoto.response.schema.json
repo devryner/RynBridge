@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/device/capturePhoto.response.json",
+  "title": "DeviceCapturePhotoResponse",
+  "description": "Response payload for device.capturePhoto action",
+  "type": "object",
+  "properties": {
+    "imageBase64": {
+      "type": "string",
+      "description": "Captured image as base64-encoded string"
+    },
+    "width": {
+      "type": "number",
+      "description": "Image width in pixels"
+    },
+    "height": {
+      "type": "number",
+      "description": "Image height in pixels"
+    }
+  },
+  "required": ["imageBase64", "width", "height"],
+  "additionalProperties": false
+}

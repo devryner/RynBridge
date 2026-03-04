@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/ui/getKeyboardHeight.response.json",
+  "title": "UIGetKeyboardHeightResponse",
+  "description": "Response payload for ui.getKeyboardHeight action",
+  "type": "object",
+  "properties": {
+    "height": {
+      "type": "number",
+      "description": "Current keyboard height in points/dp"
+    },
+    "visible": {
+      "type": "boolean",
+      "description": "Whether the keyboard is currently visible"
+    }
+  },
+  "required": ["height", "visible"],
+  "additionalProperties": false
+}

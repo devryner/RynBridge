@@ -49,6 +49,18 @@ public struct UIModule: BridgeModule, Sendable {
                 await provider.setStatusBar(style: style, hidden: hidden)
                 return [:]
             },
+            "showKeyboard": { _ in
+                await provider.showKeyboard()
+                return [:]
+            },
+            "hideKeyboard": { _ in
+                await provider.hideKeyboard()
+                return [:]
+            },
+            "getKeyboardHeight": { _ in
+                let info = await provider.getKeyboardHeight()
+                return info.toPayload()
+            },
         ]
     }
 }
@@ -165,6 +177,24 @@ public final class DefaultUIProvider: UIProvider {
             // preferredStatusBarStyle and prefersStatusBarHidden
             // This is a no-op in the default implementation
         }
+    }
+
+    nonisolated public func showKeyboard() async {
+        await MainActor.run {
+            UIApplication.shared.sendAction(#selector(UIResponder.becomeFirstResponder), to: nil, from: nil, for: nil)
+        }
+    }
+
+    nonisolated public func hideKeyboard() async {
+        await MainActor.run {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
+    }
+
+    nonisolated public func getKeyboardHeight() async -> KeyboardInfo {
+        // Keyboard height tracking requires notification observers
+        // This default implementation returns hidden state
+        return KeyboardInfo(height: 0, visible: false)
     }
 
     @MainActor

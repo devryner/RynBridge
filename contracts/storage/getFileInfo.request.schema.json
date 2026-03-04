@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/storage/getFileInfo.request.json",
+  "title": "StorageGetFileInfoRequest",
+  "description": "Request payload for storage.getFileInfo action",
+  "type": "object",
+  "properties": {
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "description": "File path to get info for"
+    }
+  },
+  "required": ["path"],
+  "additionalProperties": false
+}

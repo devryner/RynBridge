@@ -1,0 +1,29 @@
+{
+  "name": "@rynbridge/cli",
+  "version": "0.3.0",
+  "type": "module",
+  "bin": {
+    "rynbridge": "./dist/cli.mjs"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "rollup -c rollup.config.mjs",
+    "test": "echo 'no tests'",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "commander": "^13.0.0",
+    "@inquirer/prompts": "^7.0.0",
+    "picocolors": "^1.1.0",
+    "@rynbridge/codegen": "workspace:*"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^12.1.0",
+    "@types/node": "^25.3.3",
+    "rollup": "^4.29.0",
+    "rollup-plugin-dts": "^6.1.0",
+    "tslib": "^2.8.0",
+    "typescript": "^5.7.0"
+  },
+  "license": "MIT"
+}

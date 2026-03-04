@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/storage/listDir.response.json",
+  "title": "StorageListDirResponse",
+  "description": "Response payload for storage.listDir action",
+  "type": "object",
+  "properties": {
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of file and directory names in the directory"
+    }
+  },
+  "required": ["files"],
+  "additionalProperties": false
+}

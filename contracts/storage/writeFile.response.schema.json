@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/storage/writeFile.response.json",
+  "title": "StorageWriteFileResponse",
+  "description": "Response payload for storage.writeFile action",
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "description": "Whether the file was written successfully"
+    }
+  },
+  "required": ["success"],
+  "additionalProperties": false
+}

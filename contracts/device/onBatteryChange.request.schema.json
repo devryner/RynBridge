@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/device/onBatteryChange.request.json",
+  "title": "DeviceOnBatteryChangeRequest",
+  "description": "Event stream subscription for device.batteryChange — no request payload",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

@@ -64,9 +64,76 @@ public struct ScreenInfo: Sendable {
     }
 }
 
+public struct CapturePhotoOptions: Sendable {
+    public let quality: Double
+    public let camera: String
+
+    public init(quality: Double = 0.8, camera: String = "back") {
+        self.quality = quality
+        self.camera = camera
+    }
+}
+
+public struct CapturePhotoResult: Sendable {
+    public let imageBase64: String
+    public let width: Int
+    public let height: Int
+
+    public init(imageBase64: String, width: Int, height: Int) {
+        self.imageBase64 = imageBase64
+        self.width = width
+        self.height = height
+    }
+
+    public func toPayload() -> [String: AnyCodable] {
+        [
+            "imageBase64": .string(imageBase64),
+            "width": .int(width),
+            "height": .int(height),
+        ]
+    }
+}
+
+public struct LocationInfo: Sendable {
+    public let latitude: Double
+    public let longitude: Double
+    public let accuracy: Double
+
+    public init(latitude: Double, longitude: Double, accuracy: Double) {
+        self.latitude = latitude
+        self.longitude = longitude
+        self.accuracy = accuracy
+    }
+
+    public func toPayload() -> [String: AnyCodable] {
+        [
+            "latitude": .double(latitude),
+            "longitude": .double(longitude),
+            "accuracy": .double(accuracy),
+        ]
+    }
+}
+
+public struct AuthenticateResult: Sendable {
+    public let success: Bool
+
+    public init(success: Bool) {
+        self.success = success
+    }
+
+    public func toPayload() -> [String: AnyCodable] {
+        [
+            "success": .bool(success),
+        ]
+    }
+}
+
 public protocol DeviceInfoProvider: Sendable {
     func getDeviceInfo() -> DeviceInfo
     func getBatteryInfo() -> BatteryInfo
     func getScreenInfo() -> ScreenInfo
     func vibrate(pattern: [Int])
+    func capturePhoto(quality: Double, camera: String) async throws -> CapturePhotoResult
+    func getLocation() async throws -> LocationInfo
+    func authenticate(reason: String) async throws -> AuthenticateResult
 }

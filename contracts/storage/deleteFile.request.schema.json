@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/storage/deleteFile.request.json",
+  "title": "StorageDeleteFileRequest",
+  "description": "Request payload for storage.deleteFile action",
+  "type": "object",
+  "properties": {
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "description": "File path to delete"
+    }
+  },
+  "required": ["path"],
+  "additionalProperties": false
+}

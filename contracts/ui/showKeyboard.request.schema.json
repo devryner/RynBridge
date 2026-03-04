@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/ui/showKeyboard.request.json",
+  "title": "UIShowKeyboardRequest",
+  "description": "Request payload for ui.showKeyboard action (fire-and-forget)",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

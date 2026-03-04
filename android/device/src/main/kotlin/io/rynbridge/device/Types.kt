@@ -40,9 +40,44 @@ data class ScreenInfo(
     )
 }
 
+data class CapturePhotoResult(
+    val imageBase64: String,
+    val width: Int,
+    val height: Int
+) {
+    fun toPayload(): Map<String, BridgeValue> = mapOf(
+        "imageBase64" to BridgeValue.string(imageBase64),
+        "width" to BridgeValue.int(width),
+        "height" to BridgeValue.int(height)
+    )
+}
+
+data class LocationInfo(
+    val latitude: Double,
+    val longitude: Double,
+    val accuracy: Double
+) {
+    fun toPayload(): Map<String, BridgeValue> = mapOf(
+        "latitude" to BridgeValue.double(latitude),
+        "longitude" to BridgeValue.double(longitude),
+        "accuracy" to BridgeValue.double(accuracy)
+    )
+}
+
+data class AuthenticateResult(
+    val success: Boolean
+) {
+    fun toPayload(): Map<String, BridgeValue> = mapOf(
+        "success" to BridgeValue.bool(success)
+    )
+}
+
 interface DeviceInfoProvider {
     fun getDeviceInfo(): DeviceInfo
     fun getBatteryInfo(): BatteryInfo
     fun getScreenInfo(): ScreenInfo
     fun vibrate(pattern: List<Int>)
+    suspend fun capturePhoto(quality: Double, camera: String): CapturePhotoResult
+    suspend fun getLocation(): LocationInfo
+    suspend fun authenticate(reason: String): AuthenticateResult
 }

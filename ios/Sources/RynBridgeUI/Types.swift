@@ -57,10 +57,30 @@ public struct SetStatusBarPayload: Sendable {
     }
 }
 
+public struct KeyboardInfo: Sendable {
+    public let height: Double
+    public let visible: Bool
+
+    public init(height: Double, visible: Bool) {
+        self.height = height
+        self.visible = visible
+    }
+
+    public func toPayload() -> [String: AnyCodable] {
+        [
+            "height": .double(height),
+            "visible": .bool(visible),
+        ]
+    }
+}
+
 public protocol UIProvider: Sendable {
     func showAlert(title: String, message: String, buttonText: String) async
     func showConfirm(title: String, message: String, confirmText: String, cancelText: String) async -> Bool
     func showToast(message: String, duration: Double)
     func showActionSheet(title: String?, options: [String]) async -> Int
     func setStatusBar(style: String?, hidden: Bool?) async
+    func showKeyboard() async
+    func hideKeyboard() async
+    func getKeyboardHeight() async -> KeyboardInfo
 }
