@@ -104,4 +104,16 @@ private final class MockDeviceInfoProvider: DeviceInfoProvider, @unchecked Senda
     func vibrate(pattern: [Int]) {
         lastVibratePattern = pattern
     }
+
+    func capturePhoto(quality: Double, camera: String) async throws -> CapturePhotoResult {
+        CapturePhotoResult(imageBase64: "", width: 100, height: 100)
+    }
+
+    func getLocation() async throws -> LocationInfo {
+        LocationInfo(latitude: 37.5, longitude: 127.0, accuracy: 5.0)
+    }
+
+    func authenticate(reason: String) async throws -> AuthenticateResult {
+        AuthenticateResult(success: true)
+    }
 }
