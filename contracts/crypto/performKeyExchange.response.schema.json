@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/crypto/performKeyExchange.response.json",
+  "title": "CryptoPerformKeyExchangeResponse",
+  "description": "Response payload for crypto.performKeyExchange action",
+  "type": "object",
+  "properties": {
+    "sessionEstablished": {
+      "type": "boolean",
+      "description": "Whether the key exchange session was successfully established"
+    }
+  },
+  "required": ["sessionEstablished"],
+  "additionalProperties": false
+}

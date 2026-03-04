@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/crypto/rotateKeys.response.json",
+  "title": "CryptoRotateKeysResponse",
+  "description": "Response payload for crypto.rotateKeys action",
+  "type": "object",
+  "properties": {
+    "publicKey": {
+      "type": "string",
+      "description": "Newly generated public key after rotation"
+    }
+  },
+  "required": ["publicKey"],
+  "additionalProperties": false
+}

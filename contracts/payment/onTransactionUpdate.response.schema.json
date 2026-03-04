@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/payment/onTransactionUpdate.response.json",
+  "title": "PaymentOnTransactionUpdateResponse",
+  "description": "Event payload for payment.transactionUpdate event",
+  "type": "object",
+  "properties": {
+    "transactionId": {
+      "type": "string",
+      "description": "Unique identifier for the transaction"
+    },
+    "productId": {
+      "type": "string",
+      "description": "Identifier of the product in the transaction"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["purchasing", "purchased", "failed", "restored", "deferred"],
+      "description": "Current status of the transaction"
+    }
+  },
+  "required": ["transactionId", "productId", "status"],
+  "additionalProperties": false
+}

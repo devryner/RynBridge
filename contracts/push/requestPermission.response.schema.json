@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/push/requestPermission.response.json",
+  "title": "PushRequestPermissionResponse",
+  "description": "Response payload for push.requestPermission action",
+  "type": "object",
+  "properties": {
+    "granted": {
+      "type": "boolean",
+      "description": "Whether push notification permission was granted"
+    }
+  },
+  "required": ["granted"],
+  "additionalProperties": false
+}

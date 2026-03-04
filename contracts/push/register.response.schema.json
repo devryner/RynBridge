@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/push/register.response.json",
+  "title": "PushRegisterResponse",
+  "description": "Response payload for push.register action",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Push notification device token"
+    },
+    "platform": {
+      "type": "string",
+      "description": "Platform identifier (e.g., 'ios', 'android')"
+    }
+  },
+  "required": ["token", "platform"],
+  "additionalProperties": false
+}

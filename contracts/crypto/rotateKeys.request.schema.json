@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/crypto/rotateKeys.request.json",
+  "title": "CryptoRotateKeysRequest",
+  "description": "Request payload for crypto.rotateKeys action",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

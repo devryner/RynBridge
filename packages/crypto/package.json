@@ -1,0 +1,41 @@
+{
+  "name": "@rynbridge/crypto",
+  "version": "0.1.0",
+  "description": "Cryptographic operations module for RynBridge",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "rollup -c rollup.config.mjs",
+    "test": "vitest run",
+    "lint": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@rynbridge/core": "^0.1.0"
+  },
+  "devDependencies": {
+    "@rynbridge/core": "workspace:*",
+    "@rollup/plugin-typescript": "^12.1.0",
+    "rollup": "^4.29.0",
+    "rollup-plugin-dts": "^6.1.0",
+    "tslib": "^2.8.0",
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.0"
+  },
+  "sideEffects": false,
+  "license": "MIT"
+}

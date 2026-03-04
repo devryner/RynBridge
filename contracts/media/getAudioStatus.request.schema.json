@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/media/getAudioStatus.request.json",
+  "title": "MediaGetAudioStatusRequest",
+  "description": "Request payload for media.getAudioStatus action",
+  "type": "object",
+  "properties": {
+    "playerId": {
+      "type": "string",
+      "description": "Identifier of the audio player to query"
+    }
+  },
+  "required": ["playerId"],
+  "additionalProperties": false
+}

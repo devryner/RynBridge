@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/media/getAudioStatus.response.json",
+  "title": "MediaGetAudioStatusResponse",
+  "description": "Response payload for media.getAudioStatus action",
+  "type": "object",
+  "properties": {
+    "position": {
+      "type": "number",
+      "description": "Current playback position in seconds"
+    },
+    "duration": {
+      "type": "number",
+      "description": "Total duration of the audio in seconds"
+    },
+    "isPlaying": {
+      "type": "boolean",
+      "description": "Whether the audio is currently playing"
+    }
+  },
+  "required": ["position", "duration", "isPlaying"],
+  "additionalProperties": false
+}

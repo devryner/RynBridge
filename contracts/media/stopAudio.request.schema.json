@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/media/stopAudio.request.json",
+  "title": "MediaStopAudioRequest",
+  "description": "Request payload for media.stopAudio action",
+  "type": "object",
+  "properties": {
+    "playerId": {
+      "type": "string",
+      "description": "Identifier of the audio player to stop"
+    }
+  },
+  "required": ["playerId"],
+  "additionalProperties": false
+}

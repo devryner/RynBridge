@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/auth/logout.response.json",
+  "title": "AuthLogoutResponse",
+  "description": "Response payload for auth.logout action",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/auth/getUser.response.json",
+  "title": "AuthGetUserResponse",
+  "description": "Response payload for auth.getUser action",
+  "type": "object",
+  "properties": {
+    "user": {
+      "type": ["object", "null"],
+      "description": "Authenticated user information, or null if not authenticated",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique user identifier"
+        },
+        "email": {
+          "type": ["string", "null"],
+          "description": "User email address, or null if not provided"
+        },
+        "name": {
+          "type": ["string", "null"],
+          "description": "User display name, or null if not provided"
+        },
+        "profileImage": {
+          "type": ["string", "null"],
+          "description": "URL to user profile image, or null if not provided"
+        }
+      },
+      "required": ["id"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["user"],
+  "additionalProperties": false
+}

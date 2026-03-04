@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/media/startRecording.response.json",
+  "title": "MediaStartRecordingResponse",
+  "description": "Response payload for media.startRecording action",
+  "type": "object",
+  "properties": {
+    "recordingId": {
+      "type": "string",
+      "description": "Unique identifier for the recording session"
+    }
+  },
+  "required": ["recordingId"],
+  "additionalProperties": false
+}

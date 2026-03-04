@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/auth/refreshToken.request.json",
+  "title": "AuthRefreshTokenRequest",
+  "description": "Request payload for auth.refreshToken action",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

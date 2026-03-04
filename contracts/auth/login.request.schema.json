@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/auth/login.request.json",
+  "title": "AuthLoginRequest",
+  "description": "Request payload for auth.login action",
+  "type": "object",
+  "properties": {
+    "provider": {
+      "type": "string",
+      "description": "Authentication provider identifier (e.g., 'google', 'apple', 'kakao')"
+    },
+    "scopes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "OAuth scopes to request from the provider"
+    }
+  },
+  "required": ["provider"],
+  "additionalProperties": false
+}

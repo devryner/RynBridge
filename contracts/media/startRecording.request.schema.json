@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/media/startRecording.request.json",
+  "title": "MediaStartRecordingRequest",
+  "description": "Request payload for media.startRecording action",
+  "type": "object",
+  "properties": {
+    "format": {
+      "type": "string",
+      "enum": ["wav", "mp3", "m4a", "aac"],
+      "description": "Audio recording format"
+    },
+    "quality": {
+      "type": "string",
+      "enum": ["low", "medium", "high"],
+      "description": "Recording quality level"
+    }
+  },
+  "additionalProperties": false
+}

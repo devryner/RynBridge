@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/payment/getProducts.response.json",
+  "title": "PaymentGetProductsResponse",
+  "description": "Response payload for payment.getProducts action",
+  "type": "object",
+  "properties": {
+    "products": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Product identifier"
+          },
+          "title": {
+            "type": "string",
+            "description": "Product display title"
+          },
+          "description": {
+            "type": "string",
+            "description": "Product description"
+          },
+          "price": {
+            "type": "string",
+            "description": "Formatted price string"
+          },
+          "currency": {
+            "type": "string",
+            "description": "ISO 4217 currency code"
+          }
+        },
+        "required": ["id", "title", "description", "price", "currency"],
+        "additionalProperties": false
+      },
+      "description": "List of available products"
+    }
+  },
+  "required": ["products"],
+  "additionalProperties": false
+}

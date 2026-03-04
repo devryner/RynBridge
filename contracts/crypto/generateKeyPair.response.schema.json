@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/crypto/generateKeyPair.response.json",
+  "title": "CryptoGenerateKeyPairResponse",
+  "description": "Response payload for crypto.generateKeyPair action",
+  "type": "object",
+  "properties": {
+    "publicKey": {
+      "type": "string",
+      "description": "Generated public key"
+    }
+  },
+  "required": ["publicKey"],
+  "additionalProperties": false
+}

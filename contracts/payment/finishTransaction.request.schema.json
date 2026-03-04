@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/payment/finishTransaction.request.json",
+  "title": "PaymentFinishTransactionRequest",
+  "description": "Request payload for payment.finishTransaction action",
+  "type": "object",
+  "properties": {
+    "transactionId": {
+      "type": "string",
+      "description": "Identifier of the transaction to finish"
+    }
+  },
+  "required": ["transactionId"],
+  "additionalProperties": false
+}

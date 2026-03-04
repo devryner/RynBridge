@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/auth/login.response.json",
+  "title": "AuthLoginResponse",
+  "description": "Response payload for auth.login action",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Access token for authenticated requests"
+    },
+    "refreshToken": {
+      "type": ["string", "null"],
+      "description": "Refresh token for obtaining new access tokens, or null if not supported"
+    },
+    "expiresAt": {
+      "type": "string",
+      "description": "ISO 8601 timestamp when the access token expires"
+    },
+    "user": {
+      "type": ["object", "null"],
+      "description": "Authenticated user information, or null if not available",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique user identifier"
+        },
+        "email": {
+          "type": ["string", "null"],
+          "description": "User email address, or null if not provided"
+        },
+        "name": {
+          "type": ["string", "null"],
+          "description": "User display name, or null if not provided"
+        },
+        "profileImage": {
+          "type": ["string", "null"],
+          "description": "URL to user profile image, or null if not provided"
+        }
+      },
+      "required": ["id"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["token", "expiresAt"],
+  "additionalProperties": false
+}

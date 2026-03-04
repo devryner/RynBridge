@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/push/getToken.request.json",
+  "title": "PushGetTokenRequest",
+  "description": "Request payload for push.getToken action",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

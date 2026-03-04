@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/push/getToken.response.json",
+  "title": "PushGetTokenResponse",
+  "description": "Response payload for push.getToken action",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": ["string", "null"],
+      "description": "Push notification device token, or null if not registered"
+    }
+  },
+  "required": ["token"],
+  "additionalProperties": false
+}

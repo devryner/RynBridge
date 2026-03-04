@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/crypto/performKeyExchange.request.json",
+  "title": "CryptoPerformKeyExchangeRequest",
+  "description": "Request payload for crypto.performKeyExchange action",
+  "type": "object",
+  "properties": {
+    "remotePublicKey": {
+      "type": "string",
+      "description": "Remote party's public key for key exchange"
+    }
+  },
+  "required": ["remotePublicKey"],
+  "additionalProperties": false
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/payment/getProducts.request.json",
+  "title": "PaymentGetProductsRequest",
+  "description": "Request payload for payment.getProducts action",
+  "type": "object",
+  "properties": {
+    "productIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of product identifiers to retrieve"
+    }
+  },
+  "required": ["productIds"],
+  "additionalProperties": false
+}

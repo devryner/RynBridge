@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/crypto/generateKeyPair.request.json",
+  "title": "CryptoGenerateKeyPairRequest",
+  "description": "Request payload for crypto.generateKeyPair action",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

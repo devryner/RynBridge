@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/crypto/decrypt.request.json",
+  "title": "CryptoDecryptRequest",
+  "description": "Request payload for crypto.decrypt action",
+  "type": "object",
+  "properties": {
+    "ciphertext": {
+      "type": "string",
+      "description": "Encrypted ciphertext to decrypt"
+    },
+    "iv": {
+      "type": "string",
+      "description": "Initialization vector used during encryption"
+    },
+    "tag": {
+      "type": "string",
+      "description": "Authentication tag for verification"
+    },
+    "associatedData": {
+      "type": "string",
+      "description": "Optional associated data for authenticated decryption"
+    }
+  },
+  "required": ["ciphertext", "iv", "tag"],
+  "additionalProperties": false
+}

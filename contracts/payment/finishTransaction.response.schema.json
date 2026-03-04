@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/payment/finishTransaction.response.json",
+  "title": "PaymentFinishTransactionResponse",
+  "description": "Response payload for payment.finishTransaction action",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

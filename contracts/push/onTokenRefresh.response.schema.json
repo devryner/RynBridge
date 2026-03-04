@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/push/onTokenRefresh.response.json",
+  "title": "PushOnTokenRefreshResponse",
+  "description": "Event payload for push.tokenRefresh event",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "New push notification device token"
+    }
+  },
+  "required": ["token"],
+  "additionalProperties": false
+}

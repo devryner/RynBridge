@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/crypto/encrypt.request.json",
+  "title": "CryptoEncryptRequest",
+  "description": "Request payload for crypto.encrypt action",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "string",
+      "description": "Plaintext data to encrypt"
+    },
+    "associatedData": {
+      "type": "string",
+      "description": "Optional associated data for authenticated encryption"
+    }
+  },
+  "required": ["data"],
+  "additionalProperties": false
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/payment/restorePurchases.response.json",
+  "title": "PaymentRestorePurchasesResponse",
+  "description": "Response payload for payment.restorePurchases action",
+  "type": "object",
+  "properties": {
+    "transactions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "transactionId": {
+            "type": "string",
+            "description": "Unique identifier for the transaction"
+          },
+          "productId": {
+            "type": "string",
+            "description": "Identifier of the purchased product"
+          },
+          "purchaseDate": {
+            "type": "string",
+            "description": "ISO 8601 date string of the original purchase"
+          },
+          "receipt": {
+            "type": "string",
+            "description": "Purchase receipt data"
+          }
+        },
+        "required": ["transactionId", "productId", "purchaseDate", "receipt"],
+        "additionalProperties": false
+      },
+      "description": "List of restored transactions"
+    }
+  },
+  "required": ["transactions"],
+  "additionalProperties": false
+}

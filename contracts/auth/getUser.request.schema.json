@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/auth/getUser.request.json",
+  "title": "AuthGetUserRequest",
+  "description": "Request payload for auth.getUser action",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

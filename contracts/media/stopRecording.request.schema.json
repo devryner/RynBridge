@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/media/stopRecording.request.json",
+  "title": "MediaStopRecordingRequest",
+  "description": "Request payload for media.stopRecording action",
+  "type": "object",
+  "properties": {
+    "recordingId": {
+      "type": "string",
+      "description": "Identifier of the recording session to stop"
+    }
+  },
+  "required": ["recordingId"],
+  "additionalProperties": false
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/auth/getToken.response.json",
+  "title": "AuthGetTokenResponse",
+  "description": "Response payload for auth.getToken action",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": ["string", "null"],
+      "description": "Current access token, or null if not authenticated"
+    },
+    "expiresAt": {
+      "type": ["string", "null"],
+      "description": "ISO 8601 timestamp when the token expires, or null if not authenticated"
+    }
+  },
+  "required": ["token", "expiresAt"],
+  "additionalProperties": false
+}

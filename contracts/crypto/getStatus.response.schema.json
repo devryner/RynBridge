@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/crypto/getStatus.response.json",
+  "title": "CryptoGetStatusResponse",
+  "description": "Response payload for crypto.getStatus action",
+  "type": "object",
+  "properties": {
+    "initialized": {
+      "type": "boolean",
+      "description": "Whether the crypto module has been initialized"
+    },
+    "keyCreatedAt": {
+      "type": ["string", "null"],
+      "description": "ISO 8601 timestamp of when the key pair was created, or null if no keys exist"
+    },
+    "algorithm": {
+      "type": "string",
+      "description": "Cryptographic algorithm in use"
+    }
+  },
+  "required": ["initialized", "keyCreatedAt", "algorithm"],
+  "additionalProperties": false
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/media/pickMedia.response.json",
+  "title": "MediaPickMediaResponse",
+  "description": "Response payload for media.pickMedia action",
+  "type": "object",
+  "properties": {
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "File name"
+          },
+          "path": {
+            "type": "string",
+            "description": "File path on the device"
+          },
+          "mimeType": {
+            "type": "string",
+            "description": "MIME type of the file"
+          },
+          "size": {
+            "type": "integer",
+            "description": "File size in bytes"
+          }
+        },
+        "required": ["name", "path", "mimeType", "size"],
+        "additionalProperties": false
+      },
+      "description": "List of selected media files"
+    }
+  },
+  "required": ["files"],
+  "additionalProperties": false
+}

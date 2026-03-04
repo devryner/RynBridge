@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/payment/onTransactionUpdate.request.json",
+  "title": "PaymentOnTransactionUpdateRequest",
+  "description": "Event stream subscription for payment.transactionUpdate — no request payload",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

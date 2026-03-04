@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/push/register.request.json",
+  "title": "PushRegisterRequest",
+  "description": "Request payload for push.register action",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

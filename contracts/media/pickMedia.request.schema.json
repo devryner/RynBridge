@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/media/pickMedia.request.json",
+  "title": "MediaPickMediaRequest",
+  "description": "Request payload for media.pickMedia action",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["image", "video", "any"],
+      "description": "Type of media to pick"
+    },
+    "multiple": {
+      "type": "boolean",
+      "description": "Whether to allow selecting multiple files"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/crypto/encrypt.response.json",
+  "title": "CryptoEncryptResponse",
+  "description": "Response payload for crypto.encrypt action",
+  "type": "object",
+  "properties": {
+    "ciphertext": {
+      "type": "string",
+      "description": "Encrypted ciphertext"
+    },
+    "iv": {
+      "type": "string",
+      "description": "Initialization vector used for encryption"
+    },
+    "tag": {
+      "type": "string",
+      "description": "Authentication tag for authenticated encryption"
+    }
+  },
+  "required": ["ciphertext", "iv", "tag"],
+  "additionalProperties": false
+}

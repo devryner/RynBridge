@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/media/stopRecording.response.json",
+  "title": "MediaStopRecordingResponse",
+  "description": "Response payload for media.stopRecording action",
+  "type": "object",
+  "properties": {
+    "filePath": {
+      "type": "string",
+      "description": "Path to the recorded audio file"
+    },
+    "duration": {
+      "type": "number",
+      "description": "Duration of the recording in seconds"
+    },
+    "size": {
+      "type": "integer",
+      "description": "File size in bytes"
+    }
+  },
+  "required": ["filePath", "duration", "size"],
+  "additionalProperties": false
+}

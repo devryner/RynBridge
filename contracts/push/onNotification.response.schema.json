@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/push/onNotification.response.json",
+  "title": "PushOnNotificationResponse",
+  "description": "Event payload for push.notification event",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": ["string", "null"],
+      "description": "Notification title, or null if not provided"
+    },
+    "body": {
+      "type": ["string", "null"],
+      "description": "Notification body text, or null if not provided"
+    },
+    "data": {
+      "type": ["object", "null"],
+      "description": "Custom data payload attached to the notification, or null if not provided",
+      "additionalProperties": true
+    }
+  },
+  "required": ["title", "body", "data"],
+  "additionalProperties": false
+}

@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/media/onPlaybackComplete.request.json",
+  "title": "MediaOnPlaybackCompleteRequest",
+  "description": "Event stream subscription for media.playbackComplete — no request payload",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

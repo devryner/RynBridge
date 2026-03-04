@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/auth/onAuthStateChange.request.json",
+  "title": "AuthOnAuthStateChangeRequest",
+  "description": "Event stream subscription for auth.authStateChange — no request payload",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

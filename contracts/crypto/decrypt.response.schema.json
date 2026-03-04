@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/crypto/decrypt.response.json",
+  "title": "CryptoDecryptResponse",
+  "description": "Response payload for crypto.decrypt action",
+  "type": "object",
+  "properties": {
+    "plaintext": {
+      "type": "string",
+      "description": "Decrypted plaintext data"
+    }
+  },
+  "required": ["plaintext"],
+  "additionalProperties": false
+}

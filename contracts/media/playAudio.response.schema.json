@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/media/playAudio.response.json",
+  "title": "MediaPlayAudioResponse",
+  "description": "Response payload for media.playAudio action",
+  "type": "object",
+  "properties": {
+    "playerId": {
+      "type": "string",
+      "description": "Unique identifier for the audio player instance"
+    }
+  },
+  "required": ["playerId"],
+  "additionalProperties": false
+}

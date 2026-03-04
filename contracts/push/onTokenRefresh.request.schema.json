@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/push/onTokenRefresh.request.json",
+  "title": "PushOnTokenRefreshRequest",
+  "description": "Event stream subscription for push.tokenRefresh — no request payload",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}
