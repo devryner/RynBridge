@@ -12,7 +12,7 @@ class PaymentModule(provider: PaymentProvider) : BridgeModule {
                 ?.mapNotNull { it.stringValue }
                 ?: throw RynBridgeError(code = ErrorCode.INVALID_MESSAGE, message = "Missing required field: productIds")
             val products = provider.getProducts(ids)
-            mapOf("products" to BridgeValue.array(products.map { BridgeValue.obj(it.toPayload()) }))
+            mapOf("products" to BridgeValue.array(products.map { BridgeValue.dict(it.toPayload()) }))
         },
         "purchase" to { payload ->
             val productId = payload["productId"]?.stringValue
@@ -23,7 +23,7 @@ class PaymentModule(provider: PaymentProvider) : BridgeModule {
         },
         "restorePurchases" to { _ ->
             val transactions = provider.restorePurchases()
-            mapOf("transactions" to BridgeValue.array(transactions.map { BridgeValue.obj(it.toPayload()) }))
+            mapOf("transactions" to BridgeValue.array(transactions.map { BridgeValue.dict(it.toPayload()) }))
         },
         "finishTransaction" to { payload ->
             val transactionId = payload["transactionId"]?.stringValue

@@ -35,7 +35,7 @@ public struct AuthModule: BridgeModule, Sendable {
             },
             "getUser": { _ in
                 let user = try await provider.getUser()
-                return ["user": user.map { .object($0.toPayload()) } ?? .null]
+                return ["user": user.map { .dictionary($0.toPayload()) } ?? .null]
             },
         ]
     }

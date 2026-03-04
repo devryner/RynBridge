@@ -26,7 +26,7 @@ data class LoginResult(
         "token" to BridgeValue.string(token),
         "refreshToken" to (refreshToken?.let { BridgeValue.string(it) } ?: BridgeValue.nullValue()),
         "expiresAt" to BridgeValue.string(expiresAt),
-        "user" to (user?.let { BridgeValue.obj(it.toPayload()) } ?: BridgeValue.nullValue())
+        "user" to (user?.let { BridgeValue.dict(it.toPayload()) } ?: BridgeValue.nullValue())
     )
 }
 
@@ -46,7 +46,7 @@ data class AuthStateEvent(
 ) {
     fun toPayload(): Map<String, BridgeValue> = mapOf(
         "authenticated" to BridgeValue.bool(authenticated),
-        "user" to (user?.let { BridgeValue.obj(it.toPayload()) } ?: BridgeValue.nullValue())
+        "user" to (user?.let { BridgeValue.dict(it.toPayload()) } ?: BridgeValue.nullValue())
     )
 }
 

@@ -30,7 +30,7 @@ class AuthModule(provider: AuthProvider) : BridgeModule {
         },
         "getUser" to { _ ->
             val user = provider.getUser()
-            mapOf("user" to (user?.let { BridgeValue.obj(it.toPayload()) } ?: BridgeValue.nullValue()))
+            mapOf("user" to (user?.let { BridgeValue.dict(it.toPayload()) } ?: BridgeValue.nullValue()))
         }
     )
 }

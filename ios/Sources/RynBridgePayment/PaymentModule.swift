@@ -14,7 +14,7 @@ public struct PaymentModule: BridgeModule, Sendable {
                 }
                 let productIds = ids.compactMap { $0.stringValue }
                 let products = try await provider.getProducts(productIds: productIds)
-                return ["products": .array(products.map { .object($0.toPayload()) })]
+                return ["products": .array(products.map { .dictionary($0.toPayload()) })]
             },
             "purchase": { payload in
                 guard let productId = payload["productId"]?.stringValue else {
@@ -26,7 +26,7 @@ public struct PaymentModule: BridgeModule, Sendable {
             },
             "restorePurchases": { _ in
                 let transactions = try await provider.restorePurchases()
-                return ["transactions": .array(transactions.map { .object($0.toPayload()) })]
+                return ["transactions": .array(transactions.map { .dictionary($0.toPayload()) })]
             },
             "finishTransaction": { payload in
                 guard let transactionId = payload["transactionId"]?.stringValue else {

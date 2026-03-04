@@ -55,7 +55,7 @@ public struct MediaModule: BridgeModule, Sendable {
                 let type = payload["type"]?.stringValue ?? "any"
                 let multiple = payload["multiple"]?.boolValue ?? false
                 let files = try await provider.pickMedia(type: type, multiple: multiple)
-                return ["files": .array(files.map { .object($0.toPayload()) })]
+                return ["files": .array(files.map { .dictionary($0.toPayload()) })]
             },
         ]
     }

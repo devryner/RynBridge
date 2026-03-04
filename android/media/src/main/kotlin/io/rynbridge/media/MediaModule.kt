@@ -49,7 +49,7 @@ class MediaModule(provider: MediaProvider) : BridgeModule {
             val type = payload["type"]?.stringValue ?: "any"
             val multiple = payload["multiple"]?.boolValue ?: false
             val files = provider.pickMedia(type, multiple)
-            mapOf("files" to BridgeValue.array(files.map { BridgeValue.obj(it.toPayload()) }))
+            mapOf("files" to BridgeValue.array(files.map { BridgeValue.dict(it.toPayload()) }))
         }
     )
 }

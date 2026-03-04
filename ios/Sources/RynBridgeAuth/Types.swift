@@ -42,7 +42,7 @@ public struct LoginResult: Sendable {
             "token": .string(token),
             "refreshToken": refreshToken.map { .string($0) } ?? .null,
             "expiresAt": .string(expiresAt),
-            "user": user.map { .object($0.toPayload()) } ?? .null,
+            "user": user.map { .dictionary($0.toPayload()) } ?? .null,
         ]
     }
 }
@@ -76,7 +76,7 @@ public struct AuthStateEvent: Sendable {
     public func toPayload() -> [String: AnyCodable] {
         [
             "authenticated": .bool(authenticated),
-            "user": user.map { .object($0.toPayload()) } ?? .null,
+            "user": user.map { .dictionary($0.toPayload()) } ?? .null,
         ]
     }
 }
