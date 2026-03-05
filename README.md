@@ -35,6 +35,13 @@ npm install @rynbridge/device
 npm install @rynbridge/storage
 npm install @rynbridge/secure-storage
 npm install @rynbridge/ui
+
+# Phase 2 modules
+npm install @rynbridge/auth
+npm install @rynbridge/push
+npm install @rynbridge/payment
+npm install @rynbridge/media
+npm install @rynbridge/crypto
 ```
 
 ### iOS (Swift Package Manager)
@@ -49,6 +56,11 @@ Select the products you need:
 - `RynBridgeStorage`
 - `RynBridgeSecureStorage`
 - `RynBridgeUI`
+- `RynBridgeAuth`
+- `RynBridgePush`
+- `RynBridgePayment`
+- `RynBridgeMedia`
+- `RynBridgeCrypto`
 
 ### Android (Gradle)
 
@@ -61,6 +73,11 @@ dependencies {
     implementation(project(":storage"))
     implementation(project(":secure-storage"))
     implementation(project(":ui"))
+    implementation(project(":auth"))
+    implementation(project(":push"))
+    implementation(project(":payment"))
+    implementation(project(":media"))
+    implementation(project(":crypto"))
 }
 ```
 
@@ -262,6 +279,72 @@ const selectedIndex = await ui.showActionSheet({
 | `showToast(payload)` | `void` | Fire-and-Forget |
 | `showActionSheet(payload)` | `Promise<number>` | Request-Response |
 | `setStatusBar(payload)` | `Promise<void>` | Request-Response |
+
+---
+
+### Auth (`@rynbridge/auth`)
+
+Authentication with OAuth providers, token management, and auth state observation.
+
+```typescript
+const auth = new AuthModule(bridge);
+
+const result = await auth.login({ provider: 'google', scopes: ['email'] });
+const { token } = await auth.getToken();
+const unsub = auth.onAuthStateChange((state) => console.log(state.authenticated));
+await auth.logout();
+```
+
+### Push (`@rynbridge/push`)
+
+Push notification registration, permission management, and notification events.
+
+```typescript
+const push = new PushModule(bridge);
+
+const { granted } = await push.requestPermission();
+const { token } = await push.register();
+push.onNotification((n) => console.log(n.title, n.body));
+```
+
+### Payment (`@rynbridge/payment`)
+
+In-app purchases, product queries, and transaction management.
+
+```typescript
+const payment = new PaymentModule(bridge);
+
+const { products } = await payment.getProducts({ productIds: ['premium'] });
+const receipt = await payment.purchase({ productId: 'premium' });
+await payment.finishTransaction({ transactionId: receipt.transactionId });
+```
+
+### Media (`@rynbridge/media`)
+
+Audio playback, recording, and media picker.
+
+```typescript
+const media = new MediaModule(bridge);
+
+const { playerId } = await media.playAudio({ source: 'https://example.com/song.mp3' });
+const { recordingId } = await media.startRecording({ format: 'm4a' });
+const { files } = await media.pickMedia({ type: 'image', multiple: true });
+```
+
+### Crypto (`@rynbridge/crypto`)
+
+Key generation, key exchange, authenticated encryption (AES-GCM), and key rotation.
+
+```typescript
+const crypto = new CryptoModule(bridge);
+
+const { publicKey } = await crypto.generateKeyPair();
+await crypto.performKeyExchange({ remotePublicKey: '...' });
+const encrypted = await crypto.encrypt({ data: 'secret' });
+const { plaintext } = await crypto.decrypt(encrypted);
+```
+
+> For a complete integration walkthrough with native provider implementations, see the **[Integration Guide](docs/docs/guides/integration.md)**.
 
 ---
 
@@ -491,14 +574,24 @@ RynBridge/
 │   ├── device/                   # Device module
 │   ├── storage/                  # Storage module
 │   ├── secure-storage/           # Secure storage module
-│   └── ui/                       # UI module
+│   ├── ui/                       # UI module
+│   ├── auth/                     # Auth module
+│   ├── push/                     # Push notification module
+│   ├── payment/                  # In-app payment module
+│   ├── media/                    # Media playback/recording module
+│   └── crypto/                   # Cryptographic operations module
 ├── ios/                          # iOS SDK (Swift, SPM)
 │   ├── Sources/
 │   │   ├── RynBridge/            # Core framework
 │   │   ├── RynBridgeDevice/
 │   │   ├── RynBridgeStorage/
 │   │   ├── RynBridgeSecureStorage/
-│   │   └── RynBridgeUI/
+│   │   ├── RynBridgeUI/
+│   │   ├── RynBridgeAuth/
+│   │   ├── RynBridgePush/
+│   │   ├── RynBridgePayment/
+│   │   ├── RynBridgeMedia/
+│   │   └── RynBridgeCrypto/
 │   └── Package.swift
 ├── android/                      # Android SDK (Kotlin, Gradle)
 │   ├── core/
