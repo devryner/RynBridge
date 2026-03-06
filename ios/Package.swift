@@ -19,6 +19,9 @@ let package = Package(
         .library(name: "RynBridgePayment", targets: ["RynBridgePayment"]),
         .library(name: "RynBridgeMedia", targets: ["RynBridgeMedia"]),
         .library(name: "RynBridgeCrypto", targets: ["RynBridgeCrypto"]),
+        .library(name: "RynBridgeAuthApple", targets: ["RynBridgeAuthApple"]),
+        .library(name: "RynBridgePushAPNs", targets: ["RynBridgePushAPNs"]),
+        .library(name: "RynBridgePaymentStoreKit", targets: ["RynBridgePaymentStoreKit"]),
     ],
     targets: [
         .target(
@@ -69,6 +72,21 @@ let package = Package(
             name: "RynBridgeCrypto",
             dependencies: ["RynBridge"],
             path: "Sources/RynBridgeCrypto"
+        ),
+        .target(
+            name: "RynBridgeAuthApple",
+            dependencies: ["RynBridge", "RynBridgeAuth"],
+            path: "Sources/RynBridgeAuthApple"
+        ),
+        .target(
+            name: "RynBridgePushAPNs",
+            dependencies: ["RynBridge", "RynBridgePush"],
+            path: "Sources/RynBridgePushAPNs"
+        ),
+        .target(
+            name: "RynBridgePaymentStoreKit",
+            dependencies: ["RynBridge", "RynBridgePayment"],
+            path: "Sources/RynBridgePaymentStoreKit"
         ),
         .testTarget(
             name: "RynBridgeTests",
