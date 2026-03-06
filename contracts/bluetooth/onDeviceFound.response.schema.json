@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "bluetooth.onDeviceFound response (event payload)",
+  "type": "object",
+  "properties": {
+    "deviceId": { "type": "string" },
+    "name": { "type": ["string", "null"] },
+    "rssi": { "type": "number" },
+    "serviceUUIDs": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["deviceId", "name", "rssi", "serviceUUIDs"]
+}

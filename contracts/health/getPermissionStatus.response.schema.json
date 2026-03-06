@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "health.getPermissionStatus response",
+  "type": "object",
+  "properties": {
+    "status": { "type": "string", "enum": ["granted", "denied", "notDetermined"] }
+  },
+  "required": ["status"]
+}

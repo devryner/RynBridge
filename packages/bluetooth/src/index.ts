@@ -1,0 +1,23 @@
+export { BluetoothModule } from './BluetoothModule.js';
+export type {
+  StartScanPayload,
+  StartScanResult,
+  StopScanPayload,
+  DeviceFoundEvent,
+  ConnectPayload,
+  ConnectResult,
+  DisconnectPayload,
+  DisconnectResult,
+  GetServicesPayload,
+  GetServicesResult,
+  BluetoothService,
+  BluetoothCharacteristic,
+  ReadCharacteristicPayload,
+  ReadCharacteristicResult,
+  WriteCharacteristicPayload,
+  WriteCharacteristicResult,
+  CharacteristicChangeEvent,
+  PermissionResult,
+  BluetoothState,
+  StateChangeEvent,
+} from './types.js';

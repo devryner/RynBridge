@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "health.queryData response",
+  "type": "object",
+  "properties": {
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "dataType": { "type": "string" },
+          "value": { "type": "number" },
+          "unit": { "type": "string" },
+          "startDate": { "type": "string", "format": "date-time" },
+          "endDate": { "type": "string", "format": "date-time" },
+          "sourceName": { "type": ["string", "null"] }
+        },
+        "required": ["id", "dataType", "value", "unit", "startDate", "endDate", "sourceName"]
+      }
+    }
+  },
+  "required": ["records"]
+}

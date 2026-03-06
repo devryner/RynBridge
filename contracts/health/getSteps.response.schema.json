@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "health.getSteps response",
+  "type": "object",
+  "properties": {
+    "steps": { "type": "number" }
+  },
+  "required": ["steps"]
+}

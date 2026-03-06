@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "backgroundTask.scheduleTask request",
+  "type": "object",
+  "properties": {
+    "taskId": { "type": "string" },
+    "type": { "type": "string", "enum": ["oneTime", "periodic", "connectivity"] },
+    "interval": { "type": "integer", "description": "Interval in seconds (for periodic tasks)" },
+    "delay": { "type": "integer", "description": "Delay in seconds (for one-time tasks)" },
+    "requiresNetwork": { "type": "boolean" },
+    "requiresCharging": { "type": "boolean" }
+  },
+  "required": ["taskId", "type"]
+}

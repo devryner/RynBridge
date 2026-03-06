@@ -9,9 +9,14 @@
     "test": "turbo test",
     "lint": "turbo lint",
     "docs:dev": "pnpm --filter docs start",
-    "docs:build": "pnpm --filter docs build"
+    "docs:build": "pnpm --filter docs build",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "turbo build && changeset publish"
   },
   "devDependencies": {
+    "@changesets/changelog-github": "^0.6.0",
+    "@changesets/cli": "^2.30.0",
     "turbo": "^2.3.0"
   },
   "license": "MIT"

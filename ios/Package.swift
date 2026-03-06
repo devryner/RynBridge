@@ -30,6 +30,9 @@ let package = Package(
         .library(name: "RynBridgePaymentStoreKit", targets: ["RynBridgePaymentStoreKit"]),
         .library(name: "RynBridgeSpeech", targets: ["RynBridgeSpeech"]),
         .library(name: "RynBridgeTranslation", targets: ["RynBridgeTranslation"]),
+        .library(name: "RynBridgeBluetooth", targets: ["RynBridgeBluetooth"]),
+        .library(name: "RynBridgeHealth", targets: ["RynBridgeHealth"]),
+        .library(name: "RynBridgeBackgroundTask", targets: ["RynBridgeBackgroundTask"]),
     ],
     targets: [
         .target(
@@ -136,6 +139,21 @@ let package = Package(
             dependencies: ["RynBridge"],
             path: "Sources/RynBridgeTranslation"
         ),
+        .target(
+            name: "RynBridgeBluetooth",
+            dependencies: ["RynBridge"],
+            path: "Sources/RynBridgeBluetooth"
+        ),
+        .target(
+            name: "RynBridgeHealth",
+            dependencies: ["RynBridge"],
+            path: "Sources/RynBridgeHealth"
+        ),
+        .target(
+            name: "RynBridgeBackgroundTask",
+            dependencies: ["RynBridge"],
+            path: "Sources/RynBridgeBackgroundTask"
+        ),
         .testTarget(
             name: "RynBridgeTests",
             dependencies: ["RynBridge"],
@@ -225,6 +243,21 @@ let package = Package(
             name: "RynBridgeTranslationTests",
             dependencies: ["RynBridge", "RynBridgeTranslation"],
             path: "Tests/RynBridgeTranslationTests"
+        ),
+        .testTarget(
+            name: "RynBridgeBluetoothTests",
+            dependencies: ["RynBridge", "RynBridgeBluetooth"],
+            path: "Tests/RynBridgeBluetoothTests"
+        ),
+        .testTarget(
+            name: "RynBridgeHealthTests",
+            dependencies: ["RynBridge", "RynBridgeHealth"],
+            path: "Tests/RynBridgeHealthTests"
+        ),
+        .testTarget(
+            name: "RynBridgeBackgroundTaskTests",
+            dependencies: ["RynBridge", "RynBridgeBackgroundTask"],
+            path: "Tests/RynBridgeBackgroundTaskTests"
         ),
     ]
 )

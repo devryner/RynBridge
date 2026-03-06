@@ -1174,26 +1174,26 @@ RynBridge/
 - [x] 각 모듈 contract 스키마, Web SDK, iOS/Android Provider 구현
 
 ### v0.8.0 — Phase 3 고급 모듈
-- [ ] bluetooth 모듈 (CoreBluetooth / BluetoothGatt, BLE 스캔/연결/데이터 교환)
-- [ ] health 모듈 (HealthKit / Health Connect, 건강 데이터 조회/기록)
-- [ ] background-task 모듈 (BGTaskScheduler / WorkManager, 오프라인 동기화)
-- [ ] 각 모듈 contract 스키마, Web SDK, iOS/Android Provider 구현
+- [x] bluetooth 모듈 (CoreBluetooth / BluetoothGatt, BLE 스캔/연결/데이터 교환)
+- [x] health 모듈 (HealthKit / Health Connect, 건강 데이터 조회/기록)
+- [x] background-task 모듈 (BGTaskScheduler / WorkManager, 오프라인 동기화)
+- [x] 각 모듈 contract 스키마, Web SDK, iOS/Android Provider 구현
 
 ### v0.9.0 — 배포 파이프라인
-- [ ] npm publish 워크플로우 (GitHub Actions, 태그 기반 자동 배포)
-- [ ] NPM_TOKEN 시크릿 및 `.npmrc` 레지스트리 설정
-- [ ] 모노레포 버전 관리 도구 도입 (changesets)
-- [ ] iOS SPM 릴리스 (GitHub Release 태그)
-- [ ] Android Maven Central 배포 설정
+- [x] npm publish 워크플로우 (GitHub Actions, 태그 기반 자동 배포)
+- [x] NPM_TOKEN 시크릿 및 `.npmrc` 레지스트리 설정
+- [x] 모노레포 버전 관리 도구 도입 (changesets)
+- [x] iOS SPM 릴리스 (GitHub Release 태그)
+- [x] Android Maven Central 배포 설정
 
 ### v0.9.1 — 전체 모듈 단위 테스트
-- [ ] Phase 1 모듈 테스트 보강 (device, storage, secure-storage, ui)
-- [ ] Phase 2 모듈 플랫폼별 단위 테스트 (auth, push, payment, media, crypto)
-- [ ] Phase 3 기본 모듈 테스트 (share, contacts, calendar)
-- [ ] Phase 3 중급 모듈 테스트 (navigation, speech, analytics)
-- [ ] Phase 3 고급 모듈 테스트 (bluetooth, health, background-task)
-- [ ] 각 테스트 3플랫폼 대응 (Web: Vitest, iOS: XCTest, Android: JUnit)
-- [ ] CI 파이프라인에 전체 테스트 통합
+- [x] Phase 1 모듈 테스트 보강 (device, storage, secure-storage, ui)
+- [x] Phase 2 모듈 플랫폼별 단위 테스트 (auth, push, payment, media, crypto)
+- [x] Phase 3 기본 모듈 테스트 (share, contacts, calendar)
+- [x] Phase 3 중급 모듈 테스트 (navigation, speech, analytics)
+- [x] Phase 3 고급 모듈 테스트 (bluetooth, health, background-task)
+- [x] 각 테스트 3플랫폼 대응 (Web: Vitest, iOS: XCTest, Android: JUnit)
+- [x] CI 파이프라인에 전체 테스트 통합
 
 ### v0.9.2 — CLI doctor 강화
 - [ ] 모듈 간 의존성 검증 (core 누락, 버전 불일치 감지)

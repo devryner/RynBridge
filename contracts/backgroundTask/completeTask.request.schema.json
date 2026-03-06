@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "backgroundTask.completeTask request (fire-and-forget)",
+  "type": "object",
+  "properties": {
+    "taskId": { "type": "string" },
+    "success": { "type": "boolean" }
+  },
+  "required": ["taskId", "success"]
+}

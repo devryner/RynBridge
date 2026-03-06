@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "bluetooth.readCharacteristic request",
+  "type": "object",
+  "properties": {
+    "deviceId": { "type": "string" },
+    "serviceUUID": { "type": "string" },
+    "characteristicUUID": { "type": "string" }
+  },
+  "required": ["deviceId", "serviceUUID", "characteristicUUID"]
+}

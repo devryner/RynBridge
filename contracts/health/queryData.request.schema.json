@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "health.queryData request",
+  "type": "object",
+  "properties": {
+    "dataType": { "type": "string", "description": "Health data type (e.g. steps, heartRate, bloodPressure)" },
+    "startDate": { "type": "string", "format": "date-time" },
+    "endDate": { "type": "string", "format": "date-time" },
+    "limit": { "type": "integer", "minimum": 1 }
+  },
+  "required": ["dataType", "startDate", "endDate"]
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "bluetooth.writeCharacteristic request",
+  "type": "object",
+  "properties": {
+    "deviceId": { "type": "string" },
+    "serviceUUID": { "type": "string" },
+    "characteristicUUID": { "type": "string" },
+    "value": { "type": "string", "description": "Base64-encoded value to write" }
+  },
+  "required": ["deviceId", "serviceUUID", "characteristicUUID", "value"]
+}

@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "backgroundTask.onTaskExecute response (event payload)",
+  "type": "object",
+  "properties": {
+    "taskId": { "type": "string" }
+  },
+  "required": ["taskId"]
+}

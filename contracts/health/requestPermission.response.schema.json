@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "health.requestPermission response",
+  "type": "object",
+  "properties": {
+    "granted": { "type": "boolean" }
+  },
+  "required": ["granted"]
+}

@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "health.getSteps request",
+  "type": "object",
+  "properties": {
+    "startDate": { "type": "string", "format": "date-time" },
+    "endDate": { "type": "string", "format": "date-time" }
+  },
+  "required": ["startDate", "endDate"]
+}

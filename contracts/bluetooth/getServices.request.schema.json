@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "bluetooth.getServices request",
+  "type": "object",
+  "properties": {
+    "deviceId": { "type": "string" }
+  },
+  "required": ["deviceId"]
+}

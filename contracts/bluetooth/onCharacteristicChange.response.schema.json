@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "bluetooth.onCharacteristicChange response (event payload)",
+  "type": "object",
+  "properties": {
+    "deviceId": { "type": "string" },
+    "serviceUUID": { "type": "string" },
+    "characteristicUUID": { "type": "string" },
+    "value": { "type": "string" }
+  },
+  "required": ["deviceId", "serviceUUID", "characteristicUUID", "value"]
+}

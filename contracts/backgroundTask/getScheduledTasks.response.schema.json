@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "backgroundTask.getScheduledTasks response",
+  "type": "object",
+  "properties": {
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "taskId": { "type": "string" },
+          "type": { "type": "string", "enum": ["oneTime", "periodic", "connectivity"] },
+          "interval": { "type": ["integer", "null"] },
+          "requiresNetwork": { "type": "boolean" },
+          "requiresCharging": { "type": "boolean" }
+        },
+        "required": ["taskId", "type", "interval", "requiresNetwork", "requiresCharging"]
+      }
+    }
+  },
+  "required": ["tasks"]
+}
