@@ -416,17 +416,17 @@ RynBridge/
 - [x] Event Stream 통신 패턴
 
 ### v0.3.0 — DX 강화
-- [ ] CLI 도구 (`rynbridge init`, `rynbridge add`)
-- [ ] 타입 공유 코드 생성 시스템
-- [ ] DevTools 디버그 패널
-- [ ] Docusaurus 문서 사이트
+- [x] CLI 도구 (`rynbridge init`, `rynbridge add`)
+- [x] 타입 공유 코드 생성 시스템
+- [x] DevTools 디버그 패널
+- [x] Docusaurus 문서 사이트
 
 ### v0.4.0 — Phase 2 모듈
-- [ ] auth 모듈
-- [ ] push 모듈
-- [ ] payment 모듈
-- [ ] media 모듈
-- [ ] crypto 모듈 (E2EE 키 교환, AES-256-GCM 암호화, 키 로테이션)
+- [x] auth 모듈
+- [x] push 모듈
+- [x] payment 모듈
+- [x] media 모듈
+- [x] crypto 모듈 (E2EE 키 교환, AES-256-GCM 암호화, 키 로테이션)
 
 ### v1.0.0 — Stable Release
 - [ ] 전체 API 안정화
