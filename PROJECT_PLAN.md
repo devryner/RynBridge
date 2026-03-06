@@ -241,6 +241,344 @@ Health.subscribe(HealthDataType.HEART_RATE, (data) => {
 });
 ```
 
+#### share 모듈 상세
+
+네이티브 공유 시트와 클립보드 기능을 Web에서 호출할 수 있도록 한다.
+
+| 액션 | 패턴 | 설명 |
+|------|------|------|
+| `share` | Request-Response | 네이티브 공유 시트 표시 (텍스트, URL, 이미지 등) |
+| `shareFile` | Request-Response | 파일을 네이티브 공유 시트로 공유 |
+| `copyToClipboard` | Fire-and-Forget | 텍스트를 클립보드에 복사 |
+| `readClipboard` | Request-Response | 클립보드 내용 읽기 |
+| `canShare` | Request-Response | 공유 가능 여부 확인 |
+
+**플랫폼 매핑**
+
+| 기능 | iOS | Android |
+|------|-----|---------|
+| 공유 시트 | UIActivityViewController | Intent.ACTION_SEND / ShareSheet |
+| 클립보드 | UIPasteboard | ClipboardManager |
+
+```typescript
+const share = new ShareModule(bridge);
+
+// 텍스트 + URL 공유
+await share.share({ text: 'Check this out!', url: 'https://example.com' });
+
+// 파일 공유
+await share.shareFile({ filePath: '/tmp/photo.jpg', mimeType: 'image/jpeg' });
+
+// 클립보드
+share.copyToClipboard({ text: 'Hello' });
+const { text } = await share.readClipboard();
+```
+
+#### contacts 모듈 상세
+
+네이티브 연락처 데이터에 접근하여 조회, 생성, 수정, 삭제를 수행한다.
+
+| 액션 | 패턴 | 설명 |
+|------|------|------|
+| `getContacts` | Request-Response | 연락처 목록 조회 (페이지네이션, 검색 지원) |
+| `getContact` | Request-Response | 단일 연락처 상세 조회 |
+| `createContact` | Request-Response | 새 연락처 생성 |
+| `updateContact` | Request-Response | 기존 연락처 수정 |
+| `deleteContact` | Request-Response | 연락처 삭제 |
+| `pickContact` | Request-Response | 네이티브 연락처 선택 UI 표시 |
+| `requestPermission` | Request-Response | 연락처 접근 권한 요청 |
+| `getPermissionStatus` | Request-Response | 현재 권한 상태 확인 |
+
+**플랫폼 매핑**
+
+| 기능 | iOS | Android |
+|------|-----|---------|
+| 프레임워크 | Contacts.framework | ContactsContract |
+| 권한 | NSContactsUsageDescription | `android.permission.READ/WRITE_CONTACTS` |
+| 선택 UI | CNContactPickerViewController | ContactsContract.Intents |
+
+```typescript
+const contacts = new ContactsModule(bridge);
+
+await contacts.requestPermission();
+const { contacts: list } = await contacts.getContacts({ query: '김', limit: 20 });
+const { contact } = await contacts.getContact({ id: list[0].id });
+await contacts.createContact({
+  givenName: '길동',
+  familyName: '홍',
+  phoneNumbers: [{ label: 'mobile', number: '010-1234-5678' }],
+  emailAddresses: [{ label: 'home', address: 'gildong@example.com' }],
+});
+```
+
+#### calendar 모듈 상세
+
+네이티브 캘린더의 일정(Event)과 리마인더(Reminder)에 접근한다.
+
+| 액션 | 패턴 | 설명 |
+|------|------|------|
+| `getCalendars` | Request-Response | 캘린더 목록 조회 |
+| `getEvents` | Request-Response | 날짜 범위로 일정 조회 |
+| `getEvent` | Request-Response | 단일 일정 상세 조회 |
+| `createEvent` | Request-Response | 새 일정 생성 |
+| `updateEvent` | Request-Response | 기존 일정 수정 |
+| `deleteEvent` | Request-Response | 일정 삭제 |
+| `createReminder` | Request-Response | 리마인더 생성 |
+| `requestPermission` | Request-Response | 캘린더 접근 권한 요청 |
+| `getPermissionStatus` | Request-Response | 현재 권한 상태 확인 |
+
+**플랫폼 매핑**
+
+| 기능 | iOS | Android |
+|------|-----|---------|
+| 프레임워크 | EventKit (EKEventStore) | CalendarContract |
+| 권한 | NSCalendarsUsageDescription | `android.permission.READ/WRITE_CALENDAR` |
+| 리마인더 | EKReminder | CalendarContract.Reminders |
+
+```typescript
+const calendar = new CalendarModule(bridge);
+
+await calendar.requestPermission();
+const { calendars } = await calendar.getCalendars();
+const { events } = await calendar.getEvents({
+  calendarId: calendars[0].id,
+  from: '2026-03-01',
+  to: '2026-03-31',
+});
+await calendar.createEvent({
+  title: '팀 미팅',
+  startDate: '2026-03-10T14:00:00',
+  endDate: '2026-03-10T15:00:00',
+  location: '회의실 A',
+  notes: '주간 스프린트 리뷰',
+});
+```
+
+#### navigation 모듈 상세
+
+네이티브 화면 전환(push/pop/present)과 딥링크 처리를 Web에서 제어한다.
+
+| 액션 | 패턴 | 설명 |
+|------|------|------|
+| `push` | Request-Response | 네이티브 화면 push (스택에 추가) |
+| `pop` | Request-Response | 현재 화면 pop (스택에서 제거) |
+| `popToRoot` | Request-Response | 루트 화면까지 pop |
+| `present` | Request-Response | 모달로 화면 표시 |
+| `dismiss` | Request-Response | 모달 닫기 |
+| `openURL` | Request-Response | 외부 URL 또는 딥링크 열기 |
+| `canOpenURL` | Request-Response | URL 열기 가능 여부 확인 |
+| `onDeepLink` | Event Stream | 딥링크 수신 이벤트 구독 |
+
+**플랫폼 매핑**
+
+| 기능 | iOS | Android |
+|------|-----|---------|
+| 화면 전환 | UINavigationController (push/pop) | Fragment / Activity Intent |
+| 모달 | present(_, animated:) | DialogFragment / BottomSheet |
+| 딥링크 | UIApplicationDelegate / SceneDelegate | Intent filter / App Links |
+| 외부 URL | UIApplication.shared.open() | Intent(Intent.ACTION_VIEW) |
+
+```typescript
+const nav = new NavigationModule(bridge);
+
+await nav.push({ screen: 'settings', params: { section: 'profile' } });
+await nav.pop();
+await nav.present({ screen: 'login', style: 'fullScreen' });
+await nav.openURL({ url: 'https://example.com' });
+
+nav.onDeepLink((event) => {
+  console.log('Deep link received:', event.url);
+});
+```
+
+#### speech 모듈 상세
+
+음성인식(STT)과 음성합성(TTS)을 통합 인터페이스로 제공한다.
+
+| 액션 | 패턴 | 설명 |
+|------|------|------|
+| `startRecognition` | Request-Response | 음성인식 시작, 세션 ID 반환 |
+| `stopRecognition` | Request-Response | 음성인식 중지, 최종 결과 반환 |
+| `onRecognitionResult` | Event Stream | 실시간 음성인식 중간 결과 스트림 |
+| `speak` | Request-Response | 텍스트를 음성으로 합성하여 재생 |
+| `stopSpeaking` | Fire-and-Forget | 음성합성 재생 중지 |
+| `getVoices` | Request-Response | 사용 가능한 TTS 음성 목록 조회 |
+| `requestPermission` | Request-Response | 마이크 권한 요청 |
+| `getPermissionStatus` | Request-Response | 현재 권한 상태 확인 |
+
+**플랫폼 매핑**
+
+| 기능 | iOS | Android |
+|------|-----|---------|
+| STT | Speech.framework (SFSpeechRecognizer) | SpeechRecognizer |
+| TTS | AVSpeechSynthesizer | TextToSpeech |
+| 권한 | NSSpeechRecognitionUsageDescription, NSMicrophoneUsageDescription | `android.permission.RECORD_AUDIO` |
+
+```typescript
+const speech = new SpeechModule(bridge);
+
+await speech.requestPermission();
+
+// 음성인식 (STT)
+const { sessionId } = await speech.startRecognition({ language: 'ko-KR' });
+speech.onRecognitionResult((result) => {
+  console.log(result.transcript, result.isFinal);
+});
+const { transcript } = await speech.stopRecognition({ sessionId });
+
+// 음성합성 (TTS)
+await speech.speak({ text: '안녕하세요', language: 'ko-KR', rate: 1.0 });
+const { voices } = await speech.getVoices();
+```
+
+#### analytics 모듈 상세
+
+이벤트 트래킹과 사용자 속성을 관리하며, 구체적인 analytics 서비스는 하위 패키지로 분리한다.
+
+| 액션 | 패턴 | 설명 |
+|------|------|------|
+| `logEvent` | Fire-and-Forget | 커스텀 이벤트 로깅 |
+| `setUserProperty` | Fire-and-Forget | 사용자 속성 설정 |
+| `setUserId` | Fire-and-Forget | 사용자 ID 설정 |
+| `setScreen` | Fire-and-Forget | 현재 화면 이름 설정 |
+| `resetUser` | Fire-and-Forget | 사용자 정보 초기화 |
+| `setEnabled` | Request-Response | 트래킹 활성화/비활성화 (GDPR 대응) |
+| `isEnabled` | Request-Response | 현재 트래킹 활성화 상태 조회 |
+
+**하위 패키지 구조**
+
+| 패키지 | 설명 |
+|--------|------|
+| `@rynbridge/analytics` | 인터페이스만 (Provider protocol/interface) |
+| `@rynbridge/analytics-firebase` | Firebase Analytics Provider |
+| `@rynbridge/analytics-amplitude` | Amplitude Provider |
+| `@rynbridge/analytics-mixpanel` | Mixpanel Provider |
+
+```typescript
+const analytics = new AnalyticsModule(bridge);
+
+analytics.setUserId({ userId: 'user_123' });
+analytics.setUserProperty({ key: 'plan', value: 'premium' });
+analytics.setScreen({ name: 'HomeScreen' });
+analytics.logEvent({ name: 'purchase_complete', params: { amount: 29900, currency: 'KRW' } });
+await analytics.setEnabled({ enabled: false }); // GDPR opt-out
+```
+
+#### bluetooth 모듈 상세
+
+BLE(Bluetooth Low Energy) 기기 스캔, 연결, 서비스/특성 탐색, 데이터 읽기/쓰기를 수행한다.
+
+| 액션 | 패턴 | 설명 |
+|------|------|------|
+| `startScan` | Request-Response | BLE 기기 스캔 시작 |
+| `stopScan` | Fire-and-Forget | 스캔 중지 |
+| `onDeviceFound` | Event Stream | 스캔 중 발견된 기기 이벤트 |
+| `connect` | Request-Response | 기기 연결 |
+| `disconnect` | Request-Response | 기기 연결 해제 |
+| `getServices` | Request-Response | 연결된 기기의 서비스 목록 조회 |
+| `readCharacteristic` | Request-Response | 특성 값 읽기 |
+| `writeCharacteristic` | Request-Response | 특성 값 쓰기 |
+| `onCharacteristicChange` | Event Stream | 특성 값 변경 알림 구독 |
+| `requestPermission` | Request-Response | 블루투스 권한 요청 |
+| `getState` | Request-Response | 블루투스 어댑터 상태 확인 (on/off) |
+| `onStateChange` | Event Stream | 블루투스 상태 변경 이벤트 |
+
+**플랫폼 매핑**
+
+| 기능 | iOS | Android |
+|------|-----|---------|
+| 프레임워크 | CoreBluetooth (CBCentralManager) | BluetoothGatt / BluetoothLeScanner |
+| 권한 | NSBluetoothAlwaysUsageDescription | `android.permission.BLUETOOTH_SCAN/CONNECT` |
+| 백그라운드 | UIBackgroundModes: bluetooth-central | FOREGROUND_SERVICE |
+
+```typescript
+const bt = new BluetoothModule(bridge);
+
+await bt.requestPermission();
+const { state } = await bt.getState(); // 'poweredOn' | 'poweredOff' | ...
+
+// 스캔
+await bt.startScan({ serviceUUIDs: ['180D'] }); // Heart Rate Service
+bt.onDeviceFound((device) => {
+  console.log(device.name, device.rssi);
+});
+
+// 연결 및 데이터 읽기
+await bt.connect({ deviceId: 'AA:BB:CC:DD:EE:FF' });
+const { services } = await bt.getServices({ deviceId: 'AA:BB:CC:DD:EE:FF' });
+const { value } = await bt.readCharacteristic({
+  deviceId: 'AA:BB:CC:DD:EE:FF',
+  serviceUUID: '180D',
+  characteristicUUID: '2A37',
+});
+
+// 실시간 알림 구독
+bt.onCharacteristicChange((event) => {
+  console.log('Heart rate:', event.value);
+});
+```
+
+#### background-task 모듈 상세
+
+백그라운드 작업 스케줄링과 오프라인 동기화를 관리한다.
+
+| 액션 | 패턴 | 설명 |
+|------|------|------|
+| `scheduleTask` | Request-Response | 백그라운드 작업 스케줄링 |
+| `cancelTask` | Request-Response | 예약된 작업 취소 |
+| `cancelAllTasks` | Request-Response | 모든 예약 작업 취소 |
+| `getScheduledTasks` | Request-Response | 예약된 작업 목록 조회 |
+| `onTaskExecute` | Event Stream | 백그라운드 작업 실행 이벤트 |
+| `completeTask` | Fire-and-Forget | 작업 완료 알림 (시스템에 완료 보고) |
+| `requestPermission` | Request-Response | 백그라운드 실행 권한 요청 (Android) |
+
+**작업 유형**
+
+| 유형 | 설명 |
+|------|------|
+| `oneTime` | 1회성 백그라운드 작업 |
+| `periodic` | 주기적 반복 작업 (최소 15분 간격) |
+| `connectivity` | 네트워크 연결 시 실행 (오프라인 동기화) |
+
+**플랫폼 매핑**
+
+| 기능 | iOS | Android |
+|------|-----|---------|
+| 프레임워크 | BGTaskScheduler (BGAppRefreshTask, BGProcessingTask) | WorkManager |
+| 주기적 작업 | BGAppRefreshTask | PeriodicWorkRequest |
+| 조건부 실행 | BGProcessingTask (requiresNetworkConnectivity) | Constraints (NetworkType) |
+| 최소 간격 | 시스템 결정 (~15분) | 15분 |
+
+```typescript
+const tasks = new BackgroundTaskModule(bridge);
+
+// 주기적 데이터 동기화
+await tasks.scheduleTask({
+  taskId: 'sync-data',
+  type: 'periodic',
+  interval: 900, // 15분 (초)
+  requiresNetwork: true,
+});
+
+// 1회성 작업
+await tasks.scheduleTask({
+  taskId: 'upload-logs',
+  type: 'oneTime',
+  delay: 60, // 60초 후
+  requiresCharging: true,
+});
+
+// 작업 실행 이벤트 수신
+tasks.onTaskExecute((event) => {
+  console.log('Task executing:', event.taskId);
+  // 작업 수행 후 완료 보고
+  tasks.completeTask({ taskId: event.taskId, success: true });
+});
+
+const { tasks: scheduled } = await tasks.getScheduledTasks();
+await tasks.cancelTask({ taskId: 'sync-data' });
+```
+
 ---
 
 ## 5. 사용 예시
