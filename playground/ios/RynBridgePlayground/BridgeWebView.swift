@@ -38,8 +38,8 @@ struct BridgeWebView: UIViewRepresentable {
         bridge.register(AuthModule(provider: MockAuthProvider()))
         bridge.register(PushModule(provider: MockPushProvider()))
         bridge.register(PaymentModule(provider: MockPaymentProvider()))
-        bridge.register(MediaModule(provider: MockMediaProvider()))
-        bridge.register(CryptoModule(provider: MockCryptoProvider()))
+        bridge.register(MediaModule(provider: DefaultMediaProvider()))
+        bridge.register(CryptoModule(provider: DefaultCryptoProvider()))
 
         context.coordinator.bridge = bridge
 
@@ -155,67 +155,3 @@ final class MockPaymentProvider: PaymentProvider, @unchecked Sendable {
     func finishTransaction(transactionId: String) async throws {}
 }
 
-final class MockMediaProvider: MediaProvider, @unchecked Sendable {
-    func playAudio(source: String, loop: Bool, volume: Double) async throws -> String {
-        return "player_\(UUID().uuidString.prefix(8))"
-    }
-
-    func pauseAudio(playerId: String) async throws {}
-
-    func stopAudio(playerId: String) async throws {}
-
-    func getAudioStatus(playerId: String) async throws -> AudioStatus {
-        return AudioStatus(position: 30.0, duration: 180.0, isPlaying: true)
-    }
-
-    func startRecording(format: String, quality: String) async throws -> String {
-        return "rec_\(UUID().uuidString.prefix(8))"
-    }
-
-    func stopRecording(recordingId: String) async throws -> RecordingResult {
-        return RecordingResult(filePath: "/tmp/\(recordingId).m4a", duration: 5.2, size: 52400)
-    }
-
-    func pickMedia(type: String, multiple: Bool) async throws -> [MediaFile] {
-        return [
-            MediaFile(name: "photo.jpg", path: "/tmp/photo.jpg", mimeType: "image/jpeg", size: 1024000)
-        ]
-    }
-}
-
-final class MockCryptoProvider: CryptoProvider, @unchecked Sendable {
-    func generateKeyPair() async throws -> String {
-        return "mock_public_key_\(UUID().uuidString.prefix(16))"
-    }
-
-    func performKeyExchange(remotePublicKey: String) async throws -> Bool {
-        return true
-    }
-
-    func encrypt(data: String, associatedData: String?) async throws -> RynBridgeCrypto.EncryptResult {
-        return RynBridgeCrypto.EncryptResult(
-            ciphertext: Data(data.utf8).base64EncodedString(),
-            iv: UUID().uuidString.prefix(24).description,
-            tag: UUID().uuidString.prefix(32).description
-        )
-    }
-
-    func decrypt(ciphertext: String, iv: String, tag: String, associatedData: String?) async throws -> String {
-        if let data = Data(base64Encoded: ciphertext), let str = String(data: data, encoding: .utf8) {
-            return str
-        }
-        return "decrypted_data"
-    }
-
-    func getStatus() async throws -> RynBridgeCrypto.CryptoStatus {
-        return RynBridgeCrypto.CryptoStatus(
-            initialized: true,
-            keyCreatedAt: ISO8601DateFormatter().string(from: Date()),
-            algorithm: "AES-256-GCM"
-        )
-    }
-
-    func rotateKeys() async throws -> String {
-        return "mock_rotated_key_\(UUID().uuidString.prefix(16))"
-    }
-}

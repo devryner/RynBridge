@@ -15,7 +15,9 @@ import io.rynbridge.auth.AuthModule
 import io.rynbridge.push.PushModule
 import io.rynbridge.payment.PaymentModule
 import io.rynbridge.media.MediaModule
+import io.rynbridge.media.DefaultMediaProvider
 import io.rynbridge.crypto.CryptoModule
+import io.rynbridge.crypto.DefaultCryptoProvider
 import io.rynbridge.playground.providers.*
 
 class MainActivity : AppCompatActivity() {
@@ -52,8 +54,8 @@ class MainActivity : AppCompatActivity() {
         bridge.register(AuthModule(MockAuthProvider()))
         bridge.register(PushModule(MockPushProvider()))
         bridge.register(PaymentModule(MockPaymentProvider()))
-        bridge.register(MediaModule(MockMediaProvider()))
-        bridge.register(CryptoModule(MockCryptoProvider()))
+        bridge.register(MediaModule(DefaultMediaProvider(this)))
+        bridge.register(CryptoModule(DefaultCryptoProvider()))
 
         // Load web playground from assets
         webView.loadUrl("file:///android_asset/index.html")

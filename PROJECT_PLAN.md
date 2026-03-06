@@ -1121,8 +1121,8 @@ RynBridge/
 - [x] crypto 모듈 (E2EE 키 교환, AES-256-GCM 암호화, 키 로테이션)
 
 ### v0.5.0 — 네이티브 Provider 실구현
-- [ ] crypto Provider 구현 (CryptoKit / javax.crypto, 외부 의존성 없음)
-- [ ] media Provider 구현 (AVFoundation / MediaPlayer, 외부 의존성 없음)
+- [x] crypto Provider 구현 (CryptoKit / javax.crypto, 외부 의존성 없음)
+- [x] media Provider 구현 (AVFoundation / MediaPlayer, 외부 의존성 없음)
 - [ ] auth 하위 패키지 분리 구조 도입 (`@rynbridge/auth-google`, `@rynbridge/auth-apple`, `@rynbridge/auth-kakao`)
 - [ ] push 하위 패키지 분리 (`@rynbridge/push-fcm`, `@rynbridge/push-apns`)
 - [ ] payment 하위 패키지 분리 (`@rynbridge/payment-storekit`, `@rynbridge/payment-google-play`)
