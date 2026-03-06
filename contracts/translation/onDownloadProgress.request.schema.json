@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/translation/onDownloadProgress.request.json",
+  "title": "TranslationOnDownloadProgressRequest",
+  "description": "Event stream subscription for translation.downloadProgress — no request payload",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

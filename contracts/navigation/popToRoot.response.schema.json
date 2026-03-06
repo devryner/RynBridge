@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/navigation/popToRoot.response.json",
+  "title": "NavigationPopToRootResponse",
+  "description": "Response payload for navigation.popToRoot action",
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "description": "Whether the popToRoot operation succeeded"
+    }
+  },
+  "required": ["success"],
+  "additionalProperties": false
+}

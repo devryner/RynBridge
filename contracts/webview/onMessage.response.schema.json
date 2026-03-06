@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/webview/onMessage.response.json",
+  "title": "WebViewOnMessageResponse",
+  "description": "Event payload for webview.message event",
+  "type": "object",
+  "properties": {
+    "sourceId": {
+      "type": "string",
+      "description": "Identifier of the WebView that sent the message"
+    },
+    "data": {
+      "type": "object",
+      "description": "Message data received from the source WebView",
+      "additionalProperties": true
+    }
+  },
+  "required": ["sourceId", "data"],
+  "additionalProperties": false
+}

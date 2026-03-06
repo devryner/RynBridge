@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/webview/postEvent.request.json",
+  "title": "WebViewPostEventRequest",
+  "description": "Request payload for webview.postEvent action (fire-and-forget)",
+  "type": "object",
+  "properties": {
+    "targetId": {
+      "type": "string",
+      "description": "Target WebView identifier ('parent' reserved keyword for parent WebView)"
+    },
+    "event": {
+      "type": "string",
+      "description": "Event name to publish"
+    },
+    "data": {
+      "type": "object",
+      "description": "Optional event data",
+      "additionalProperties": true
+    }
+  },
+  "required": ["targetId", "event"],
+  "additionalProperties": false
+}

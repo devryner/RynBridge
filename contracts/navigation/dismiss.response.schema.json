@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/navigation/dismiss.response.json",
+  "title": "NavigationDismissResponse",
+  "description": "Response payload for navigation.dismiss action",
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "description": "Whether the dismiss operation succeeded"
+    }
+  },
+  "required": ["success"],
+  "additionalProperties": false
+}

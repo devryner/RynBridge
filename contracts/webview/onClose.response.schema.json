@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/webview/onClose.response.json",
+  "title": "WebViewOnCloseResponse",
+  "description": "Event payload for webview.close event",
+  "type": "object",
+  "properties": {
+    "webviewId": {
+      "type": "string",
+      "description": "Identifier of the WebView that was closed"
+    },
+    "result": {
+      "type": "object",
+      "description": "Result data set by the closed WebView before closing",
+      "additionalProperties": true
+    }
+  },
+  "required": ["webviewId"],
+  "additionalProperties": false
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/navigation/onAppStateChange.response.json",
+  "title": "NavigationOnAppStateChangeResponse",
+  "description": "Event payload for navigation.appStateChange event",
+  "type": "object",
+  "properties": {
+    "state": {
+      "type": "string",
+      "enum": ["active", "inactive", "background"],
+      "description": "New app lifecycle state"
+    }
+  },
+  "required": ["state"],
+  "additionalProperties": false
+}

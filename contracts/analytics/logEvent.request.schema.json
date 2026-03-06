@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/analytics/logEvent.request.json",
+  "title": "AnalyticsLogEventRequest",
+  "description": "Request payload for analytics.logEvent action (fire-and-forget)",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Event name"
+    },
+    "params": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Arbitrary key-value parameters for the event"
+    }
+  },
+  "required": ["name"],
+  "additionalProperties": false
+}

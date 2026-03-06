@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/speech/speak.request.json",
+  "title": "SpeechSpeakRequest",
+  "description": "Request payload for speech.speak action",
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string",
+      "description": "Text to synthesize and speak"
+    },
+    "language": {
+      "type": "string",
+      "description": "BCP 47 language tag for synthesis (e.g., 'ko-KR', 'en-US')"
+    },
+    "rate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 2,
+      "description": "Speech rate multiplier (0.0 to 2.0, default 1.0)"
+    },
+    "pitch": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 2,
+      "description": "Speech pitch multiplier (0.0 to 2.0, default 1.0)"
+    },
+    "voiceId": {
+      "type": "string",
+      "description": "Identifier for a specific TTS voice"
+    }
+  },
+  "required": ["text"],
+  "additionalProperties": false
+}

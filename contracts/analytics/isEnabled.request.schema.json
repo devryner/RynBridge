@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/analytics/isEnabled.request.json",
+  "title": "AnalyticsIsEnabledRequest",
+  "description": "Request payload for analytics.isEnabled action (request-response)",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

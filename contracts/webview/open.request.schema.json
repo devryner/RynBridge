@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/webview/open.request.json",
+  "title": "WebViewOpenRequest",
+  "description": "Request payload for webview.open action",
+  "type": "object",
+  "properties": {
+    "url": {
+      "type": "string",
+      "description": "URL to load in the new WebView"
+    },
+    "title": {
+      "type": "string",
+      "description": "Title for the WebView (optional)"
+    },
+    "style": {
+      "type": "string",
+      "enum": ["modal", "push", "fullScreen"],
+      "description": "Presentation style for the WebView"
+    },
+    "allowedOrigins": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Whitelist of allowed origins for communication"
+    }
+  },
+  "required": ["url"],
+  "additionalProperties": false
+}

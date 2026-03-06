@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/translation/translateBatch.response.json",
+  "title": "TranslationTranslateBatchResponse",
+  "description": "Response payload for translation.translateBatch action",
+  "type": "object",
+  "properties": {
+    "results": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Array of translated texts"
+    }
+  },
+  "required": ["results"],
+  "additionalProperties": false
+}

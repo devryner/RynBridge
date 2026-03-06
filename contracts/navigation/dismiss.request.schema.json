@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/navigation/dismiss.request.json",
+  "title": "NavigationDismissRequest",
+  "description": "Request payload for navigation.dismiss action",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

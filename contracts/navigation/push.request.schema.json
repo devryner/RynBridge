@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/navigation/push.request.json",
+  "title": "NavigationPushRequest",
+  "description": "Request payload for navigation.push action",
+  "type": "object",
+  "properties": {
+    "screen": {
+      "type": "string",
+      "description": "Screen identifier to push onto the navigation stack"
+    },
+    "params": {
+      "type": "object",
+      "description": "Optional parameters to pass to the screen",
+      "additionalProperties": true
+    }
+  },
+  "required": ["screen"],
+  "additionalProperties": false
+}

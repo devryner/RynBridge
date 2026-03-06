@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/navigation/canOpenURL.response.json",
+  "title": "NavigationCanOpenURLResponse",
+  "description": "Response payload for navigation.canOpenURL action",
+  "type": "object",
+  "properties": {
+    "canOpen": {
+      "type": "boolean",
+      "description": "Whether the URL can be opened"
+    }
+  },
+  "required": ["canOpen"],
+  "additionalProperties": false
+}

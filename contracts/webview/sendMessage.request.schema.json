@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/webview/sendMessage.request.json",
+  "title": "WebViewSendMessageRequest",
+  "description": "Request payload for webview.sendMessage action",
+  "type": "object",
+  "properties": {
+    "targetId": {
+      "type": "string",
+      "description": "Target WebView identifier ('parent' reserved keyword for parent WebView)"
+    },
+    "data": {
+      "type": "object",
+      "description": "Message data to send to the target WebView",
+      "additionalProperties": true
+    }
+  },
+  "required": ["targetId", "data"],
+  "additionalProperties": false
+}

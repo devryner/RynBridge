@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/webview/open.response.json",
+  "title": "WebViewOpenResponse",
+  "description": "Response payload for webview.open action",
+  "type": "object",
+  "properties": {
+    "webviewId": {
+      "type": "string",
+      "description": "Unique identifier for the opened WebView"
+    }
+  },
+  "required": ["webviewId"],
+  "additionalProperties": false
+}

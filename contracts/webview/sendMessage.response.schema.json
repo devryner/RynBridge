@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/webview/sendMessage.response.json",
+  "title": "WebViewSendMessageResponse",
+  "description": "Response payload for webview.sendMessage action",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

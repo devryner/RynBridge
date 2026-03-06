@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/translation/downloadModel.request.json",
+  "title": "TranslationDownloadModelRequest",
+  "description": "Request payload for translation.downloadModel action",
+  "type": "object",
+  "properties": {
+    "language": {
+      "type": "string",
+      "description": "Language code of the model to download"
+    }
+  },
+  "required": ["language"],
+  "additionalProperties": false
+}

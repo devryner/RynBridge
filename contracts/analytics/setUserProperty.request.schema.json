@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/analytics/setUserProperty.request.json",
+  "title": "AnalyticsSetUserPropertyRequest",
+  "description": "Request payload for analytics.setUserProperty action (fire-and-forget)",
+  "type": "object",
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "User property key"
+    },
+    "value": {
+      "type": "string",
+      "description": "User property value"
+    }
+  },
+  "required": ["key", "value"],
+  "additionalProperties": false
+}

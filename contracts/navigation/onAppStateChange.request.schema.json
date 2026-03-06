@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/navigation/onAppStateChange.request.json",
+  "title": "NavigationOnAppStateChangeRequest",
+  "description": "Event stream subscription for navigation.appStateChange — no request payload",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

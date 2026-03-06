@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/speech/startRecognition.request.json",
+  "title": "SpeechStartRecognitionRequest",
+  "description": "Request payload for speech.startRecognition action",
+  "type": "object",
+  "properties": {
+    "language": {
+      "type": "string",
+      "description": "BCP 47 language tag for recognition (e.g., 'ko-KR', 'en-US')"
+    }
+  },
+  "additionalProperties": false
+}

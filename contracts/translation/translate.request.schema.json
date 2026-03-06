@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/translation/translate.request.json",
+  "title": "TranslationTranslateRequest",
+  "description": "Request payload for translation.translate action",
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string",
+      "description": "Text to translate"
+    },
+    "source": {
+      "type": "string",
+      "description": "Source language code (e.g., 'en', 'ko')"
+    },
+    "target": {
+      "type": "string",
+      "description": "Target language code (e.g., 'en', 'ko')"
+    }
+  },
+  "required": ["text", "source", "target"],
+  "additionalProperties": false
+}

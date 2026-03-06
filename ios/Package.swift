@@ -14,6 +14,7 @@ let package = Package(
         .library(name: "RynBridgeStorage", targets: ["RynBridgeStorage"]),
         .library(name: "RynBridgeSecureStorage", targets: ["RynBridgeSecureStorage"]),
         .library(name: "RynBridgeUI", targets: ["RynBridgeUI"]),
+        .library(name: "RynBridgeWebView", targets: ["RynBridgeWebView"]),
         .library(name: "RynBridgeAuth", targets: ["RynBridgeAuth"]),
         .library(name: "RynBridgePush", targets: ["RynBridgePush"]),
         .library(name: "RynBridgePayment", targets: ["RynBridgePayment"]),
@@ -22,9 +23,13 @@ let package = Package(
         .library(name: "RynBridgeCalendar", targets: ["RynBridgeCalendar"]),
         .library(name: "RynBridgeContacts", targets: ["RynBridgeContacts"]),
         .library(name: "RynBridgeShare", targets: ["RynBridgeShare"]),
+        .library(name: "RynBridgeNavigation", targets: ["RynBridgeNavigation"]),
+        .library(name: "RynBridgeAnalytics", targets: ["RynBridgeAnalytics"]),
         .library(name: "RynBridgeAuthApple", targets: ["RynBridgeAuthApple"]),
         .library(name: "RynBridgePushAPNs", targets: ["RynBridgePushAPNs"]),
         .library(name: "RynBridgePaymentStoreKit", targets: ["RynBridgePaymentStoreKit"]),
+        .library(name: "RynBridgeSpeech", targets: ["RynBridgeSpeech"]),
+        .library(name: "RynBridgeTranslation", targets: ["RynBridgeTranslation"]),
     ],
     targets: [
         .target(
@@ -50,6 +55,11 @@ let package = Package(
             name: "RynBridgeUI",
             dependencies: ["RynBridge"],
             path: "Sources/RynBridgeUI"
+        ),
+        .target(
+            name: "RynBridgeWebView",
+            dependencies: ["RynBridge"],
+            path: "Sources/RynBridgeWebView"
         ),
         .target(
             name: "RynBridgeAuth",
@@ -92,6 +102,16 @@ let package = Package(
             path: "Sources/RynBridgeShare"
         ),
         .target(
+            name: "RynBridgeNavigation",
+            dependencies: ["RynBridge"],
+            path: "Sources/RynBridgeNavigation"
+        ),
+        .target(
+            name: "RynBridgeAnalytics",
+            dependencies: ["RynBridge"],
+            path: "Sources/RynBridgeAnalytics"
+        ),
+        .target(
             name: "RynBridgeAuthApple",
             dependencies: ["RynBridge", "RynBridgeAuth"],
             path: "Sources/RynBridgeAuthApple"
@@ -105,6 +125,16 @@ let package = Package(
             name: "RynBridgePaymentStoreKit",
             dependencies: ["RynBridge", "RynBridgePayment"],
             path: "Sources/RynBridgePaymentStoreKit"
+        ),
+        .target(
+            name: "RynBridgeSpeech",
+            dependencies: ["RynBridge"],
+            path: "Sources/RynBridgeSpeech"
+        ),
+        .target(
+            name: "RynBridgeTranslation",
+            dependencies: ["RynBridge"],
+            path: "Sources/RynBridgeTranslation"
         ),
         .testTarget(
             name: "RynBridgeTests",
@@ -130,6 +160,11 @@ let package = Package(
             name: "RynBridgeUITests",
             dependencies: ["RynBridge", "RynBridgeUI"],
             path: "Tests/RynBridgeUITests"
+        ),
+        .testTarget(
+            name: "RynBridgeWebViewTests",
+            dependencies: ["RynBridge", "RynBridgeWebView"],
+            path: "Tests/RynBridgeWebViewTests"
         ),
         .testTarget(
             name: "RynBridgeAuthTests",
@@ -170,6 +205,26 @@ let package = Package(
             name: "RynBridgeContactsTests",
             dependencies: ["RynBridge", "RynBridgeContacts"],
             path: "Tests/RynBridgeContactsTests"
+        ),
+        .testTarget(
+            name: "RynBridgeNavigationTests",
+            dependencies: ["RynBridge", "RynBridgeNavigation"],
+            path: "Tests/RynBridgeNavigationTests"
+        ),
+        .testTarget(
+            name: "RynBridgeAnalyticsTests",
+            dependencies: ["RynBridge", "RynBridgeAnalytics"],
+            path: "Tests/RynBridgeAnalyticsTests"
+        ),
+        .testTarget(
+            name: "RynBridgeSpeechTests",
+            dependencies: ["RynBridge", "RynBridgeSpeech"],
+            path: "Tests/RynBridgeSpeechTests"
+        ),
+        .testTarget(
+            name: "RynBridgeTranslationTests",
+            dependencies: ["RynBridge", "RynBridgeTranslation"],
+            path: "Tests/RynBridgeTranslationTests"
         ),
     ]
 )

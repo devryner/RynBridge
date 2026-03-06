@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/navigation/push.response.json",
+  "title": "NavigationPushResponse",
+  "description": "Response payload for navigation.push action",
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "description": "Whether the push operation succeeded"
+    }
+  },
+  "required": ["success"],
+  "additionalProperties": false
+}

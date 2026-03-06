@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/speech/stopRecognition.request.json",
+  "title": "SpeechStopRecognitionRequest",
+  "description": "Request payload for speech.stopRecognition action",
+  "type": "object",
+  "properties": {
+    "sessionId": {
+      "type": "string",
+      "description": "Session ID returned from startRecognition"
+    }
+  },
+  "required": ["sessionId"],
+  "additionalProperties": false
+}

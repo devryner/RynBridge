@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/speech/getPermissionStatus.response.json",
+  "title": "SpeechGetPermissionStatusResponse",
+  "description": "Response payload for speech.getPermissionStatus action",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "Current permission status (e.g., 'granted', 'denied', 'not_determined')"
+    }
+  },
+  "required": ["status"],
+  "additionalProperties": false
+}

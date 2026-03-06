@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/navigation/openURL.request.json",
+  "title": "NavigationOpenURLRequest",
+  "description": "Request payload for navigation.openURL action",
+  "type": "object",
+  "properties": {
+    "url": {
+      "type": "string",
+      "description": "URL or deep link to open"
+    }
+  },
+  "required": ["url"],
+  "additionalProperties": false
+}

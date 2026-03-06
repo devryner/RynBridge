@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/analytics/isEnabled.response.json",
+  "title": "AnalyticsIsEnabledResponse",
+  "description": "Response payload for analytics.isEnabled action",
+  "type": "object",
+  "properties": {
+    "enabled": {
+      "type": "boolean",
+      "description": "Whether analytics tracking is currently enabled"
+    }
+  },
+  "required": ["enabled"],
+  "additionalProperties": false
+}

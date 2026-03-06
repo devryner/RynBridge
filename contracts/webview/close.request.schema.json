@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/webview/close.request.json",
+  "title": "WebViewCloseRequest",
+  "description": "Request payload for webview.close action",
+  "type": "object",
+  "properties": {
+    "webviewId": {
+      "type": "string",
+      "description": "Identifier of the WebView to close"
+    }
+  },
+  "required": ["webviewId"],
+  "additionalProperties": false
+}

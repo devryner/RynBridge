@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/speech/startRecognition.response.json",
+  "title": "SpeechStartRecognitionResponse",
+  "description": "Response payload for speech.startRecognition action",
+  "type": "object",
+  "properties": {
+    "sessionId": {
+      "type": "string",
+      "description": "Unique identifier for the recognition session"
+    }
+  },
+  "required": ["sessionId"],
+  "additionalProperties": false
+}

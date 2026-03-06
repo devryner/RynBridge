@@ -1166,12 +1166,12 @@ RynBridge/
 - [x] 각 모듈 contract 스키마, Web SDK, iOS/Android Provider 구현
 
 ### v0.7.0 — Phase 3 중급 모듈
-- [ ] navigation 모듈 (네이티브 화면 전환, 딥링크)
-- [ ] webview 모듈 (멀티 WebView 관리, WebView 간 메시지 통신, 보안 모델)
-- [ ] speech 모듈 (Speech.framework / SpeechRecognizer, STT/TTS)
-- [ ] analytics 모듈 + 하위 패키지 분리 (`analytics-firebase`, `analytics-amplitude` 등)
-- [ ] translation 모듈 + 하위 패키지 분리 (`translation-apple`, `translation-mlkit`)
-- [ ] 각 모듈 contract 스키마, Web SDK, iOS/Android Provider 구현
+- [x] navigation 모듈 (네이티브 화면 전환, 딥링크)
+- [x] webview 모듈 (멀티 WebView 관리, WebView 간 메시지 통신, 보안 모델)
+- [x] speech 모듈 (Speech.framework / SpeechRecognizer, STT/TTS)
+- [x] analytics 모듈 + 하위 패키지 분리 (`analytics-firebase`, `analytics-amplitude` 등)
+- [x] translation 모듈 + 하위 패키지 분리 (`translation-apple`, `translation-mlkit`)
+- [x] 각 모듈 contract 스키마, Web SDK, iOS/Android Provider 구현
 
 ### v0.8.0 — Phase 3 고급 모듈
 - [ ] bluetooth 모듈 (CoreBluetooth / BluetoothGatt, BLE 스캔/연결/데이터 교환)

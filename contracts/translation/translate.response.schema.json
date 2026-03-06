@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/translation/translate.response.json",
+  "title": "TranslationTranslateResponse",
+  "description": "Response payload for translation.translate action",
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string",
+      "description": "Translated text"
+    }
+  },
+  "required": ["text"],
+  "additionalProperties": false
+}

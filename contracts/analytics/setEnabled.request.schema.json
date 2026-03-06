@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/analytics/setEnabled.request.json",
+  "title": "AnalyticsSetEnabledRequest",
+  "description": "Request payload for analytics.setEnabled action (request-response)",
+  "type": "object",
+  "properties": {
+    "enabled": {
+      "type": "boolean",
+      "description": "Whether analytics tracking should be enabled"
+    }
+  },
+  "required": ["enabled"],
+  "additionalProperties": false
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/analytics/setScreen.request.json",
+  "title": "AnalyticsSetScreenRequest",
+  "description": "Request payload for analytics.setScreen action (fire-and-forget)",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Current screen name"
+    }
+  },
+  "required": ["name"],
+  "additionalProperties": false
+}

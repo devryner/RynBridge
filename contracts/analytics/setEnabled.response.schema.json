@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/analytics/setEnabled.response.json",
+  "title": "AnalyticsSetEnabledResponse",
+  "description": "Response payload for analytics.setEnabled action",
+  "type": "object",
+  "properties": {
+    "enabled": {
+      "type": "boolean",
+      "description": "The resulting enabled state after the operation"
+    }
+  },
+  "required": ["enabled"],
+  "additionalProperties": false
+}

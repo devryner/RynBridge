@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/translation/detectLanguage.request.json",
+  "title": "TranslationDetectLanguageRequest",
+  "description": "Request payload for translation.detectLanguage action",
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string",
+      "description": "Text to detect language for"
+    }
+  },
+  "required": ["text"],
+  "additionalProperties": false
+}

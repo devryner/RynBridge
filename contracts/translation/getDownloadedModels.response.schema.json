@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/translation/getDownloadedModels.response.json",
+  "title": "TranslationGetDownloadedModelsResponse",
+  "description": "Response payload for translation.getDownloadedModels action",
+  "type": "object",
+  "properties": {
+    "models": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of downloaded model language codes"
+    }
+  },
+  "required": ["models"],
+  "additionalProperties": false
+}

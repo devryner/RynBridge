@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/webview/getWebViews.response.json",
+  "title": "WebViewGetWebViewsResponse",
+  "description": "Response payload for webview.getWebViews action",
+  "type": "object",
+  "properties": {
+    "webviews": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "webviewId": {
+            "type": "string",
+            "description": "Unique identifier for the WebView"
+          },
+          "url": {
+            "type": "string",
+            "description": "Current URL loaded in the WebView"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of the WebView"
+          }
+        },
+        "required": ["webviewId", "url"],
+        "additionalProperties": false
+      },
+      "description": "List of currently open WebViews"
+    }
+  },
+  "required": ["webviews"],
+  "additionalProperties": false
+}

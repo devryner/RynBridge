@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/webview/onMessage.request.json",
+  "title": "WebViewOnMessageRequest",
+  "description": "Event stream subscription for webview.message — no request payload",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

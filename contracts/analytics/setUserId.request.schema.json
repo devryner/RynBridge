@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/analytics/setUserId.request.json",
+  "title": "AnalyticsSetUserIdRequest",
+  "description": "Request payload for analytics.setUserId action (fire-and-forget)",
+  "type": "object",
+  "properties": {
+    "userId": {
+      "type": "string",
+      "description": "User identifier to associate with analytics events"
+    }
+  },
+  "required": ["userId"],
+  "additionalProperties": false
+}

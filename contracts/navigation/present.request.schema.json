@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/navigation/present.request.json",
+  "title": "NavigationPresentRequest",
+  "description": "Request payload for navigation.present action",
+  "type": "object",
+  "properties": {
+    "screen": {
+      "type": "string",
+      "description": "Screen identifier to present modally"
+    },
+    "style": {
+      "type": "string",
+      "enum": ["modal", "fullScreen", "pageSheet"],
+      "description": "Modal presentation style"
+    },
+    "params": {
+      "type": "object",
+      "description": "Optional parameters to pass to the screen",
+      "additionalProperties": true
+    }
+  },
+  "required": ["screen"],
+  "additionalProperties": false
+}

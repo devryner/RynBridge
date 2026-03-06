@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/navigation/getAppState.response.json",
+  "title": "NavigationGetAppStateResponse",
+  "description": "Response payload for navigation.getAppState action",
+  "type": "object",
+  "properties": {
+    "state": {
+      "type": "string",
+      "enum": ["active", "inactive", "background"],
+      "description": "Current app lifecycle state"
+    }
+  },
+  "required": ["state"],
+  "additionalProperties": false
+}

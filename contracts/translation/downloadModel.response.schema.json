@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/translation/downloadModel.response.json",
+  "title": "TranslationDownloadModelResponse",
+  "description": "Response payload for translation.downloadModel action",
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "description": "Whether the model download was initiated successfully"
+    }
+  },
+  "required": ["success"],
+  "additionalProperties": false
+}

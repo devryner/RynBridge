@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/webview/setResult.request.json",
+  "title": "WebViewSetResultRequest",
+  "description": "Request payload for webview.setResult action (fire-and-forget)",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "object",
+      "description": "Result data to set before the WebView is closed",
+      "additionalProperties": true
+    }
+  },
+  "required": ["data"],
+  "additionalProperties": false
+}

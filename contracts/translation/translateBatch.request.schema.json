@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/translation/translateBatch.request.json",
+  "title": "TranslationTranslateBatchRequest",
+  "description": "Request payload for translation.translateBatch action",
+  "type": "object",
+  "properties": {
+    "texts": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Array of texts to translate"
+    },
+    "source": {
+      "type": "string",
+      "description": "Source language code"
+    },
+    "target": {
+      "type": "string",
+      "description": "Target language code"
+    }
+  },
+  "required": ["texts", "source", "target"],
+  "additionalProperties": false
+}

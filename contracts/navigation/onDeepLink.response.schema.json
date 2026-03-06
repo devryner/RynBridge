@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/navigation/onDeepLink.response.json",
+  "title": "NavigationOnDeepLinkResponse",
+  "description": "Event payload for navigation.deepLink event",
+  "type": "object",
+  "properties": {
+    "url": {
+      "type": "string",
+      "description": "The deep link URL received"
+    }
+  },
+  "required": ["url"],
+  "additionalProperties": false
+}

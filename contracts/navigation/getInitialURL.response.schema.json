@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/navigation/getInitialURL.response.json",
+  "title": "NavigationGetInitialURLResponse",
+  "description": "Response payload for navigation.getInitialURL action",
+  "type": "object",
+  "properties": {
+    "url": {
+      "type": ["string", "null"],
+      "description": "The deep link URL that caused the app cold start, or null if none"
+    }
+  },
+  "required": ["url"],
+  "additionalProperties": false
+}

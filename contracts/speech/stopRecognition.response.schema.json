@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/speech/stopRecognition.response.json",
+  "title": "SpeechStopRecognitionResponse",
+  "description": "Response payload for speech.stopRecognition action",
+  "type": "object",
+  "properties": {
+    "transcript": {
+      "type": "string",
+      "description": "Final transcribed text from the recognition session"
+    }
+  },
+  "required": ["transcript"],
+  "additionalProperties": false
+}

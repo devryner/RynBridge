@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/translation/getSupportedLanguages.response.json",
+  "title": "TranslationGetSupportedLanguagesResponse",
+  "description": "Response payload for translation.getSupportedLanguages action",
+  "type": "object",
+  "properties": {
+    "languages": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of supported language codes"
+    }
+  },
+  "required": ["languages"],
+  "additionalProperties": false
+}

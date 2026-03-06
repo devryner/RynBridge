@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/speech/requestPermission.response.json",
+  "title": "SpeechRequestPermissionResponse",
+  "description": "Response payload for speech.requestPermission action",
+  "type": "object",
+  "properties": {
+    "granted": {
+      "type": "boolean",
+      "description": "Whether permission was granted"
+    }
+  },
+  "required": ["granted"],
+  "additionalProperties": false
+}
