@@ -149,23 +149,48 @@ final class RynBridgeTests: XCTestCase {
         XCTAssertEqual(transport.sent.count, 0)
     }
 
-    func testEventSubscription() async throws {
+    func testEmitEventSendsRequestToTransport() {
         let transport = MockTransport()
         let bridge = RynBridge(transport: transport)
 
-        let expectation = XCTestExpectation(description: "event received")
-        var receivedData: [String: AnyCodable]?
+        bridge.emitEvent("push", action: "onNotification", payload: [
+            "title": .string("Hello"),
+            "body": .string("World")
+        ])
 
-        bridge.onEvent("device:batteryChange") { data in
-            receivedData = data
-            expectation.fulfill()
-        }
+        XCTAssertEqual(transport.sent.count, 1)
 
-        // EventEmitter uses on/emit - but the bridge handles events via request pattern
-        // Events from native come as requests with no response expected
-        // For the bridge, events are emitted when receiving a request with a registered event listener
-        // Actually looking at the web SDK: events come via a different path
-        // Let me test the event emitter integration directly
+        let request = try! JSONDecoder().decode(BridgeRequest.self, from: transport.sent[0].data(using: .utf8)!)
+        XCTAssertEqual(request.module, "push")
+        XCTAssertEqual(request.action, "onNotification")
+        XCTAssertEqual(request.payload["title"]?.stringValue, "Hello")
+        XCTAssertEqual(request.payload["body"]?.stringValue, "World")
+
+        bridge.dispose()
+    }
+
+    func testEmitEventNoopAfterDispose() {
+        let transport = MockTransport()
+        let bridge = RynBridge(transport: transport)
+
+        bridge.dispose()
+        bridge.emitEvent("push", action: "onNotification")
+
+        XCTAssertEqual(transport.sent.count, 0)
+    }
+
+    func testEmitEventWithEmptyPayload() {
+        let transport = MockTransport()
+        let bridge = RynBridge(transport: transport)
+
+        bridge.emitEvent("navigation", action: "onDeepLink")
+
+        XCTAssertEqual(transport.sent.count, 1)
+
+        let request = try! JSONDecoder().decode(BridgeRequest.self, from: transport.sent[0].data(using: .utf8)!)
+        XCTAssertEqual(request.module, "navigation")
+        XCTAssertEqual(request.action, "onDeepLink")
+        XCTAssertTrue(request.payload.isEmpty)
 
         bridge.dispose()
     }

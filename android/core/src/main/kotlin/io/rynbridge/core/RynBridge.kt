@@ -75,6 +75,17 @@ class RynBridge(
         events.off(event, id)
     }
 
+    fun emitEvent(
+        module: String,
+        action: String,
+        payload: Map<String, BridgeValue> = emptyMap()
+    ) {
+        if (disposed) return
+        val request = serializer.createRequest(module, action, payload)
+        val json = try { serializer.serialize(request) } catch (_: Exception) { return }
+        transport.send(json)
+    }
+
     private suspend fun handleIncomingMessage(raw: String) {
         try {
             when (val message = deserializer.deserialize(raw)) {

@@ -80,6 +80,15 @@ public final class RynBridge: @unchecked Sendable {
         events.off(event, id: id)
     }
 
+    // MARK: - Native → Web Event Emission
+
+    public func emitEvent(_ module: String, action: String, payload: [String: AnyCodable] = [:]) {
+        guard !disposed else { return }
+        let request = serializer.createRequest(module: module, action: action, payload: payload)
+        guard let json = try? serializer.serialize(request) else { return }
+        transport.send(json)
+    }
+
     // MARK: - Incoming Message Handling
 
     private func handleIncomingMessage(_ raw: String) async {

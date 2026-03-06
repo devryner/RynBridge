@@ -139,6 +139,55 @@ class RynBridgeTest {
     }
 
     @Test
+    fun `emitEvent sends request to transport`() {
+        val transport = MockTransport()
+        val bridge = RynBridge(transport = transport)
+
+        bridge.emitEvent("push", "onNotification", mapOf(
+            "title" to BridgeValue.string("Hello"),
+            "body" to BridgeValue.string("World")
+        ))
+
+        assertEquals(1, transport.sent.size)
+
+        val request = json.decodeFromString<BridgeRequest>(transport.sent[0])
+        assertEquals("push", request.module)
+        assertEquals("onNotification", request.action)
+        assertEquals("Hello", request.payload["title"]?.stringValue)
+        assertEquals("World", request.payload["body"]?.stringValue)
+
+        bridge.dispose()
+    }
+
+    @Test
+    fun `emitEvent noop after dispose`() {
+        val transport = MockTransport()
+        val bridge = RynBridge(transport = transport)
+
+        bridge.dispose()
+        bridge.emitEvent("push", "onNotification")
+
+        assertEquals(0, transport.sent.size)
+    }
+
+    @Test
+    fun `emitEvent with empty payload`() {
+        val transport = MockTransport()
+        val bridge = RynBridge(transport = transport)
+
+        bridge.emitEvent("navigation", "onDeepLink")
+
+        assertEquals(1, transport.sent.size)
+
+        val request = json.decodeFromString<BridgeRequest>(transport.sent[0])
+        assertEquals("navigation", request.module)
+        assertEquals("onDeepLink", request.action)
+        assertTrue(request.payload.isEmpty())
+
+        bridge.dispose()
+    }
+
+    @Test
     fun `dispose send is noop`() {
         val transport = MockTransport()
         val bridge = RynBridge(transport = transport)
