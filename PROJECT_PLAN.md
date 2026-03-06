@@ -428,6 +428,13 @@ RynBridge/
 - [x] media 모듈
 - [x] crypto 모듈 (E2EE 키 교환, AES-256-GCM 암호화, 키 로테이션)
 
+### v0.5.0 — 배포 파이프라인
+- [ ] npm publish 워크플로우 (GitHub Actions, 태그 기반 자동 배포)
+- [ ] NPM_TOKEN 시크릿 및 `.npmrc` 레지스트리 설정
+- [ ] 모노레포 버전 관리 도구 도입 (changesets)
+- [ ] iOS SPM 릴리스 (GitHub Release 태그)
+- [ ] Android Maven Central 배포 설정
+
 ### v1.0.0 — Stable Release
 - [ ] 전체 API 안정화
 - [ ] 성능 최적화 및 벤치마크
