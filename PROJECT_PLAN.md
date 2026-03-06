@@ -182,6 +182,7 @@ bridge.use(CryptoModule(rotationInterval = 3600))
 | **calendar** | `@rynbridge/calendar` | `RynBridgeCalendar` | `io.rynbridge:calendar` | 일정/리마인더 조회/생성 |
 | **speech** | `@rynbridge/speech` | `RynBridgeSpeech` | `io.rynbridge:speech` | 음성인식(STT), 음성합성(TTS) |
 | **background-task** | `@rynbridge/background-task` | `RynBridgeBackgroundTask` | `io.rynbridge:background-task` | 백그라운드 작업 스케줄링, 오프라인 동기화 |
+| **webview** | `@rynbridge/webview` | `RynBridgeWebView` | `io.rynbridge:webview` | 멀티 WebView 관리, WebView 간 메시지 통신 |
 
 #### health 모듈 상세
 
@@ -579,6 +580,81 @@ const { tasks: scheduled } = await tasks.getScheduledTasks();
 await tasks.cancelTask({ taskId: 'sync-data' });
 ```
 
+#### webview 모듈 상세
+
+새로운 WebView를 열고, WebView 간 메시지/이벤트를 주고받으며, 닫힘 이벤트를 수신한다. 보안을 위해 통신에 참여하는 모든 WebView는 webview 모듈이 등록되어 있어야 한다.
+
+| 액션 | 패턴 | 설명 |
+|------|------|------|
+| `open` | Request-Response | 새 WebView 열기, webviewId 반환 |
+| `close` | Request-Response | 특정 WebView 닫기 |
+| `sendMessage` | Request-Response | 대상 WebView에 메시지 전달 |
+| `postEvent` | Fire-and-Forget | 대상 WebView에 이벤트 발행 |
+| `onMessage` | Event Stream | 다른 WebView로부터 메시지 수신 |
+| `onClose` | Event Stream | WebView 닫힘 이벤트 수신 (결과 데이터 포함) |
+| `getWebViews` | Request-Response | 현재 열려있는 WebView 목록 조회 |
+| `setResult` | Fire-and-Forget | 닫히기 전 결과 데이터 설정 |
+
+**보안 모델**
+
+| 규칙 | 설명 |
+|------|------|
+| 모듈 필수 | 양쪽 WebView 모두 webview 모듈이 등록되어야 통신 가능 |
+| Origin 제한 | `allowedOrigins` 옵션으로 통신 가능한 출처를 화이트리스트로 제한 |
+| ID 기반 라우팅 | 각 WebView는 고유 `webviewId`를 가지며, 메시지는 ID로 라우팅 |
+| 부모-자식 관계 | 자식 WebView는 부모의 `webviewId`를 알고 있음 (`parent` 예약어로 접근 가능) |
+
+**플랫폼 매핑**
+
+| 기능 | iOS | Android |
+|------|-----|---------|
+| WebView 생성 | WKWebView + UIViewController (present/push) | WebView + Activity/Fragment |
+| 메시지 라우팅 | WKWebViewTransport 간 네이티브 브릿지 라우팅 | WebViewTransport 간 네이티브 브릿지 라우팅 |
+| 닫기 감지 | viewDidDisappear / dismiss completion | onDestroy / Activity result |
+| 표시 스타일 | modal / push (UINavigationController) | Activity launch mode / DialogFragment |
+
+```typescript
+// 부모 WebView
+const webview = new WebViewModule(bridge);
+
+// 새 WebView 열기
+const { webviewId } = await webview.open({
+  url: 'https://example.com/child',
+  title: 'Child Page',
+  style: 'modal', // 'modal' | 'push' | 'fullScreen'
+  allowedOrigins: ['https://example.com'],
+});
+
+// 자식에게 메시지 전달
+await webview.sendMessage({ targetId: webviewId, data: { token: 'abc' } });
+
+// 자식으로부터 메시지 수신
+webview.onMessage((event) => {
+  console.log(event.sourceId, event.data);
+});
+
+// 자식 WebView 닫힘 감지
+webview.onClose((event) => {
+  console.log('Closed:', event.webviewId, event.result);
+});
+```
+
+```typescript
+// 자식 WebView
+const webview = new WebViewModule(bridge);
+
+// 부모로부터 메시지 수신
+webview.onMessage((event) => {
+  console.log('From parent:', event.data);
+});
+
+// 부모에게 메시지 전달
+await webview.sendMessage({ targetId: 'parent', data: { selected: 'item_1' } });
+
+// 닫히기 전 결과 설정
+webview.setResult({ data: { confirmed: true } });
+```
+
 ---
 
 ## 5. 사용 예시
@@ -781,6 +857,7 @@ RynBridge/
 
 ### v0.7.0 — Phase 3 중급 모듈
 - [ ] navigation 모듈 (네이티브 화면 전환, 딥링크)
+- [ ] webview 모듈 (멀티 WebView 관리, WebView 간 메시지 통신, 보안 모델)
 - [ ] speech 모듈 (Speech.framework / SpeechRecognizer, STT/TTS)
 - [ ] analytics 모듈 + 하위 패키지 분리 (`analytics-firebase`, `analytics-amplitude` 등)
 - [ ] 각 모듈 contract 스키마, Web SDK, iOS/Android Provider 구현

@@ -692,7 +692,7 @@ core → device, storage, secure-storage, ui → playground-web
 | **v0.4.0** | Phase 2 modules (auth, push, payment, media, crypto) | ✅ Done |
 | **v0.5.0** | Native providers — crypto, media implementation + auth/push/payment sub-packages | 🔲 Next |
 | **v0.6.0** | Phase 3 basic — share, contacts, calendar | 🔲 Planned |
-| **v0.7.0** | Phase 3 intermediate — navigation, speech, analytics | 🔲 Planned |
+| **v0.7.0** | Phase 3 intermediate — navigation, webview, speech, analytics | 🔲 Planned |
 | **v0.8.0** | Phase 3 advanced — bluetooth, health, background-task | 🔲 Planned |
 | **v0.9.0** | Release pipeline — npm publish, SPM release, Maven Central | 🔲 Planned |
 | **v1.0.0** | Stable release, API stabilization, performance benchmarks | 🔲 Planned |
@@ -703,7 +703,7 @@ core → device, storage, secure-storage, ui → playground-web
 
 **Phase 2:** auth, push, payment, media, crypto
 
-**Phase 3 (planned):** analytics, navigation, share, health, bluetooth, contacts, calendar, speech, background-task
+**Phase 3 (planned):** analytics, navigation, webview, share, health, bluetooth, contacts, calendar, speech, background-task
 
 ---
 
