@@ -565,7 +565,15 @@ await calendar.createEvent({
 | `dismiss` | Request-Response | 모달 닫기 |
 | `openURL` | Request-Response | 외부 URL 또는 딥링크 열기 |
 | `canOpenURL` | Request-Response | URL 열기 가능 여부 확인 |
-| `onDeepLink` | Event Stream | 딥링크 수신 이벤트 구독 |
+| `getInitialURL` | Request-Response | 앱 콜드 스타트 시 진입 원인 딥링크 URL 조회 (딥링크로 앱 실행 시) |
+| `onDeepLink` | Event Stream | 딥링크 수신 이벤트 구독 (앱 실행 중) |
+
+**딥링크 진입 시나리오**
+
+| 시나리오 | 메서드 | 설명 |
+|----------|--------|------|
+| 콜드 스타트 (링크로 앱 실행) | `getInitialURL()` | 앱 시작 직후 호출하여 진입 원인 URL 확인, 없으면 `null` |
+| 앱 실행 중 딥링크 수신 | `onDeepLink()` | 실시간 이벤트로 딥링크 감지 |
 
 **플랫폼 매핑**
 
@@ -584,6 +592,13 @@ await nav.pop();
 await nav.present({ screen: 'login', style: 'fullScreen' });
 await nav.openURL({ url: 'https://example.com' });
 
+// 콜드 스타트 딥링크 확인
+const initialURL = await nav.getInitialURL();
+if (initialURL) {
+  console.log('App opened from deep link:', initialURL.url);
+}
+
+// 앱 실행 중 딥링크 수신
 nav.onDeepLink((event) => {
   console.log('Deep link received:', event.url);
 });
@@ -1100,7 +1115,7 @@ RynBridge/
 
 ### v0.4.0 — Phase 2 모듈
 - [x] auth 모듈
-- [x] push 모듈
+- [x] push 모듈 (등록/해제, 권한 관리, getInitialNotification, onNotificationOpened)
 - [x] payment 모듈
 - [x] media 모듈
 - [x] crypto 모듈 (E2EE 키 교환, AES-256-GCM 암호화, 키 로테이션)
