@@ -428,7 +428,15 @@ RynBridge/
 - [x] media 모듈
 - [x] crypto 모듈 (E2EE 키 교환, AES-256-GCM 암호화, 키 로테이션)
 
-### v0.5.0 — 배포 파이프라인
+### v0.5.0 — 네이티브 Provider 실구현
+- [ ] crypto Provider 구현 (CryptoKit / javax.crypto, 외부 의존성 없음)
+- [ ] media Provider 구현 (AVFoundation / MediaPlayer, 외부 의존성 없음)
+- [ ] auth 하위 패키지 분리 구조 도입 (`@rynbridge/auth-google`, `@rynbridge/auth-apple`, `@rynbridge/auth-kakao`)
+- [ ] push 하위 패키지 분리 (`@rynbridge/push-fcm`, `@rynbridge/push-apns`)
+- [ ] payment 하위 패키지 분리 (`@rynbridge/payment-storekit`, `@rynbridge/payment-google-play`)
+- [ ] 각 하위 패키지에 외부 SDK transitive dependency 포함 및 Provider 구현
+
+### v0.9.0 — 배포 파이프라인
 - [ ] npm publish 워크플로우 (GitHub Actions, 태그 기반 자동 배포)
 - [ ] NPM_TOKEN 시크릿 및 `.npmrc` 레지스트리 설정
 - [ ] 모노레포 버전 관리 도구 도입 (changesets)
