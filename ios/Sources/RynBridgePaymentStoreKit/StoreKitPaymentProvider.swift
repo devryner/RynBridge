@@ -8,10 +8,10 @@ public final class StoreKitPaymentProvider: PaymentProvider, @unchecked Sendable
 
     public init() {}
 
-    public func getProducts(productIds: [String]) async throws -> [Product] {
+    public func getProducts(productIds: [String]) async throws -> [RynBridgePayment.Product] {
         let storeProducts = try await StoreKit.Product.products(for: Set(productIds))
         return storeProducts.map { product in
-            Product(
+            RynBridgePayment.Product(
                 id: product.id,
                 title: product.displayName,
                 description: product.description,
@@ -21,7 +21,7 @@ public final class StoreKitPaymentProvider: PaymentProvider, @unchecked Sendable
         }
     }
 
-    public func purchase(productId: String, quantity: Int) async throws -> PurchaseResult {
+    public func purchase(productId: String, quantity: Int) async throws -> RynBridgePayment.PurchaseResult {
         let products = try await StoreKit.Product.products(for: [productId])
         guard let product = products.first else {
             throw RynBridgeError(code: .unknown, message: "Product not found: \(productId)")
@@ -32,7 +32,7 @@ public final class StoreKitPaymentProvider: PaymentProvider, @unchecked Sendable
         switch result {
         case .success(let verification):
             let transaction = try checkVerified(verification)
-            return PurchaseResult(
+            return RynBridgePayment.PurchaseResult(
                 transactionId: String(transaction.id),
                 productId: transaction.productID,
                 receipt: transaction.jsonRepresentation.base64EncodedString()
@@ -46,11 +46,11 @@ public final class StoreKitPaymentProvider: PaymentProvider, @unchecked Sendable
         }
     }
 
-    public func restorePurchases() async throws -> [Transaction] {
-        var transactions: [Transaction] = []
+    public func restorePurchases() async throws -> [RynBridgePayment.Transaction] {
+        var transactions: [RynBridgePayment.Transaction] = []
         for await result in StoreKit.Transaction.currentEntitlements {
             if let transaction = try? checkVerified(result) {
-                transactions.append(Transaction(
+                transactions.append(RynBridgePayment.Transaction(
                     transactionId: String(transaction.id),
                     productId: transaction.productID,
                     purchaseDate: ISO8601DateFormatter().string(from: transaction.purchaseDate),
