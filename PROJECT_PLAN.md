@@ -123,6 +123,202 @@ MIT License
 | **media** | `@rynbridge/media` | `RynBridgeMedia` | `io.rynbridge:media` | 오디오/비디오 재생, 녹음 |
 | **crypto** | `@rynbridge/crypto` | `RynBridgeCrypto` | `io.rynbridge:crypto` | 종단간 암호화(E2EE), 키 교환, 메시지 암복호화 |
 
+#### auth 모듈 상세
+
+OAuth 및 소셜 로그인, 토큰 관리를 통합 인터페이스로 제공한다. 구체적인 인증 서비스는 하위 패키지로 분리한다.
+
+| 액션 | 패턴 | 설명 |
+|------|------|------|
+| `login` | Request-Response | 소셜/OAuth 로그인 수행, 토큰 및 사용자 정보 반환 |
+| `logout` | Request-Response | 로그아웃 처리, 토큰 폐기 |
+| `getToken` | Request-Response | 현재 저장된 인증 토큰 조회 |
+| `refreshToken` | Request-Response | 토큰 갱신 |
+| `getUser` | Request-Response | 현재 로그인 사용자 정보 조회 |
+
+**하위 패키지 구조**
+
+| 패키지 | 설명 |
+|--------|------|
+| `@rynbridge/auth` | 인터페이스만 (Provider protocol/interface) |
+| `@rynbridge/auth-google` | Google Sign-In Provider |
+| `@rynbridge/auth-apple` | Apple Sign-In Provider |
+| `@rynbridge/auth-kakao` | Kakao Login Provider |
+
+**타입**
+
+```typescript
+interface LoginResult { token: string; refreshToken: string | null; expiresAt: string | null; user: AuthUser | null }
+interface AuthUser { id: string; email: string | null; name: string | null }
+interface TokenResult { token: string | null; expiresAt: string | null }
+```
+
+```typescript
+const auth = new AuthModule(bridge);
+
+const { token, user } = await auth.login({ provider: 'google', scopes: ['email', 'profile'] });
+const { token: currentToken } = await auth.getToken();
+const refreshed = await auth.refreshToken();
+const user = await auth.getUser();
+await auth.logout();
+```
+
+#### push 모듈 상세
+
+FCM/APNs 기반 푸시 알림 등록, 권한 관리, 알림 수신/탭 이벤트를 처리한다. 구체적인 푸시 서비스는 하위 패키지로 분리한다.
+
+| 액션 | 패턴 | 설명 |
+|------|------|------|
+| `register` | Request-Response | 디바이스 푸시 알림 등록, 토큰 및 플랫폼 반환 |
+| `unregister` | Request-Response | 푸시 알림 등록 해제 |
+| `getToken` | Request-Response | 현재 푸시 토큰 조회 (미등록 시 null) |
+| `requestPermission` | Request-Response | 알림 권한 요청 |
+| `getPermissionStatus` | Request-Response | 현재 알림 권한 상태 조회 |
+| `getInitialNotification` | Request-Response | 앱 콜드 스타트 시 진입 원인 알림 조회 (푸시 탭으로 앱 실행 시) |
+| `onNotification` | Event Stream | 푸시 알림 수신 이벤트 구독 |
+| `onTokenRefresh` | Event Stream | 푸시 토큰 갱신 이벤트 구독 |
+| `onNotificationOpened` | Event Stream | 백그라운드 상태에서 푸시 탭 이벤트 구독 |
+
+**하위 패키지 구조**
+
+| 패키지 | 설명 |
+|--------|------|
+| `@rynbridge/push` | 인터페이스만 (Provider protocol/interface) |
+| `@rynbridge/push-fcm` | Firebase Cloud Messaging Provider |
+| `@rynbridge/push-apns` | Apple Push Notification Service Provider |
+
+**타입**
+
+```typescript
+interface PushRegistration { token: string; platform: string }
+interface PushToken { token: string | null }
+interface PushPermission { granted: boolean }
+interface PushPermissionStatus { status: 'granted' | 'denied' | 'notDetermined' }
+interface PushNotification { title: string | null; body: string | null; data: Record<string, unknown> | null }
+interface PushTokenRefresh { token: string }
+interface PushNotificationOpened { title: string | null; body: string | null; data: Record<string, unknown> | null }
+```
+
+**푸시 진입 시나리오**
+
+| 시나리오 | 메서드 | 설명 |
+|----------|--------|------|
+| 콜드 스타트 (앱 종료 → 푸시 탭) | `getInitialNotification()` | 앱 시작 직후 호출하여 진입 원인 알림 확인 |
+| 백그라운드 → 포그라운드 (푸시 탭) | `onNotificationOpened()` | 실시간 이벤트로 알림 탭 감지 |
+| 포그라운드 수신 | `onNotification()` | 앱 사용 중 푸시 수신 감지 |
+
+```typescript
+const push = new PushModule(bridge);
+
+const { granted } = await push.requestPermission();
+const { token, platform } = await push.register();
+
+// 콜드 스타트 진입 확인
+const initial = await push.getInitialNotification();
+if (initial) {
+  console.log('Opened from push:', initial.data);
+}
+
+// 포그라운드 수신
+push.onNotification((notification) => {
+  console.log(notification.title, notification.body, notification.data);
+});
+
+// 백그라운드 → 포그라운드 탭
+push.onNotificationOpened((notification) => {
+  console.log('Tapped:', notification.title, notification.data);
+});
+
+// 토큰 갱신 감지
+push.onTokenRefresh(({ token }) => {
+  sendTokenToServer(token);
+});
+```
+
+#### payment 모듈 상세
+
+인앱결제(In-App Purchase)를 통합 인터페이스로 제공한다. 구체적인 스토어 구현은 하위 패키지로 분리한다.
+
+| 액션 | 패턴 | 설명 |
+|------|------|------|
+| `getProducts` | Request-Response | 상품 목록 조회 (가격, 제목, 설명 등) |
+| `purchase` | Request-Response | 상품 구매 요청, 트랜잭션 정보 반환 |
+| `restorePurchases` | Request-Response | 이전 구매 복원 |
+| `finishTransaction` | Request-Response | 트랜잭션 완료 처리 (서버 검증 후) |
+
+**하위 패키지 구조**
+
+| 패키지 | 설명 |
+|--------|------|
+| `@rynbridge/payment` | 인터페이스만 (Provider protocol/interface) |
+| `@rynbridge/payment-storekit` | Apple StoreKit 2 Provider |
+| `@rynbridge/payment-google-play` | Google Play Billing Provider |
+
+**타입**
+
+```typescript
+interface Product { id: string; title: string; description: string; price: string; currency: string }
+interface PurchaseResult { transactionId: string; productId: string; receipt: string }
+interface Transaction { transactionId: string; productId: string; purchaseDate: string; receipt: string }
+```
+
+```typescript
+const payment = new PaymentModule(bridge);
+
+const { products } = await payment.getProducts({ productIds: ['premium_monthly', 'premium_yearly'] });
+const { transactionId, receipt } = await payment.purchase({ productId: 'premium_monthly', quantity: 1 });
+// 서버에서 영수증 검증 후 트랜잭션 완료
+await payment.finishTransaction({ transactionId });
+const { transactions } = await payment.restorePurchases();
+```
+
+#### media 모듈 상세
+
+오디오/비디오 재생, 녹음, 미디어 파일 선택을 통합 인터페이스로 제공한다.
+
+| 액션 | 패턴 | 설명 |
+|------|------|------|
+| `playAudio` | Request-Response | 오디오 재생 시작, playerId 반환 |
+| `pauseAudio` | Request-Response | 오디오 일시 정지 |
+| `stopAudio` | Request-Response | 오디오 정지 |
+| `getAudioStatus` | Request-Response | 오디오 재생 상태 조회 (위치, 길이, 재생 여부) |
+| `startRecording` | Request-Response | 녹음 시작, recordingId 반환 |
+| `stopRecording` | Request-Response | 녹음 중지, 파일 경로/길이/크기 반환 |
+| `pickMedia` | Request-Response | 네이티브 미디어 선택 UI 표시, 선택한 파일 정보 반환 |
+
+**플랫폼 매핑**
+
+| 기능 | iOS | Android |
+|------|-----|---------|
+| 오디오 재생 | AVAudioPlayer | MediaPlayer |
+| 녹음 | AVAudioRecorder | MediaRecorder |
+| 미디어 선택 | PHPickerViewController | MediaStore / Intent |
+| 권한 | NSMicrophoneUsageDescription, NSPhotoLibraryUsageDescription | `android.permission.RECORD_AUDIO`, `READ_MEDIA_*` |
+
+**타입**
+
+```typescript
+interface AudioStatus { position: number; duration: number; isPlaying: boolean }
+interface RecordingResult { filePath: string; duration: number; size: number }
+interface MediaFile { name: string; path: string; mimeType: string; size: number }
+```
+
+```typescript
+const media = new MediaModule(bridge);
+
+// 오디오 재생
+const { playerId } = await media.playAudio({ source: 'https://example.com/song.mp3', loop: false, volume: 0.8 });
+const { position, duration, isPlaying } = await media.getAudioStatus({ playerId });
+await media.pauseAudio({ playerId });
+await media.stopAudio({ playerId });
+
+// 녹음
+const { recordingId } = await media.startRecording({ format: 'm4a', quality: 'high' });
+const { filePath, duration, size } = await media.stopRecording({ recordingId });
+
+// 미디어 선택
+const { files } = await media.pickMedia({ type: 'image', multiple: true });
+```
+
 #### crypto 모듈 상세
 
 Web ↔ Native 간 브릿지 메시지를 종단간 암호화하여 전송 경로에서의 도청/변조를 방지한다.
