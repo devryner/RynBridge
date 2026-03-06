@@ -436,6 +436,24 @@ RynBridge/
 - [ ] payment 하위 패키지 분리 (`@rynbridge/payment-storekit`, `@rynbridge/payment-google-play`)
 - [ ] 각 하위 패키지에 외부 SDK transitive dependency 포함 및 Provider 구현
 
+### v0.6.0 — Phase 3 기본 모듈
+- [ ] share 모듈 (UIActivityViewController / Intent, 클립보드)
+- [ ] contacts 모듈 (Contacts.framework / ContactsContract)
+- [ ] calendar 모듈 (EventKit / CalendarContract)
+- [ ] 각 모듈 contract 스키마, Web SDK, iOS/Android Provider 구현
+
+### v0.7.0 — Phase 3 중급 모듈
+- [ ] navigation 모듈 (네이티브 화면 전환, 딥링크)
+- [ ] speech 모듈 (Speech.framework / SpeechRecognizer, STT/TTS)
+- [ ] analytics 모듈 + 하위 패키지 분리 (`analytics-firebase`, `analytics-amplitude` 등)
+- [ ] 각 모듈 contract 스키마, Web SDK, iOS/Android Provider 구현
+
+### v0.8.0 — Phase 3 고급 모듈
+- [ ] bluetooth 모듈 (CoreBluetooth / BluetoothGatt, BLE 스캔/연결/데이터 교환)
+- [ ] health 모듈 (HealthKit / Health Connect, 건강 데이터 조회/기록)
+- [ ] background-task 모듈 (BGTaskScheduler / WorkManager, 오프라인 동기화)
+- [ ] 각 모듈 contract 스키마, Web SDK, iOS/Android Provider 구현
+
 ### v0.9.0 — 배포 파이프라인
 - [ ] npm publish 워크플로우 (GitHub Actions, 태그 기반 자동 배포)
 - [ ] NPM_TOKEN 시크릿 및 `.npmrc` 레지스트리 설정

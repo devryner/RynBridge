@@ -691,8 +691,11 @@ core → device, storage, secure-storage, ui → playground-web
 | **v0.3.0** | DX tools — CLI, codegen, DevTools, docs site | ✅ Done |
 | **v0.4.0** | Phase 2 modules (auth, push, payment, media, crypto) | ✅ Done |
 | **v0.5.0** | Native providers — crypto, media 실구현 + auth/push/payment 하위 패키지 분리 | 🔲 Next |
+| **v0.6.0** | Phase 3 기본 — share, contacts, calendar | 🔲 Planned |
+| **v0.7.0** | Phase 3 중급 — navigation, speech, analytics | 🔲 Planned |
+| **v0.8.0** | Phase 3 고급 — bluetooth, health, background-task | 🔲 Planned |
 | **v0.9.0** | Release pipeline — npm publish, SPM release, Maven Central | 🔲 Planned |
-| **v1.0.0** | Stable release, Phase 3 modules, performance benchmarks | 🔲 Planned |
+| **v1.0.0** | Stable release, API 안정화, performance benchmarks | 🔲 Planned |
 
 ### Module Phases
 
