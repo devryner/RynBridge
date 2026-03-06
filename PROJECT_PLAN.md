@@ -807,6 +807,14 @@ RynBridge/
 - [ ] 각 테스트 3플랫폼 대응 (Web: Vitest, iOS: XCTest, Android: JUnit)
 - [ ] CI 파이프라인에 전체 테스트 통합
 
+### v0.9.2 — CLI doctor 강화
+- [ ] 모듈 간 의존성 검증 (core 누락, 버전 불일치 감지)
+- [ ] 하위 패키지 외부 SDK 설치 여부 확인 (auth-google → Google Sign-In SDK 등)
+- [ ] 플랫폼별 네이티브 설정 검증 (iOS: Info.plist 권한 키, Android: AndroidManifest 권한)
+- [ ] contract 스키마 ↔ 코드 동기화 상태 확인 (outdated 타입 감지)
+- [ ] Playground 빌드 상태 및 web asset 동기화 확인
+- [ ] 진단 결과 리포트 출력 (pass/warn/fail 요약)
+
 ### v1.0.0 — Stable Release
 - [ ] 전체 API 안정화
 - [ ] 성능 최적화 및 벤치마크
