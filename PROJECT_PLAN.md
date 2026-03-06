@@ -1160,10 +1160,10 @@ RynBridge/
 - [x] Android payment-google-play Provider 실구현 (Play Billing SDK)
 - [x] auth-kakao 하위 패키지 추가 (iOS: KakaoSDK, Android: KakaoSDK)
 ### v0.6.0 — Phase 3 기본 모듈
-- [ ] share 모듈 (UIActivityViewController / Intent, 클립보드) + share-kakao 하위 패키지
-- [ ] contacts 모듈 (Contacts.framework / ContactsContract)
-- [ ] calendar 모듈 (EventKit / CalendarContract)
-- [ ] 각 모듈 contract 스키마, Web SDK, iOS/Android Provider 구현
+- [x] share 모듈 (UIActivityViewController / Intent, 클립보드) + share-kakao 하위 패키지
+- [x] contacts 모듈 (Contacts.framework / ContactsContract)
+- [x] calendar 모듈 (EventKit / CalendarContract)
+- [x] 각 모듈 contract 스키마, Web SDK, iOS/Android Provider 구현
 
 ### v0.7.0 — Phase 3 중급 모듈
 - [ ] navigation 모듈 (네이티브 화면 전환, 딥링크)
