@@ -582,6 +582,8 @@ await calendar.createEvent({
 | `canOpenURL` | Request-Response | URL 열기 가능 여부 확인 |
 | `getInitialURL` | Request-Response | 앱 콜드 스타트 시 진입 원인 딥링크 URL 조회 (딥링크로 앱 실행 시) |
 | `onDeepLink` | Event Stream | 딥링크 수신 이벤트 구독 (앱 실행 중) |
+| `getAppState` | Request-Response | 현재 앱 상태 조회 (`active`, `inactive`, `background`) |
+| `onAppStateChange` | Event Stream | 앱 포그라운드/백그라운드 상태 변경 이벤트 구독 |
 
 **딥링크 진입 시나리오**
 
@@ -598,6 +600,7 @@ await calendar.createEvent({
 | 모달 | present(_, animated:) | DialogFragment / BottomSheet |
 | 딥링크 | UIApplicationDelegate / SceneDelegate | Intent filter / App Links |
 | 외부 URL | UIApplication.shared.open() | Intent(Intent.ACTION_VIEW) |
+| 앱 상태 | UIApplication Notification (didBecomeActive, didEnterBackground) | ProcessLifecycleOwner / ActivityLifecycleCallbacks |
 
 ```typescript
 const nav = new NavigationModule(bridge);
@@ -616,6 +619,17 @@ if (initialURL) {
 // 앱 실행 중 딥링크 수신
 nav.onDeepLink((event) => {
   console.log('Deep link received:', event.url);
+});
+
+// 앱 상태 조회
+const { state } = await nav.getAppState(); // 'active' | 'inactive' | 'background'
+
+// 앱 상태 변경 감지
+nav.onAppStateChange((event) => {
+  console.log('App state:', event.state);
+  if (event.state === 'background') {
+    saveProgress();
+  }
 });
 ```
 
