@@ -30,6 +30,10 @@ jobs:
       - run: pnpm build
       - run: pnpm test
       - run: pnpm lint
+      - name: Bundle Size Check
+        run: pnpm check:size
+      - name: API Consistency Check
+        run: pnpm check:api
 
   ios:
     name: iOS SDK

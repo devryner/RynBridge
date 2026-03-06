@@ -12,7 +12,10 @@
     "docs:build": "pnpm --filter docs build",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "turbo build && changeset publish"
+    "release": "turbo build && changeset publish",
+    "doctor": "node packages/cli/dist/cli.mjs doctor",
+    "check:size": "node scripts/check-bundle-size.mjs",
+    "check:api": "node scripts/check-api-consistency.mjs"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.6.0",
