@@ -435,7 +435,6 @@ RynBridge/
 - [ ] push 하위 패키지 분리 (`@rynbridge/push-fcm`, `@rynbridge/push-apns`)
 - [ ] payment 하위 패키지 분리 (`@rynbridge/payment-storekit`, `@rynbridge/payment-google-play`)
 - [ ] 각 하위 패키지에 외부 SDK transitive dependency 포함 및 Provider 구현
-
 ### v0.6.0 — Phase 3 기본 모듈
 - [ ] share 모듈 (UIActivityViewController / Intent, 클립보드)
 - [ ] contacts 모듈 (Contacts.framework / ContactsContract)
@@ -460,6 +459,15 @@ RynBridge/
 - [ ] 모노레포 버전 관리 도구 도입 (changesets)
 - [ ] iOS SPM 릴리스 (GitHub Release 태그)
 - [ ] Android Maven Central 배포 설정
+
+### v0.9.1 — 전체 모듈 단위 테스트
+- [ ] Phase 1 모듈 테스트 보강 (device, storage, secure-storage, ui)
+- [ ] Phase 2 모듈 플랫폼별 단위 테스트 (auth, push, payment, media, crypto)
+- [ ] Phase 3 기본 모듈 테스트 (share, contacts, calendar)
+- [ ] Phase 3 중급 모듈 테스트 (navigation, speech, analytics)
+- [ ] Phase 3 고급 모듈 테스트 (bluetooth, health, background-task)
+- [ ] 각 테스트 3플랫폼 대응 (Web: Vitest, iOS: XCTest, Android: JUnit)
+- [ ] CI 파이프라인에 전체 테스트 통합
 
 ### v1.0.0 — Stable Release
 - [ ] 전체 API 안정화
