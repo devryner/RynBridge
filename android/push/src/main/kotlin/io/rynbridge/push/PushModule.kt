@@ -26,6 +26,14 @@ class PushModule(provider: PushProvider) : BridgeModule {
         "getPermissionStatus" to { _ ->
             val result = provider.getPermissionStatus()
             result.toPayload()
+        },
+        "getInitialNotification" to { _ ->
+            val notification = provider.getInitialNotification()
+            notification?.toPayload() ?: mapOf(
+                "title" to BridgeValue.nullValue(),
+                "body" to BridgeValue.nullValue(),
+                "data" to BridgeValue.nullValue()
+            )
         }
     )
 }

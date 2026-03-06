@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/push/onNotificationOpened.response.json",
+  "title": "PushOnNotificationOpenedResponse",
+  "description": "Event payload emitted when user taps a push notification while app is in background",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": ["string", "null"],
+      "description": "Notification title"
+    },
+    "body": {
+      "type": ["string", "null"],
+      "description": "Notification body"
+    },
+    "data": {
+      "type": ["object", "null"],
+      "description": "Custom data payload attached to the notification"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/push/getInitialNotification.request.json",
+  "title": "PushGetInitialNotificationRequest",
+  "description": "Request payload for push.getInitialNotification action",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/push/getInitialNotification.response.json",
+  "title": "PushGetInitialNotificationResponse",
+  "description": "Response payload for push.getInitialNotification action. Returns the notification that launched the app, or null fields if app was not opened via notification.",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": ["string", "null"],
+      "description": "Notification title"
+    },
+    "body": {
+      "type": ["string", "null"],
+      "description": "Notification body"
+    },
+    "data": {
+      "type": ["object", "null"],
+      "description": "Custom data payload attached to the notification"
+    }
+  },
+  "additionalProperties": false
+}

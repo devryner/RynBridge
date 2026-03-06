@@ -122,6 +122,39 @@ describe('PushModule', () => {
     });
   });
 
+  describe('getInitialNotification', () => {
+    it('returns notification when app opened from push', async () => {
+      const promise = push.getInitialNotification();
+      respondSuccess({ title: 'Welcome', body: 'Tap to open', data: { screen: 'home' } });
+      const result = await promise;
+      expect(result).not.toBeNull();
+      expect(result!.title).toBe('Welcome');
+      expect(result!.data).toEqual({ screen: 'home' });
+    });
+
+    it('returns null when app was not opened from push', async () => {
+      const promise = push.getInitialNotification();
+      respondSuccess({ title: null, body: null, data: null });
+      const result = await promise;
+      expect(result).toBeNull();
+    });
+  });
+
+  describe('onNotificationOpened', () => {
+    it('subscribes to notification opened events and returns unsubscribe', () => {
+      const received: unknown[] = [];
+      const unsub = push.onNotificationOpened((data) => received.push(data));
+
+      simulateNativeEvent('push', 'notificationOpened', { title: 'Tapped', body: 'You tapped this', data: { id: '123' } });
+      expect(received).toHaveLength(1);
+      expect((received[0] as any).title).toBe('Tapped');
+
+      unsub();
+      simulateNativeEvent('push', 'notificationOpened', { title: 'Again', body: null, data: null });
+      expect(received).toHaveLength(1);
+    });
+  });
+
   describe('error handling', () => {
     it('propagates bridge errors', async () => {
       const promise = push.register();

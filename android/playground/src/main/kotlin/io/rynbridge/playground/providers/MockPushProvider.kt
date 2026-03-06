@@ -4,6 +4,10 @@ import io.rynbridge.push.*
 import java.util.UUID
 
 class MockPushProvider : PushProvider {
+    override suspend fun getInitialNotification(): PushNotificationData? {
+        return null
+    }
+
     override suspend fun register(): PushRegistration {
         return PushRegistration(
             token = "mock_push_token_${UUID.randomUUID().toString().take(8)}",

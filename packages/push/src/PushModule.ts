@@ -6,6 +6,7 @@ import type {
   PushPermissionStatus,
   PushNotification,
   PushTokenRefresh,
+  PushNotificationOpened,
 } from './types.js';
 
 const MODULE = 'push';
@@ -51,5 +52,20 @@ export class PushModule {
     const wrapper = (data: Record<string, unknown>) => listener(data as unknown as PushTokenRefresh);
     this.bridge.onEvent('push:tokenRefresh', wrapper);
     return () => this.bridge.offEvent('push:tokenRefresh', wrapper);
+  }
+
+  async getInitialNotification(): Promise<PushNotification | null> {
+    const result = await this.bridge.call(MODULE, 'getInitialNotification');
+    const notification = result as unknown as PushNotification | null;
+    if (!notification || (!notification.title && !notification.body && !notification.data)) {
+      return null;
+    }
+    return notification;
+  }
+
+  onNotificationOpened(listener: (data: PushNotificationOpened) => void): () => void {
+    const wrapper = (data: Record<string, unknown>) => listener(data as unknown as PushNotificationOpened);
+    this.bridge.onEvent('push:notificationOpened', wrapper);
+    return () => this.bridge.offEvent('push:notificationOpened', wrapper);
   }
 }

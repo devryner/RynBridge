@@ -81,6 +81,27 @@ const unsub = push.onTokenRefresh(({ token }) => {
 });
 ```
 
+### `getInitialNotification(): Promise<PushNotification | null>`
+
+Returns the notification that launched the app (cold start via push tap). Returns `null` if the app was not opened from a notification.
+
+```typescript
+const initial = await push.getInitialNotification();
+if (initial) {
+  console.log('Opened from push:', initial.data);
+}
+```
+
+### `onNotificationOpened(listener): () => void`
+
+Subscribes to notification tap events when the app is already running in the background. Returns an unsubscribe function.
+
+```typescript
+const unsub = push.onNotificationOpened((notification) => {
+  console.log('Tapped:', notification.title, notification.data);
+});
+```
+
 ## Types
 
 ```typescript
@@ -90,6 +111,7 @@ interface PushPermission { granted: boolean }
 interface PushPermissionStatus { status: 'granted' | 'denied' | 'notDetermined' }
 interface PushNotification { title: string | null; body: string | null; data: Record<string, unknown> | null }
 interface PushTokenRefresh { token: string }
+interface PushNotificationOpened { title: string | null; body: string | null; data: Record<string, unknown> | null }
 ```
 
 ## Native Provider

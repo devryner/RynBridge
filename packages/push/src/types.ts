@@ -24,3 +24,9 @@ export interface PushNotification {
 export interface PushTokenRefresh {
   token: string;
 }
+
+export interface PushNotificationOpened {
+  title: string | null;
+  body: string | null;
+  data: Record<string, unknown> | null;
+}

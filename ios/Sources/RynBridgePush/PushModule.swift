@@ -28,6 +28,14 @@ public struct PushModule: BridgeModule, Sendable {
                 let result = try await provider.getPermissionStatus()
                 return result.toPayload()
             },
+            "getInitialNotification": { _ in
+                let notification = try await provider.getInitialNotification()
+                return notification?.toPayload() ?? [
+                    "title": .null,
+                    "body": .null,
+                    "data": .null,
+                ]
+            },
         ]
     }
 }

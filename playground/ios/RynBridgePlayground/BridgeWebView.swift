@@ -114,6 +114,10 @@ final class MockPushProvider: PushProvider, @unchecked Sendable {
     func getPermissionStatus() async throws -> PushPermissionStatus {
         return PushPermissionStatus(status: "granted")
     }
+
+    func getInitialNotification() async throws -> PushNotificationData? {
+        return nil
+    }
 }
 
 final class MockPaymentProvider: PaymentProvider, @unchecked Sendable {

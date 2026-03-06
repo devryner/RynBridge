@@ -6,4 +6,5 @@ export type {
   PushPermissionStatus,
   PushNotification,
   PushTokenRefresh,
+  PushNotificationOpened,
 } from './types.js';
