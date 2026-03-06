@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/calendar/getCalendars.request.json",
+  "title": "CalendarGetCalendarsRequest",
+  "description": "Request payload for calendar.getCalendars action",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

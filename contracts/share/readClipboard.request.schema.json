@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/share/readClipboard.request.json",
+  "title": "ShareReadClipboardRequest",
+  "description": "Request payload for share.readClipboard action",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

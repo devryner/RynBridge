@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/calendar/getCalendars.response.json",
+  "title": "CalendarGetCalendarsResponse",
+  "description": "Response payload for calendar.getCalendars action",
+  "type": "object",
+  "properties": {
+    "calendars": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "description": "Calendar identifier" },
+          "title": { "type": "string", "description": "Calendar display name" },
+          "color": { "type": ["string", "null"], "description": "Calendar color as hex string" },
+          "isReadOnly": { "type": "boolean", "description": "Whether the calendar is read-only" }
+        },
+        "required": ["id", "title", "color", "isReadOnly"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["calendars"],
+  "additionalProperties": false
+}

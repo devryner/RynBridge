@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/calendar/createReminder.response.json",
+  "title": "CalendarCreateReminderResponse",
+  "description": "Response payload for calendar.createReminder action",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "Created reminder identifier" }
+  },
+  "required": ["id"],
+  "additionalProperties": false
+}

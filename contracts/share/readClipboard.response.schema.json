@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/share/readClipboard.response.json",
+  "title": "ShareReadClipboardResponse",
+  "description": "Response payload for share.readClipboard action",
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string",
+      "description": "Text content from clipboard"
+    }
+  },
+  "required": ["text"],
+  "additionalProperties": false
+}

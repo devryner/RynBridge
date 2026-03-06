@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/calendar/deleteEvent.request.json",
+  "title": "CalendarDeleteEventRequest",
+  "description": "Request payload for calendar.deleteEvent action",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "Event identifier to delete" }
+  },
+  "required": ["id"],
+  "additionalProperties": false
+}

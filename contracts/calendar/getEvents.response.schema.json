@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/calendar/getEvents.response.json",
+  "title": "CalendarGetEventsResponse",
+  "description": "Response payload for calendar.getEvents action",
+  "type": "object",
+  "properties": {
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/CalendarEvent"
+      }
+    }
+  },
+  "required": ["events"],
+  "additionalProperties": false,
+  "$defs": {
+    "CalendarEvent": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Event identifier" },
+        "calendarId": { "type": "string", "description": "Calendar identifier the event belongs to" },
+        "title": { "type": "string", "description": "Event title" },
+        "startDate": { "type": "string", "description": "Start date in ISO 8601 format" },
+        "endDate": { "type": "string", "description": "End date in ISO 8601 format" },
+        "location": { "type": ["string", "null"], "description": "Event location" },
+        "notes": { "type": ["string", "null"], "description": "Event notes" },
+        "isAllDay": { "type": "boolean", "description": "Whether the event is an all-day event" }
+      },
+      "required": ["id", "calendarId", "title", "startDate", "endDate", "location", "notes", "isAllDay"],
+      "additionalProperties": false
+    }
+  }
+}

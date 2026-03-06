@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/calendar/getPermissionStatus.response.json",
+  "title": "CalendarGetPermissionStatusResponse",
+  "description": "Response payload for calendar.getPermissionStatus action",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["granted", "denied", "notDetermined"],
+      "description": "Current calendar permission status"
+    }
+  },
+  "required": ["status"],
+  "additionalProperties": false
+}

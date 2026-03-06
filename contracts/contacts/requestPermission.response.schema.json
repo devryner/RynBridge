@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/contacts/requestPermission.response.json",
+  "title": "ContactsRequestPermissionResponse",
+  "description": "Response payload for contacts.requestPermission action",
+  "type": "object",
+  "properties": {
+    "granted": {
+      "type": "boolean",
+      "description": "Whether contacts permission was granted"
+    }
+  },
+  "required": ["granted"],
+  "additionalProperties": false
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/share/shareFile.response.json",
+  "title": "ShareShareFileResponse",
+  "description": "Response payload for share.shareFile action",
+  "type": "object",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "description": "Whether the file share operation completed successfully"
+    }
+  },
+  "required": ["success"],
+  "additionalProperties": false
+}

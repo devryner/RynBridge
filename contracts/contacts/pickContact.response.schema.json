@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/contacts/pickContact.response.json",
+  "title": "ContactsPickContactResponse",
+  "description": "Response payload for contacts.pickContact action",
+  "type": "object",
+  "properties": {
+    "contact": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "givenName": { "type": "string" },
+            "familyName": { "type": "string" },
+            "phoneNumbers": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "label": { "type": "string" },
+                  "number": { "type": "string" }
+                },
+                "required": ["label", "number"]
+              }
+            },
+            "emailAddresses": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "label": { "type": "string" },
+                  "address": { "type": "string" }
+                },
+                "required": ["label", "address"]
+              }
+            }
+          },
+          "required": ["id", "givenName", "familyName", "phoneNumbers", "emailAddresses"]
+        },
+        { "type": "null" }
+      ],
+      "description": "The selected contact, or null if cancelled"
+    }
+  },
+  "required": ["contact"],
+  "additionalProperties": false
+}

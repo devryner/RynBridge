@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/share/share.request.json",
+  "title": "ShareShareRequest",
+  "description": "Request payload for share.share action",
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string",
+      "description": "Text content to share"
+    },
+    "url": {
+      "type": "string",
+      "description": "URL to share"
+    },
+    "title": {
+      "type": "string",
+      "description": "Title for the shared content"
+    }
+  },
+  "additionalProperties": false
+}

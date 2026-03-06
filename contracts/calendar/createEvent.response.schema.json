@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/calendar/createEvent.response.json",
+  "title": "CalendarCreateEventResponse",
+  "description": "Response payload for calendar.createEvent action",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "Created event identifier" }
+  },
+  "required": ["id"],
+  "additionalProperties": false
+}

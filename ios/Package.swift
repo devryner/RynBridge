@@ -19,6 +19,9 @@ let package = Package(
         .library(name: "RynBridgePayment", targets: ["RynBridgePayment"]),
         .library(name: "RynBridgeMedia", targets: ["RynBridgeMedia"]),
         .library(name: "RynBridgeCrypto", targets: ["RynBridgeCrypto"]),
+        .library(name: "RynBridgeCalendar", targets: ["RynBridgeCalendar"]),
+        .library(name: "RynBridgeContacts", targets: ["RynBridgeContacts"]),
+        .library(name: "RynBridgeShare", targets: ["RynBridgeShare"]),
         .library(name: "RynBridgeAuthApple", targets: ["RynBridgeAuthApple"]),
         .library(name: "RynBridgePushAPNs", targets: ["RynBridgePushAPNs"]),
         .library(name: "RynBridgePaymentStoreKit", targets: ["RynBridgePaymentStoreKit"]),
@@ -72,6 +75,21 @@ let package = Package(
             name: "RynBridgeCrypto",
             dependencies: ["RynBridge"],
             path: "Sources/RynBridgeCrypto"
+        ),
+        .target(
+            name: "RynBridgeCalendar",
+            dependencies: ["RynBridge"],
+            path: "Sources/RynBridgeCalendar"
+        ),
+        .target(
+            name: "RynBridgeContacts",
+            dependencies: ["RynBridge"],
+            path: "Sources/RynBridgeContacts"
+        ),
+        .target(
+            name: "RynBridgeShare",
+            dependencies: ["RynBridge"],
+            path: "Sources/RynBridgeShare"
         ),
         .target(
             name: "RynBridgeAuthApple",
@@ -137,6 +155,21 @@ let package = Package(
             name: "RynBridgeCryptoTests",
             dependencies: ["RynBridge", "RynBridgeCrypto"],
             path: "Tests/RynBridgeCryptoTests"
+        ),
+        .testTarget(
+            name: "RynBridgeCalendarTests",
+            dependencies: ["RynBridge", "RynBridgeCalendar"],
+            path: "Tests/RynBridgeCalendarTests"
+        ),
+        .testTarget(
+            name: "RynBridgeShareTests",
+            dependencies: ["RynBridge", "RynBridgeShare"],
+            path: "Tests/RynBridgeShareTests"
+        ),
+        .testTarget(
+            name: "RynBridgeContactsTests",
+            dependencies: ["RynBridge", "RynBridgeContacts"],
+            path: "Tests/RynBridgeContactsTests"
         ),
     ]
 )

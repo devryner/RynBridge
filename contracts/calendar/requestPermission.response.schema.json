@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/calendar/requestPermission.response.json",
+  "title": "CalendarRequestPermissionResponse",
+  "description": "Response payload for calendar.requestPermission action",
+  "type": "object",
+  "properties": {
+    "granted": { "type": "boolean", "description": "Whether calendar permission was granted" }
+  },
+  "required": ["granted"],
+  "additionalProperties": false
+}

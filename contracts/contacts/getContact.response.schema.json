@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/contacts/getContact.response.json",
+  "title": "ContactsGetContactResponse",
+  "description": "Response payload for contacts.getContact action",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "givenName": { "type": "string" },
+    "familyName": { "type": "string" },
+    "phoneNumbers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": { "type": "string" },
+          "number": { "type": "string" }
+        },
+        "required": ["label", "number"]
+      }
+    },
+    "emailAddresses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": { "type": "string" },
+          "address": { "type": "string" }
+        },
+        "required": ["label", "address"]
+      }
+    }
+  },
+  "required": ["id", "givenName", "familyName", "phoneNumbers", "emailAddresses"],
+  "additionalProperties": false
+}

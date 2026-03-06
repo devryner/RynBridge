@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/share/copyToClipboard.request.json",
+  "title": "ShareCopyToClipboardRequest",
+  "description": "Request payload for share.copyToClipboard action (fire-and-forget)",
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string",
+      "description": "Text to copy to clipboard"
+    }
+  },
+  "required": ["text"],
+  "additionalProperties": false
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/share/shareFile.request.json",
+  "title": "ShareShareFileRequest",
+  "description": "Request payload for share.shareFile action",
+  "type": "object",
+  "properties": {
+    "filePath": {
+      "type": "string",
+      "description": "Path to the file to share"
+    },
+    "mimeType": {
+      "type": "string",
+      "description": "MIME type of the file"
+    }
+  },
+  "required": ["filePath", "mimeType"],
+  "additionalProperties": false
+}

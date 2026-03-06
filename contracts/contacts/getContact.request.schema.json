@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/contacts/getContact.request.json",
+  "title": "ContactsGetContactRequest",
+  "description": "Request payload for contacts.getContact action",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier of the contact to retrieve"
+    }
+  },
+  "required": ["id"],
+  "additionalProperties": false
+}

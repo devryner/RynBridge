@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/contacts/updateContact.request.json",
+  "title": "ContactsUpdateContactRequest",
+  "description": "Request payload for contacts.updateContact action",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier of the contact to update"
+    },
+    "givenName": {
+      "type": "string",
+      "description": "Updated first name"
+    },
+    "familyName": {
+      "type": "string",
+      "description": "Updated last name"
+    },
+    "phoneNumbers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": { "type": "string" },
+          "number": { "type": "string" }
+        },
+        "required": ["label", "number"]
+      },
+      "description": "Updated phone numbers (replaces existing)"
+    },
+    "emailAddresses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": { "type": "string" },
+          "address": { "type": "string" }
+        },
+        "required": ["label", "address"]
+      },
+      "description": "Updated email addresses (replaces existing)"
+    }
+  },
+  "required": ["id"],
+  "additionalProperties": false
+}

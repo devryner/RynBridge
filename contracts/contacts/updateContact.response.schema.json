@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/contacts/updateContact.response.json",
+  "title": "ContactsUpdateContactResponse",
+  "description": "Response payload for contacts.updateContact action",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

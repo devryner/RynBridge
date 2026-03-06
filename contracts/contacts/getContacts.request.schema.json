@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/contacts/getContacts.request.json",
+  "title": "ContactsGetContactsRequest",
+  "description": "Request payload for contacts.getContacts action",
+  "type": "object",
+  "properties": {
+    "query": {
+      "type": "string",
+      "description": "Search query to filter contacts by name"
+    },
+    "limit": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Maximum number of contacts to return"
+    },
+    "offset": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of contacts to skip for pagination"
+    }
+  },
+  "additionalProperties": false
+}

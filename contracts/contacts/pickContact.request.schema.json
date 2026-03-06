@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/contacts/pickContact.request.json",
+  "title": "ContactsPickContactRequest",
+  "description": "Request payload for contacts.pickContact action",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

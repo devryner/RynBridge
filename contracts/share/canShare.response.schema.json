@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/share/canShare.response.json",
+  "title": "ShareCanShareResponse",
+  "description": "Response payload for share.canShare action",
+  "type": "object",
+  "properties": {
+    "canShare": {
+      "type": "boolean",
+      "description": "Whether the device supports sharing"
+    }
+  },
+  "required": ["canShare"],
+  "additionalProperties": false
+}

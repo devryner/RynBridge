@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/calendar/createReminder.request.json",
+  "title": "CalendarCreateReminderRequest",
+  "description": "Request payload for calendar.createReminder action",
+  "type": "object",
+  "properties": {
+    "title": { "type": "string", "description": "Reminder title" },
+    "dueDate": { "type": "string", "description": "Due date in ISO 8601 format" },
+    "notes": { "type": "string", "description": "Reminder notes" }
+  },
+  "required": ["title"],
+  "additionalProperties": false
+}

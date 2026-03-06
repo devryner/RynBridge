@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/contacts/getContacts.response.json",
+  "title": "ContactsGetContactsResponse",
+  "description": "Response payload for contacts.getContacts action",
+  "type": "object",
+  "properties": {
+    "contacts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Contact"
+      },
+      "description": "List of contacts matching the query"
+    }
+  },
+  "required": ["contacts"],
+  "additionalProperties": false,
+  "$defs": {
+    "Contact": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "givenName": { "type": "string" },
+        "familyName": { "type": "string" },
+        "phoneNumbers": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ContactPhone" }
+        },
+        "emailAddresses": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ContactEmail" }
+        }
+      },
+      "required": ["id", "givenName", "familyName", "phoneNumbers", "emailAddresses"]
+    },
+    "ContactPhone": {
+      "type": "object",
+      "properties": {
+        "label": { "type": "string" },
+        "number": { "type": "string" }
+      },
+      "required": ["label", "number"]
+    },
+    "ContactEmail": {
+      "type": "object",
+      "properties": {
+        "label": { "type": "string" },
+        "address": { "type": "string" }
+      },
+      "required": ["label", "address"]
+    }
+  }
+}

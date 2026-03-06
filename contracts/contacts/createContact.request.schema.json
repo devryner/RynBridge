@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/contacts/createContact.request.json",
+  "title": "ContactsCreateContactRequest",
+  "description": "Request payload for contacts.createContact action",
+  "type": "object",
+  "properties": {
+    "givenName": {
+      "type": "string",
+      "description": "First name of the contact"
+    },
+    "familyName": {
+      "type": "string",
+      "description": "Last name of the contact"
+    },
+    "phoneNumbers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": { "type": "string" },
+          "number": { "type": "string" }
+        },
+        "required": ["label", "number"]
+      },
+      "description": "Phone numbers for the contact"
+    },
+    "emailAddresses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": { "type": "string" },
+          "address": { "type": "string" }
+        },
+        "required": ["label", "address"]
+      },
+      "description": "Email addresses for the contact"
+    }
+  },
+  "required": ["givenName", "familyName"],
+  "additionalProperties": false
+}

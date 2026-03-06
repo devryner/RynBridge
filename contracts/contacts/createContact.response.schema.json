@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/contacts/createContact.response.json",
+  "title": "ContactsCreateContactResponse",
+  "description": "Response payload for contacts.createContact action",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier of the newly created contact"
+    }
+  },
+  "required": ["id"],
+  "additionalProperties": false
+}

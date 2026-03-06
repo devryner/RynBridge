@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rynbridge.io/schemas/calendar/updateEvent.request.json",
+  "title": "CalendarUpdateEventRequest",
+  "description": "Request payload for calendar.updateEvent action",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "Event identifier to update" },
+    "title": { "type": "string", "description": "Updated event title" },
+    "startDate": { "type": "string", "description": "Updated start date in ISO 8601 format" },
+    "endDate": { "type": "string", "description": "Updated end date in ISO 8601 format" },
+    "location": { "type": "string", "description": "Updated event location" },
+    "notes": { "type": "string", "description": "Updated event notes" },
+    "isAllDay": { "type": "boolean", "description": "Whether the event is an all-day event" }
+  },
+  "required": ["id"],
+  "additionalProperties": false
+}
