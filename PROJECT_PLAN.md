@@ -1126,7 +1126,10 @@ RynBridge/
 - [x] auth 하위 패키지 분리 구조 도입 (iOS: `RynBridgeAuthApple`, Android: `auth-google`)
 - [x] push 하위 패키지 분리 (iOS: `RynBridgePushAPNs`, Android: `push-fcm`)
 - [x] payment 하위 패키지 분리 (iOS: `RynBridgePaymentStoreKit`, Android: `payment-google-play`)
-- [ ] 각 하위 패키지에 외부 SDK transitive dependency 포함 및 Provider 구현 완성 (auth-kakao, auth-google 등)
+- [ ] Android auth-google Provider 실구현 (Google Sign-In SDK 연동)
+- [ ] Android push-fcm Provider 실구현 (Firebase Messaging SDK 연동)
+- [ ] Android payment-google-play Provider 실구현 (Play Billing SDK 연동)
+- [ ] auth-kakao 하위 패키지 추가 (iOS: KakaoSDK, Android: KakaoSDK)
 ### v0.6.0 — Phase 3 기본 모듈
 - [ ] share 모듈 (UIActivityViewController / Intent, 클립보드)
 - [ ] contacts 모듈 (Contacts.framework / ContactsContract)
