@@ -1196,18 +1196,40 @@ RynBridge/
 - [x] CI 파이프라인에 전체 테스트 통합
 
 ### v0.9.2 — CLI doctor 강화
-- [ ] 모듈 간 의존성 검증 (core 누락, 버전 불일치 감지)
-- [ ] 하위 패키지 외부 SDK 설치 여부 확인 (auth-google → Google Sign-In SDK 등)
-- [ ] 플랫폼별 네이티브 설정 검증 (iOS: Info.plist 권한 키, Android: AndroidManifest 권한)
-- [ ] contract 스키마 ↔ 코드 동기화 상태 확인 (outdated 타입 감지)
-- [ ] Playground 빌드 상태 및 web asset 동기화 확인
-- [ ] 진단 결과 리포트 출력 (pass/warn/fail 요약)
+- [x] 모듈 간 의존성 검증 (core 누락, 버전 불일치 감지)
+- [x] 하위 패키지 외부 SDK 설치 여부 확인 (auth-google → Google Sign-In SDK 등)
+- [x] 플랫폼별 네이티브 설정 검증 (iOS: Info.plist 권한 키, Android: AndroidManifest 권한)
+- [x] contract 스키마 ↔ 코드 동기화 상태 확인 (outdated 타입 감지)
+- [x] Playground 빌드 상태 및 web asset 동기화 확인
+- [x] 진단 결과 리포트 출력 (pass/warn/fail 요약)
 
-### v1.0.0 — Stable Release
-- [ ] 전체 API 안정화
-- [ ] 성능 최적화 및 벤치마크
-- [ ] 마이그레이션 가이드
-- [ ] Phase 3 모듈 (analytics, navigation, share, health, bluetooth, contacts, calendar, speech, background-task)
+### v0.9.3 — Stable Release 준비
+- [x] 전체 API 안정화
+- [x] 성능 최적화 및 벤치마크
+- [x] 번들 사이즈 체크 CI 추가 (core < 5KB, 모듈 < 3KB gzip 자동 검증)
+- [x] 루트 package.json에 `doctor` 스크립트 추가
+
+### v0.9.4 — Native → Web 이벤트 발행
+- [x] 이벤트 메시지 포맷: 기존 BridgeRequest 포맷 재사용 (별도 event 타입 불필요)
+  - Web의 `handleIncomingMessage`가 모듈 핸들러 미등록 시 `EventEmitter`로 디스패치
+- [x] Web core: 기존 구현이 이미 이벤트 수신 처리 (`${module}:${action}` 패턴 emit)
+- [x] iOS core: `RynBridge.emitEvent(module:action:payload:)` 메서드 추가
+- [x] Android core: `RynBridge.emitEvent(module, action, payload)` 메서드 추가
+- [x] 이벤트 발행은 앱 레이어에서 `bridge.emitEvent()` 호출 방식 (Provider 주입 불필요)
+- [x] 단위 테스트 (3 플랫폼)
+- [ ] 대상 이벤트:
+  - push: `onNotification`, `onTokenRefresh`, `onNotificationOpened`
+  - navigation: `onDeepLink`, `onAppStateChange`
+  - device: `onBatteryChange`, `onLocationChange`
+  - bluetooth: `onDeviceFound`, `onCharacteristicChange`, `onStateChange`
+  - 기타 `on*` 이벤트 전체
+
+### v1.0.0 — Stable Release + 오픈소스 운영
+- [x] CONTRIBUTING.md (기여 가이드)
+- [x] CODE_OF_CONDUCT.md (행동 강령)
+- [x] GitHub Issue Template (bug_report, feature_request)
+- [x] GitHub PR Template
+- [ ] v1.0.0 태깅 및 최초 배포
 
 ---
 
