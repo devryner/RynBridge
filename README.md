@@ -42,6 +42,16 @@ npm install @rynbridge/push
 npm install @rynbridge/payment
 npm install @rynbridge/media
 npm install @rynbridge/crypto
+
+# Phase 3 modules
+npm install @rynbridge/share
+npm install @rynbridge/contacts
+npm install @rynbridge/calendar
+npm install @rynbridge/navigation
+npm install @rynbridge/webview
+npm install @rynbridge/speech
+npm install @rynbridge/analytics
+npm install @rynbridge/translation
 ```
 
 ### iOS (Swift Package Manager)
@@ -61,6 +71,14 @@ Select the products you need:
 - `RynBridgePayment`
 - `RynBridgeMedia`
 - `RynBridgeCrypto`
+- `RynBridgeShare`
+- `RynBridgeContacts`
+- `RynBridgeCalendar`
+- `RynBridgeNavigation`
+- `RynBridgeWebView`
+- `RynBridgeSpeech`
+- `RynBridgeAnalytics`
+- `RynBridgeTranslation`
 
 ### Android (Gradle)
 
@@ -78,6 +96,16 @@ dependencies {
     implementation(project(":payment"))
     implementation(project(":media"))
     implementation(project(":crypto"))
+
+    // Phase 3 modules
+    implementation(project(":share"))
+    implementation(project(":contacts"))
+    implementation(project(":calendar"))
+    implementation(project(":navigation"))
+    implementation(project(":webview"))
+    implementation(project(":speech"))
+    implementation(project(":analytics"))
+    implementation(project(":translation"))
 }
 ```
 
@@ -344,6 +372,110 @@ const encrypted = await crypto.encrypt({ data: 'secret' });
 const { plaintext } = await crypto.decrypt(encrypted);
 ```
 
+### Share (`@rynbridge/share`)
+
+Share content via the native share sheet.
+
+```typescript
+const share = new ShareModule(bridge);
+
+await share.share({ text: 'Check this out!', url: 'https://example.com' });
+const { available } = await share.canShare({ url: 'https://example.com' });
+```
+
+### Contacts (`@rynbridge/contacts`)
+
+Read and write device contacts with permission management.
+
+```typescript
+const contacts = new ContactsModule(bridge);
+
+const { granted } = await contacts.requestPermission();
+const { contacts: list } = await contacts.getContacts({ limit: 50 });
+const { contactId } = await contacts.addContact({
+  givenName: 'John', familyName: 'Doe', phoneNumbers: ['+1234567890']
+});
+```
+
+### Calendar (`@rynbridge/calendar`)
+
+Create, read, and manage calendar events.
+
+```typescript
+const calendar = new CalendarModule(bridge);
+
+const { granted } = await calendar.requestPermission();
+const { events } = await calendar.getEvents({ startDate: '2025-01-01', endDate: '2025-12-31' });
+const { eventId } = await calendar.createEvent({
+  title: 'Meeting', startDate: '2025-06-01T10:00:00Z', endDate: '2025-06-01T11:00:00Z'
+});
+```
+
+### Navigation (`@rynbridge/navigation`)
+
+URL opening, deep link handling, and app state observation.
+
+```typescript
+const navigation = new NavigationModule(bridge);
+
+await navigation.openURL({ url: 'https://example.com' });
+const { canOpen } = await navigation.canOpenURL({ url: 'myapp://settings' });
+navigation.onDeepLink((link) => console.log(link.url));
+navigation.onAppStateChange((state) => console.log(state.state));
+```
+
+### WebView (`@rynbridge/webview`)
+
+Manage embedded WebView instances and inter-WebView messaging.
+
+```typescript
+const webview = new WebViewModule(bridge);
+
+const { webviewId } = await webview.open({ url: 'https://example.com', style: 'modal' });
+await webview.sendMessage({ targetId: webviewId, data: { action: 'refresh' } });
+webview.onMessage((msg) => console.log(msg.data));
+await webview.close({ webviewId });
+```
+
+### Speech (`@rynbridge/speech`)
+
+Speech recognition (STT) and text-to-speech (TTS).
+
+```typescript
+const speech = new SpeechModule(bridge);
+
+const { granted } = await speech.requestPermission();
+const { sessionId } = await speech.startRecognition({ language: 'ko-KR' });
+speech.onRecognitionResult((result) => console.log(result.transcript));
+await speech.speak({ text: 'Hello, world!', language: 'en-US' });
+```
+
+### Analytics (`@rynbridge/analytics`)
+
+Event tracking and user property management. Interface-only — requires a provider sub-package (e.g., `analytics-firebase`).
+
+```typescript
+const analytics = new AnalyticsModule(bridge);
+
+await analytics.logEvent({ name: 'purchase', params: { item: 'premium' } });
+await analytics.setUserProperty({ name: 'plan', value: 'pro' });
+await analytics.setUserId({ userId: 'user_123' });
+```
+
+### Translation (`@rynbridge/translation`)
+
+Text translation and language detection. Interface-only — requires a provider sub-package (e.g., `translation-apple`, `translation-mlkit`).
+
+```typescript
+const translation = new TranslationModule(bridge);
+
+const { translatedText } = await translation.translate({
+  text: '안녕하세요', sourceLanguage: 'ko', targetLanguage: 'en'
+});
+const { language, confidence } = await translation.detectLanguage({ text: 'Hello' });
+const { languages } = await translation.getSupportedLanguages();
+```
+
 > For a complete integration walkthrough with native provider implementations, see the **[Integration Guide](docs/docs/guides/integration.md)**.
 
 ---
@@ -471,6 +603,19 @@ On iOS and Android, each module delegates to a **Provider** interface. This sepa
 | Storage | `StorageProvider` | `UserDefaultsStorageProvider` |
 | Secure Storage | `SecureStorageProvider` | `KeychainSecureStorageProvider` |
 | UI | `UIProvider` | `DefaultUIProvider` |
+| Auth | `AuthProvider` | — (sub-packages: `RynBridgeAuthApple`) |
+| Push | `PushProvider` | — (sub-packages: `RynBridgePushAPNS`) |
+| Payment | `PaymentProvider` | — (sub-packages: `RynBridgePaymentStoreKit`) |
+| Media | `MediaProvider` | `DefaultMediaProvider` |
+| Crypto | `CryptoProvider` | `DefaultCryptoProvider` |
+| Share | `ShareProvider` | `DefaultShareProvider` |
+| Contacts | `ContactsProvider` | `DefaultContactsProvider` |
+| Calendar | `CalendarProvider` | `DefaultCalendarProvider` |
+| Navigation | `NavigationProvider` | `DefaultNavigationProvider` |
+| WebView | `WebViewProvider` | `DefaultWebViewProvider` |
+| Speech | `SpeechProvider` | `DefaultSpeechProvider` |
+| Analytics | `AnalyticsProvider` | — (interface only) |
+| Translation | `TranslationProvider` | — (interface only) |
 
 ```swift
 // Use a custom provider
@@ -487,12 +632,25 @@ bridge.register(StorageModule(provider: MyStorageProvider()))
 
 ### Android Providers
 
-| Module | Provider Interface | Playground Implementation |
-|--------|-------------------|-------------------------|
+| Module | Provider Interface | Default/Playground Implementation |
+|--------|-------------------|----------------------------------|
 | Device | `DeviceInfoProvider` | `AndroidDeviceInfoProvider` |
 | Storage | `StorageProvider` | `SharedPrefsStorageProvider` |
 | Secure Storage | `SecureStorageProvider` | `InMemorySecureStorageProvider` |
 | UI | `UIProvider` | `AndroidUIProvider` |
+| Auth | `AuthProvider` | — (sub-packages: `auth-google`, `auth-kakao`) |
+| Push | `PushProvider` | — (sub-packages: `push-fcm`) |
+| Payment | `PaymentProvider` | — (sub-packages: `payment-google-play`) |
+| Media | `MediaProvider` | `DefaultMediaProvider` |
+| Crypto | `CryptoProvider` | `DefaultCryptoProvider` |
+| Share | `ShareProvider` | `DefaultShareProvider` |
+| Contacts | `ContactsProvider` | `DefaultContactsProvider` |
+| Calendar | `CalendarProvider` | `DefaultCalendarProvider` |
+| Navigation | `NavigationProvider` | `DefaultNavigationProvider` |
+| WebView | `WebViewProvider` | `DefaultWebViewProvider` |
+| Speech | `SpeechProvider` | `DefaultSpeechProvider` |
+| Analytics | `AnalyticsProvider` | — (interface only) |
+| Translation | `TranslationProvider` | — (interface only) |
 
 ```kotlin
 // Use a custom provider
@@ -618,6 +776,14 @@ RynBridge/
 │   ├── payment/                  # In-app payment module
 │   ├── media/                    # Media playback/recording module
 │   ├── crypto/                   # Cryptographic operations module
+│   ├── share/                    # Share sheet module
+│   ├── contacts/                 # Contacts module
+│   ├── calendar/                 # Calendar module
+│   ├── navigation/               # Navigation & deep link module
+│   ├── webview/                  # WebView management module
+│   ├── speech/                   # Speech recognition & TTS module
+│   ├── analytics/                # Analytics module
+│   ├── translation/              # Translation module
 │   ├── cli/                      # CLI tool (init, add, generate, doctor)
 │   ├── codegen/                  # Schema → TypeScript/Swift/Kotlin code generator
 │   └── devtools/                 # In-app debug panel
@@ -632,7 +798,15 @@ RynBridge/
 │   │   ├── RynBridgePush/
 │   │   ├── RynBridgePayment/
 │   │   ├── RynBridgeMedia/
-│   │   └── RynBridgeCrypto/
+│   │   ├── RynBridgeCrypto/
+│   │   ├── RynBridgeShare/
+│   │   ├── RynBridgeContacts/
+│   │   ├── RynBridgeCalendar/
+│   │   ├── RynBridgeNavigation/
+│   │   ├── RynBridgeWebView/
+│   │   ├── RynBridgeSpeech/
+│   │   ├── RynBridgeAnalytics/
+│   │   └── RynBridgeTranslation/
 │   └── Package.swift
 ├── android/                      # Android SDK (Kotlin, Gradle)
 │   ├── core/
@@ -640,6 +814,19 @@ RynBridge/
 │   ├── storage/
 │   ├── secure-storage/
 │   ├── ui/
+│   ├── auth/
+│   ├── push/
+│   ├── payment/
+│   ├── media/
+│   ├── crypto/
+│   ├── share/
+│   ├── contacts/
+│   ├── calendar/
+│   ├── navigation/
+│   ├── webview/
+│   ├── speech/
+│   ├── analytics/
+│   ├── translation/
 │   └── playground/               # Android playground app
 ├── contracts/                    # JSON Schema definitions (source of truth)
 ├── docs/                         # Docusaurus documentation site
@@ -677,7 +864,9 @@ pnpm --filter @rynbridge/core build
 Managed by [Turborepo](https://turbo.build). Build order respects dependencies:
 
 ```
-core → device, storage, secure-storage, ui → playground-web
+core → device, storage, secure-storage, ui, auth, push, payment, media, crypto,
+       share, contacts, calendar, navigation, webview, speech, analytics, translation
+       → playground-web
 ```
 
 ---
@@ -690,10 +879,10 @@ core → device, storage, secure-storage, ui → playground-web
 | **v0.2.0** | Phase 1 modules (device, storage, secure-storage, ui) | ✅ Done |
 | **v0.3.0** | DX tools — CLI, codegen, DevTools, docs site | ✅ Done |
 | **v0.4.0** | Phase 2 modules (auth, push, payment, media, crypto) | ✅ Done |
-| **v0.5.0** | Native providers — crypto, media implementation + auth/push/payment sub-packages | 🔲 Next |
-| **v0.6.0** | Phase 3 basic — share, contacts, calendar | 🔲 Planned |
-| **v0.7.0** | Phase 3 intermediate — navigation, webview, speech, analytics, translation | 🔲 Planned |
-| **v0.8.0** | Phase 3 advanced — bluetooth, health, background-task | 🔲 Planned |
+| **v0.5.0** | Native providers — crypto, media implementation + auth/push/payment sub-packages | ✅ Done |
+| **v0.6.0** | Phase 3 basic — share, contacts, calendar | ✅ Done |
+| **v0.7.0** | Phase 3 intermediate — navigation, webview, speech, analytics, translation | ✅ Done |
+| **v0.8.0** | Phase 3 advanced — bluetooth, health, background-task | 🔲 Next |
 | **v0.9.0** | Release pipeline — npm publish, SPM release, Maven Central | 🔲 Planned |
 | **v1.0.0** | Stable release, API stabilization, performance benchmarks | 🔲 Planned |
 
@@ -703,7 +892,9 @@ core → device, storage, secure-storage, ui → playground-web
 
 **Phase 2:** auth, push, payment, media, crypto
 
-**Phase 3 (planned):** analytics, navigation, webview, translation, share, health, bluetooth, contacts, calendar, speech, background-task
+**Phase 3 (v0.6.0–v0.7.0, done):** share, contacts, calendar, navigation, webview, speech, analytics, translation
+
+**Phase 3 (v0.8.0, planned):** bluetooth, health, background-task
 
 ---
 
