@@ -183,6 +183,7 @@ bridge.use(CryptoModule(rotationInterval = 3600))
 | **speech** | `@rynbridge/speech` | `RynBridgeSpeech` | `io.rynbridge:speech` | 음성인식(STT), 음성합성(TTS) |
 | **background-task** | `@rynbridge/background-task` | `RynBridgeBackgroundTask` | `io.rynbridge:background-task` | 백그라운드 작업 스케줄링, 오프라인 동기화 |
 | **webview** | `@rynbridge/webview` | `RynBridgeWebView` | `io.rynbridge:webview` | 멀티 WebView 관리, WebView 간 메시지 통신 |
+| **translation** | `@rynbridge/translation` | `RynBridgeTranslation` | `io.rynbridge:translation` | 텍스트 번역, 언어 감지, 오프라인 모델 관리 |
 
 #### health 모듈 상세
 
@@ -655,6 +656,72 @@ await webview.sendMessage({ targetId: 'parent', data: { selected: 'item_1' } });
 webview.setResult({ data: { confirmed: true } });
 ```
 
+#### translation 모듈 상세
+
+네이티브 번역 API를 활용하여 텍스트 번역, 언어 감지, 오프라인 모델 관리를 수행한다. 구체적인 번역 엔진은 하위 패키지로 분리한다.
+
+| 액션 | 패턴 | 설명 |
+|------|------|------|
+| `translate` | Request-Response | 텍스트 번역 |
+| `translateBatch` | Request-Response | 여러 텍스트 일괄 번역 |
+| `detectLanguage` | Request-Response | 텍스트 언어 감지 |
+| `getSupportedLanguages` | Request-Response | 지원 언어 목록 조회 |
+| `downloadModel` | Request-Response | 오프라인 번역 모델 다운로드 |
+| `deleteModel` | Request-Response | 다운로드된 모델 삭제 |
+| `getDownloadedModels` | Request-Response | 다운로드된 모델 목록 조회 |
+| `onDownloadProgress` | Event Stream | 모델 다운로드 진행률 |
+
+**하위 패키지 구조**
+
+| 패키지 | iOS | Android | 설명 |
+|--------|-----|---------|------|
+| `@rynbridge/translation` | — | — | 인터페이스만 (Provider protocol/interface) |
+| `@rynbridge/translation-apple` | Translation framework (iOS 17.4+) | — | Apple 내장 번역 Provider |
+| `@rynbridge/translation-mlkit` | — | ML Kit Translation | Google ML Kit 번역 Provider |
+
+**플랫폼 매핑**
+
+| 기능 | iOS (translation-apple) | Android (translation-mlkit) |
+|------|------------------------|---------------------------|
+| 번역 엔진 | Translation framework | ML Kit Translation |
+| 언어 감지 | NLLanguageRecognizer | ML Kit Language ID |
+| 오프라인 | 시스템 자동 모델 관리 | 수동 모델 다운로드/삭제 |
+| 지원 언어 | Apple 서버 + 로컬 모델 | ML Kit 지원 언어 (~60개) |
+
+```typescript
+const translation = new TranslationModule(bridge);
+
+// 단일 번역
+const { text } = await translation.translate({
+  text: '안녕하세요',
+  source: 'ko',
+  target: 'en',
+});
+// → "Hello"
+
+// 일괄 번역
+const { results } = await translation.translateBatch({
+  texts: ['안녕하세요', '감사합니다'],
+  source: 'ko',
+  target: 'ja',
+});
+
+// 언어 감지
+const { language, confidence } = await translation.detectLanguage({
+  text: 'Bonjour le monde',
+});
+// → { language: 'fr', confidence: 0.98 }
+
+// 오프라인 모델 관리
+const { languages } = await translation.getSupportedLanguages();
+await translation.downloadModel({ language: 'ja' });
+translation.onDownloadProgress((event) => {
+  console.log(event.language, event.progress); // 'ja', 0.75
+});
+const { models } = await translation.getDownloadedModels();
+await translation.deleteModel({ language: 'ja' });
+```
+
 ---
 
 ## 5. 사용 예시
@@ -860,6 +927,7 @@ RynBridge/
 - [ ] webview 모듈 (멀티 WebView 관리, WebView 간 메시지 통신, 보안 모델)
 - [ ] speech 모듈 (Speech.framework / SpeechRecognizer, STT/TTS)
 - [ ] analytics 모듈 + 하위 패키지 분리 (`analytics-firebase`, `analytics-amplitude` 등)
+- [ ] translation 모듈 + 하위 패키지 분리 (`translation-apple`, `translation-mlkit`)
 - [ ] 각 모듈 contract 스키마, Web SDK, iOS/Android Provider 구현
 
 ### v0.8.0 — Phase 3 고급 모듈
