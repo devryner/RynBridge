@@ -348,6 +348,44 @@ const { plaintext } = await crypto.decrypt(encrypted);
 
 ---
 
+## DevTools
+
+`@rynbridge/devtools` provides an in-app debug panel for inspecting bridge messages in real-time.
+
+```bash
+npm install @rynbridge/devtools
+```
+
+```typescript
+import { RynBridge, WebViewTransport } from '@rynbridge/core';
+import { DevToolsTransport, DevToolsPanel } from '@rynbridge/devtools';
+
+const devtools = new DevToolsTransport(new WebViewTransport());
+const bridge = new RynBridge({}, devtools);
+
+// Attach visual panel (renders at bottom of WebView)
+DevToolsPanel.attach(devtools.store);
+```
+
+- **Message timeline** — Direction, module.action, status badge, latency
+- **Payload inspector** — Click to expand request/response JSON
+- **Filters** — Filter by module, direction, status
+- **Statistics** — Total message count, average latency
+
+For production, use dynamic import to exclude DevTools from the bundle:
+
+```typescript
+if (process.env.NODE_ENV === 'development') {
+  const { DevToolsTransport, DevToolsPanel } = await import('@rynbridge/devtools');
+  transport = new DevToolsTransport(transport);
+  DevToolsPanel.attach(transport.store);
+}
+```
+
+> See the full [DevTools documentation](docs/docs/devtools/overview.md) for details.
+
+---
+
 ## Architecture
 
 ```
@@ -579,7 +617,10 @@ RynBridge/
 │   ├── push/                     # Push notification module
 │   ├── payment/                  # In-app payment module
 │   ├── media/                    # Media playback/recording module
-│   └── crypto/                   # Cryptographic operations module
+│   ├── crypto/                   # Cryptographic operations module
+│   ├── cli/                      # CLI tool (init, add, generate, doctor)
+│   ├── codegen/                  # Schema → TypeScript/Swift/Kotlin code generator
+│   └── devtools/                 # In-app debug panel
 ├── ios/                          # iOS SDK (Swift, SPM)
 │   ├── Sources/
 │   │   ├── RynBridge/            # Core framework
@@ -601,6 +642,7 @@ RynBridge/
 │   ├── ui/
 │   └── playground/               # Android playground app
 ├── contracts/                    # JSON Schema definitions (source of truth)
+├── docs/                         # Docusaurus documentation site
 ├── playground/
 │   ├── web/                      # Web playground (IIFE bundle)
 │   └── ios/                      # iOS playground (SwiftUI source files)
@@ -642,19 +684,20 @@ core → device, storage, secure-storage, ui → playground-web
 
 ## Roadmap
 
-| Version | Milestone |
-|---------|-----------|
-| **v0.1.0** | Core protocol + Phase 1 modules + Playground (current) |
-| v0.2.0 | Event Stream pattern, CLI tooling |
-| v0.3.0 | DevTools debug panel, documentation site |
-| v0.4.0 | Phase 2 modules (auth, push, payment, media, crypto) |
-| v1.0.0 | Stable release, Phase 3 modules, performance benchmarks |
+| Version | Milestone | Status |
+|---------|-----------|--------|
+| **v0.1.0** | Core protocol, 3-platform SDKs, Playground | ✅ Done |
+| **v0.2.0** | Phase 1 modules (device, storage, secure-storage, ui) | ✅ Done |
+| **v0.3.0** | DX tools — CLI, codegen, DevTools, docs site | ✅ Done |
+| **v0.4.0** | Phase 2 modules (auth, push, payment, media, crypto) | ✅ Done |
+| **v0.5.0** | Release pipeline — npm publish, SPM release, Maven Central | 🔲 Next |
+| **v1.0.0** | Stable release, Phase 3 modules, performance benchmarks | 🔲 Planned |
 
 ### Module Phases
 
-**Phase 1 (v0.1.0):** core, device, storage, secure-storage, ui
+**Phase 1:** core, device, storage, secure-storage, ui
 
-**Phase 2 (planned):** auth, push, payment, media, crypto
+**Phase 2:** auth, push, payment, media, crypto
 
 **Phase 3 (planned):** analytics, navigation, share, health, bluetooth, contacts, calendar, speech, background-task
 
