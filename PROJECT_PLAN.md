@@ -450,6 +450,14 @@ Health.subscribe(HealthDataType.HEART_RATE, (data) => {
 | `copyToClipboard` | Fire-and-Forget | 텍스트를 클립보드에 복사 |
 | `readClipboard` | Request-Response | 클립보드 내용 읽기 |
 | `canShare` | Request-Response | 공유 가능 여부 확인 |
+| `shareToKakao` | Request-Response | 카카오톡으로 메시지 공유 (하위 패키지) |
+
+**하위 패키지 구조**
+
+| 패키지 | 설명 |
+|--------|------|
+| `@rynbridge/share` | 네이티브 공유 시트 + 클립보드 (외부 의존성 없음) |
+| `@rynbridge/share-kakao` | 카카오톡 공유 Provider (KakaoSDK 의존) |
 
 **플랫폼 매핑**
 
@@ -457,6 +465,7 @@ Health.subscribe(HealthDataType.HEART_RATE, (data) => {
 |------|-----|---------|
 | 공유 시트 | UIActivityViewController | Intent.ACTION_SEND / ShareSheet |
 | 클립보드 | UIPasteboard | ClipboardManager |
+| 카카오 공유 | KakaoSDK ShareApi | KakaoSDK ShareClient |
 
 ```typescript
 const share = new ShareModule(bridge);
@@ -470,6 +479,12 @@ await share.shareFile({ filePath: '/tmp/photo.jpg', mimeType: 'image/jpeg' });
 // 클립보드
 share.copyToClipboard({ text: 'Hello' });
 const { text } = await share.readClipboard();
+
+// 카카오톡 공유 (@rynbridge/share-kakao)
+await share.shareToKakao({
+  templateId: 12345,
+  templateArgs: { title: '제목', description: '설명' },
+});
 ```
 
 #### contacts 모듈 상세
@@ -1131,7 +1146,7 @@ RynBridge/
 - [ ] Android payment-google-play Provider 실구현 (Play Billing SDK 연동)
 - [ ] auth-kakao 하위 패키지 추가 (iOS: KakaoSDK, Android: KakaoSDK)
 ### v0.6.0 — Phase 3 기본 모듈
-- [ ] share 모듈 (UIActivityViewController / Intent, 클립보드)
+- [ ] share 모듈 (UIActivityViewController / Intent, 클립보드) + share-kakao 하위 패키지
 - [ ] contacts 모듈 (Contacts.framework / ContactsContract)
 - [ ] calendar 모듈 (EventKit / CalendarContract)
 - [ ] 각 모듈 contract 스키마, Web SDK, iOS/Android Provider 구현
