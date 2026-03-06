@@ -3,6 +3,7 @@ import AuthenticationServices
 import RynBridge
 import RynBridgeAuth
 
+#if canImport(UIKit)
 @available(iOS 17.0, *)
 public final class AppleAuthProvider: NSObject, AuthProvider, @unchecked Sendable {
     private var currentUser: AuthUser?
@@ -27,7 +28,6 @@ public final class AppleAuthProvider: NSObject, AuthProvider, @unchecked Sendabl
 
             let controller = ASAuthorizationController(authorizationRequests: [request])
             controller.delegate = delegate
-            // Keep delegate alive until completion
             objc_setAssociatedObject(controller, "delegate", delegate, .OBJC_ASSOCIATION_RETAIN)
             controller.performRequests()
         }
@@ -104,3 +104,4 @@ private final class AppleSignInDelegate: NSObject, ASAuthorizationControllerDele
         continuation.resume(throwing: RynBridgeError(code: .unknown, message: "Apple Sign-In failed: \(error.localizedDescription)"))
     }
 }
+#endif

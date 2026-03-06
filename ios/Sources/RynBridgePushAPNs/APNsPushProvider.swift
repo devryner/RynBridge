@@ -1,8 +1,10 @@
 import Foundation
-import UIKit
 import UserNotifications
 import RynBridge
 import RynBridgePush
+
+#if canImport(UIKit)
+import UIKit
 
 public final class APNsPushProvider: PushProvider, @unchecked Sendable {
     private var deviceToken: String?
@@ -18,8 +20,6 @@ public final class APNsPushProvider: PushProvider, @unchecked Sendable {
         return try await withCheckedThrowingContinuation { continuation in
             DispatchQueue.main.async {
                 UIApplication.shared.registerForRemoteNotifications()
-                // Token will be available via setDeviceToken callback
-                // For now return current token or wait briefly
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
                     let token = self?.deviceToken ?? "pending"
                     continuation.resume(returning: PushRegistration(token: token, platform: "ios"))
@@ -63,8 +63,7 @@ public final class APNsPushProvider: PushProvider, @unchecked Sendable {
     }
 
     public func getInitialNotification() async throws -> PushNotificationData? {
-        // Initial notification should be stored by AppDelegate when app launches from push
-        // This is a placeholder — apps should override with their stored launch notification
         return nil
     }
 }
+#endif
