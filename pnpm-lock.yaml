@@ -374,12 +374,27 @@ importers:
 
   playground/web:
     dependencies:
+      '@rynbridge/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
       '@rynbridge/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@rynbridge/crypto':
+        specifier: workspace:*
+        version: link:../../packages/crypto
       '@rynbridge/device':
         specifier: workspace:*
         version: link:../../packages/device
+      '@rynbridge/media':
+        specifier: workspace:*
+        version: link:../../packages/media
+      '@rynbridge/payment':
+        specifier: workspace:*
+        version: link:../../packages/payment
+      '@rynbridge/push':
+        specifier: workspace:*
+        version: link:../../packages/push
       '@rynbridge/secure-storage':
         specifier: workspace:*
         version: link:../../packages/secure-storage

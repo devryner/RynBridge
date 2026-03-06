@@ -3,6 +3,11 @@ import { DeviceModule } from '@rynbridge/device';
 import { StorageModule } from '@rynbridge/storage';
 import { SecureStorageModule } from '@rynbridge/secure-storage';
 import { UIModule } from '@rynbridge/ui';
+import { AuthModule } from '@rynbridge/auth';
+import { PushModule } from '@rynbridge/push';
+import { PaymentModule } from '@rynbridge/payment';
+import { MediaModule } from '@rynbridge/media';
+import { CryptoModule } from '@rynbridge/crypto';
 
 // --- Initialize Bridge ---
 const transport = new WebViewTransport();
@@ -12,6 +17,11 @@ const device = new DeviceModule(bridge);
 const storage = new StorageModule(bridge);
 const secureStorage = new SecureStorageModule(bridge);
 const ui = new UIModule(bridge);
+const auth = new AuthModule(bridge);
+const push = new PushModule(bridge);
+const payment = new PaymentModule(bridge);
+const media = new MediaModule(bridge);
+const crypto = new CryptoModule(bridge);
 
 // --- Logging ---
 function log(type: 'info' | 'success' | 'error', message: string, data?: unknown): void {
@@ -140,6 +150,91 @@ document.getElementById('btn-ui-showActionSheet')!.addEventListener('click', () 
   run('ui.showActionSheet', () =>
     ui.showActionSheet({ title: 'Choose', options: ['Option A', 'Option B', 'Option C'] }),
   );
+});
+
+// --- Auth ---
+document.getElementById('btn-auth-login')!.addEventListener('click', () => {
+  const provider = getInput('auth-provider');
+  run(`auth.login("${provider}")`, () => auth.login({ provider, scopes: ['email', 'profile'] }));
+});
+
+document.getElementById('btn-auth-getToken')!.addEventListener('click', () => {
+  run('auth.getToken', () => auth.getToken());
+});
+
+document.getElementById('btn-auth-getUser')!.addEventListener('click', () => {
+  run('auth.getUser', () => auth.getUser());
+});
+
+document.getElementById('btn-auth-logout')!.addEventListener('click', () => {
+  run('auth.logout', () => auth.logout());
+});
+
+// --- Push ---
+document.getElementById('btn-push-requestPermission')!.addEventListener('click', () => {
+  run('push.requestPermission', () => push.requestPermission());
+});
+
+document.getElementById('btn-push-register')!.addEventListener('click', () => {
+  run('push.register', () => push.register());
+});
+
+document.getElementById('btn-push-getToken')!.addEventListener('click', () => {
+  run('push.getToken', () => push.getToken());
+});
+
+document.getElementById('btn-push-getPermissionStatus')!.addEventListener('click', () => {
+  run('push.getPermissionStatus', () => push.getPermissionStatus());
+});
+
+document.getElementById('btn-push-unregister')!.addEventListener('click', () => {
+  run('push.unregister', () => push.unregister());
+});
+
+// --- Payment ---
+document.getElementById('btn-payment-getProducts')!.addEventListener('click', () => {
+  run('payment.getProducts', () => payment.getProducts({ productIds: ['premium_monthly', 'premium_yearly'] }));
+});
+
+document.getElementById('btn-payment-purchase')!.addEventListener('click', () => {
+  const productId = getInput('payment-productId');
+  run(`payment.purchase("${productId}")`, () => payment.purchase({ productId }));
+});
+
+document.getElementById('btn-payment-restore')!.addEventListener('click', () => {
+  run('payment.restorePurchases', () => payment.restorePurchases());
+});
+
+// --- Media ---
+document.getElementById('btn-media-playAudio')!.addEventListener('click', () => {
+  const source = getInput('media-source');
+  run('media.playAudio', () => media.playAudio({ source }));
+});
+
+document.getElementById('btn-media-pickMedia')!.addEventListener('click', () => {
+  run('media.pickMedia', () => media.pickMedia({ type: 'image', multiple: true }));
+});
+
+document.getElementById('btn-media-startRecording')!.addEventListener('click', () => {
+  run('media.startRecording', () => media.startRecording({ format: 'm4a' }));
+});
+
+// --- Crypto ---
+document.getElementById('btn-crypto-generateKeyPair')!.addEventListener('click', () => {
+  run('crypto.generateKeyPair', () => crypto.generateKeyPair());
+});
+
+document.getElementById('btn-crypto-encrypt')!.addEventListener('click', () => {
+  const data = getInput('crypto-data');
+  run('crypto.encrypt', () => crypto.encrypt({ data }));
+});
+
+document.getElementById('btn-crypto-getStatus')!.addEventListener('click', () => {
+  run('crypto.getStatus', () => crypto.getStatus());
+});
+
+document.getElementById('btn-crypto-rotateKeys')!.addEventListener('click', () => {
+  run('crypto.rotateKeys', () => crypto.rotateKeys());
 });
 
 // --- Clear log ---

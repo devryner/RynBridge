@@ -127,6 +127,62 @@
     <button id="btn-ui-showActionSheet">showActionSheet</button>
   </div>
 
+  <!-- Auth -->
+  <h2>Auth</h2>
+  <div class="input-row">
+    <input id="auth-provider" placeholder="provider" value="google" />
+  </div>
+  <div class="btn-row">
+    <button id="btn-auth-login">login</button>
+    <button id="btn-auth-getToken">getToken</button>
+    <button id="btn-auth-getUser">getUser</button>
+    <button id="btn-auth-logout">logout</button>
+  </div>
+
+  <!-- Push -->
+  <h2>Push</h2>
+  <div class="btn-row">
+    <button id="btn-push-requestPermission">requestPermission</button>
+    <button id="btn-push-register">register</button>
+    <button id="btn-push-getToken">getToken</button>
+    <button id="btn-push-getPermissionStatus">getPermissionStatus</button>
+    <button id="btn-push-unregister">unregister</button>
+  </div>
+
+  <!-- Payment -->
+  <h2>Payment</h2>
+  <div class="input-row">
+    <input id="payment-productId" placeholder="productId" value="premium_monthly" />
+  </div>
+  <div class="btn-row">
+    <button id="btn-payment-getProducts">getProducts</button>
+    <button id="btn-payment-purchase">purchase</button>
+    <button id="btn-payment-restore">restorePurchases</button>
+  </div>
+
+  <!-- Media -->
+  <h2>Media</h2>
+  <div class="input-row">
+    <input id="media-source" placeholder="audio source URL" value="https://example.com/sample.mp3" />
+  </div>
+  <div class="btn-row">
+    <button id="btn-media-playAudio">playAudio</button>
+    <button id="btn-media-pickMedia">pickMedia</button>
+    <button id="btn-media-startRecording">startRecording</button>
+  </div>
+
+  <!-- Crypto -->
+  <h2>Crypto</h2>
+  <div class="input-row">
+    <input id="crypto-data" placeholder="data to encrypt" value="Hello, RynBridge!" />
+  </div>
+  <div class="btn-row">
+    <button id="btn-crypto-generateKeyPair">generateKeyPair</button>
+    <button id="btn-crypto-encrypt">encrypt</button>
+    <button id="btn-crypto-getStatus">getStatus</button>
+    <button id="btn-crypto-rotateKeys">rotateKeys</button>
+  </div>
+
   <!-- Result Panel -->
   <h2>Result</h2>
   <div id="result-panel" class="panel"></div>

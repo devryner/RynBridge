@@ -8,13 +8,15 @@ import androidx.appcompat.app.AppCompatActivity
 import io.rynbridge.core.RynBridge
 import io.rynbridge.core.WebViewTransport
 import io.rynbridge.device.DeviceModule
-import io.rynbridge.playground.providers.AndroidDeviceInfoProvider
-import io.rynbridge.playground.providers.AndroidUIProvider
-import io.rynbridge.playground.providers.InMemorySecureStorageProvider
-import io.rynbridge.playground.providers.SharedPrefsStorageProvider
-import io.rynbridge.securestorage.SecureStorageModule
 import io.rynbridge.storage.StorageModule
+import io.rynbridge.securestorage.SecureStorageModule
 import io.rynbridge.ui.UIModule
+import io.rynbridge.auth.AuthModule
+import io.rynbridge.push.PushModule
+import io.rynbridge.payment.PaymentModule
+import io.rynbridge.media.MediaModule
+import io.rynbridge.crypto.CryptoModule
+import io.rynbridge.playground.providers.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,11 +42,18 @@ class MainActivity : AppCompatActivity() {
         val bridge = RynBridge(transport)
         this.bridge = bridge
 
-        // Register modules with providers
+        // Register Phase 1 modules
         bridge.register(DeviceModule(AndroidDeviceInfoProvider(this)))
         bridge.register(StorageModule(SharedPrefsStorageProvider(this)))
         bridge.register(SecureStorageModule(InMemorySecureStorageProvider()))
         bridge.register(UIModule(AndroidUIProvider(this)))
+
+        // Register Phase 2 modules (mock providers for playground)
+        bridge.register(AuthModule(MockAuthProvider()))
+        bridge.register(PushModule(MockPushProvider()))
+        bridge.register(PaymentModule(MockPaymentProvider()))
+        bridge.register(MediaModule(MockMediaProvider()))
+        bridge.register(CryptoModule(MockCryptoProvider()))
 
         // Load web playground from assets
         webView.loadUrl("file:///android_asset/index.html")

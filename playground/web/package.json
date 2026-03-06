@@ -13,7 +13,12 @@
     "@rynbridge/device": "workspace:*",
     "@rynbridge/storage": "workspace:*",
     "@rynbridge/secure-storage": "workspace:*",
-    "@rynbridge/ui": "workspace:*"
+    "@rynbridge/ui": "workspace:*",
+    "@rynbridge/auth": "workspace:*",
+    "@rynbridge/push": "workspace:*",
+    "@rynbridge/payment": "workspace:*",
+    "@rynbridge/media": "workspace:*",
+    "@rynbridge/crypto": "workspace:*"
   },
   "devDependencies": {
     "@rollup/plugin-html": "^2.0.0",
