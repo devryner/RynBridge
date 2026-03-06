@@ -6,6 +6,11 @@ kotlinx-coroutines = "1.9.0"
 junit5 = "5.11.3"
 appcompat = "1.7.0"
 activity = "1.9.3"
+credentials = "1.5.0"
+google-id = "1.1.1"
+firebase-messaging = "24.1.0"
+billing = "7.1.1"
+kakao-sdk = "2.20.6"
 
 [libraries]
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
@@ -16,6 +21,12 @@ junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.re
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit5" }
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activity" }
+credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
+credentials-play-services = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials" }
+google-id = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "google-id" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx", version.ref = "firebase-messaging" }
+billing-ktx = { module = "com.android.billingclient:billing-ktx", version.ref = "billing" }
+kakao-user = { module = "com.kakao.sdk:v2-user", version.ref = "kakao-sdk" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

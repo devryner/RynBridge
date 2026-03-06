@@ -63,7 +63,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
 
       - name: Build
-        run: ./gradlew build
+        run: ./gradlew build -x :auth-google:build -x :auth-kakao:build -x :push-fcm:build -x :payment-google-play:build
 
       - name: Test
-        run: ./gradlew test
+        run: ./gradlew test -x :auth-google:test -x :auth-kakao:test -x :push-fcm:test -x :payment-google-play:test

@@ -24,6 +24,6 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":payment"))
-    // TODO: Uncomment when implementing
-    // implementation("com.android.billingclient:billing-ktx:7.0.0")
+    implementation(libs.billing.ktx)
+    implementation(libs.kotlinx.coroutines.core)
 }

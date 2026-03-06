@@ -24,6 +24,6 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":push"))
-    // TODO: Uncomment when implementing
-    // implementation("com.google.firebase:firebase-messaging-ktx:24.0.0")
+    implementation(libs.firebase.messaging)
+    implementation(libs.kotlinx.coroutines.core)
 }

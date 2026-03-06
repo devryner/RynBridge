@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "io.rynbridge.auth.google"
+    namespace = "io.rynbridge.auth.kakao"
     compileSdk = 35
 
     defaultConfig {
@@ -24,8 +24,6 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":auth"))
-    implementation(libs.credentials)
-    implementation(libs.credentials.play.services)
-    implementation(libs.google.id)
+    implementation(libs.kakao.user)
     implementation(libs.kotlinx.coroutines.core)
 }
