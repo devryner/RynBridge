@@ -162,6 +162,7 @@ let package = Package(
             name: "RynBridgeShareKakao",
             dependencies: [
                 "RynBridge",
+                .product(name: "KakaoSDKCommon", package: "KakaoOpenSDK"),
                 .product(name: "KakaoSDKShare", package: "KakaoOpenSDK"),
                 .product(name: "KakaoSDKTemplate", package: "KakaoOpenSDK"),
             ],
