@@ -33,9 +33,11 @@ let package = Package(
         .library(name: "RynBridgeBluetooth", targets: ["RynBridgeBluetooth"]),
         .library(name: "RynBridgeHealth", targets: ["RynBridgeHealth"]),
         .library(name: "RynBridgeBackgroundTask", targets: ["RynBridgeBackgroundTask"]),
+        .library(name: "RynBridgePushFCM", targets: ["RynBridgePushFCM"]),
         .library(name: "RynBridgeShareKakao", targets: ["RynBridgeShareKakao"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/firebase/firebase-ios-sdk", from: "11.0.0"),
         .package(url: "https://github.com/kakao/kakao-ios-sdk", from: "2.27.0"),
     ],
     targets: [
@@ -127,6 +129,15 @@ let package = Package(
             name: "RynBridgePushAPNs",
             dependencies: ["RynBridge", "RynBridgePush"],
             path: "ios/Sources/RynBridgePushAPNs"
+        ),
+        .target(
+            name: "RynBridgePushFCM",
+            dependencies: [
+                "RynBridge",
+                "RynBridgePush",
+                .product(name: "FirebaseMessaging", package: "firebase-ios-sdk"),
+            ],
+            path: "ios/Sources/RynBridgePushFCM"
         ),
         .target(
             name: "RynBridgePaymentStoreKit",
