@@ -1,10 +1,7 @@
 package io.rynbridge.storage
 
 import io.rynbridge.core.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -111,12 +108,12 @@ class StorageModuleTest {
 
         val setRequestJSON = """{"id":"req-set","module":"storage","action":"set","payload":{"key":"hello","value":"world"},"version":"0.1.0"}"""
         transport.simulateIncoming(setRequestJSON)
-        withContext(Dispatchers.Default) { delay(200) }
+        transport.awaitSent(1)
 
         transport.reset()
         val getRequestJSON = """{"id":"req-get","module":"storage","action":"get","payload":{"key":"hello"},"version":"0.1.0"}"""
         transport.simulateIncoming(getRequestJSON)
-        withContext(Dispatchers.Default) { delay(200) }
+        transport.awaitSent(1)
 
         assertEquals(1, transport.sent.size)
         val json = Json { ignoreUnknownKeys = true }

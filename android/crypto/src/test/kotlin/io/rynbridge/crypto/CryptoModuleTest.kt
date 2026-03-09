@@ -1,10 +1,7 @@
 package io.rynbridge.crypto
 
 import io.rynbridge.core.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -168,7 +165,7 @@ class CryptoModuleTest {
         val requestJSON = """{"id":"req-1","module":"crypto","action":"getStatus","payload":{},"version":"0.1.0"}"""
         transport.simulateIncoming(requestJSON)
 
-        withContext(Dispatchers.Default) { delay(200) }
+        transport.awaitSent(1)
 
         assertEquals(1, transport.sent.size)
         val json = Json { ignoreUnknownKeys = true }

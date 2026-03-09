@@ -1,6 +1,5 @@
 package io.rynbridge.core
 
-import kotlinx.coroutines.*
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Assertions.*
@@ -95,7 +94,7 @@ class RynBridgeTest {
         transport.simulateIncoming(requestJSON)
 
         // Bridge processes on Dispatchers.Default, need real-time wait
-        withContext(Dispatchers.Default) { delay(200) }
+        transport.awaitSent(transport.sent.size + 1)
 
         assertEquals(1, transport.sent.size)
         val response = json.decodeFromString<BridgeResponse>(transport.sent[0])
@@ -115,7 +114,7 @@ class RynBridgeTest {
         transport.simulateIncoming(requestJSON)
 
         // Bridge processes on Dispatchers.Default, need real-time wait
-        withContext(Dispatchers.Default) { delay(200) }
+        transport.awaitSent(transport.sent.size + 1)
 
         assertEquals(1, transport.sent.size)
         val response = json.decodeFromString<BridgeResponse>(transport.sent[0])
