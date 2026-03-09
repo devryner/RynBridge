@@ -52,6 +52,12 @@ npm install @rynbridge/webview
 npm install @rynbridge/speech
 npm install @rynbridge/analytics
 npm install @rynbridge/translation
+npm install @rynbridge/bluetooth
+npm install @rynbridge/health
+npm install @rynbridge/background-task
+
+# Platform-specific modules
+npm install @rynbridge/share-kakao
 ```
 
 ### iOS (Swift Package Manager)
@@ -79,6 +85,10 @@ Select the products you need:
 - `RynBridgeSpeech`
 - `RynBridgeAnalytics`
 - `RynBridgeTranslation`
+- `RynBridgeBluetooth`
+- `RynBridgeHealth`
+- `RynBridgeBackgroundTask`
+- `RynBridgeShareKakao` (requires KakaoSDK)
 
 ### Android (Gradle)
 
@@ -106,6 +116,9 @@ dependencies {
     implementation(project(":speech"))
     implementation(project(":analytics"))
     implementation(project(":translation"))
+    implementation(project(":bluetooth"))
+    implementation(project(":health"))
+    implementation(project(":background-task"))
 }
 ```
 
@@ -476,6 +489,105 @@ const { language, confidence } = await translation.detectLanguage({ text: 'Hello
 const { languages } = await translation.getSupportedLanguages();
 ```
 
+### Bluetooth (`@rynbridge/bluetooth`)
+
+Bluetooth Low Energy (BLE) device scanning, connection, and characteristic read/write.
+
+```typescript
+const bluetooth = new BluetoothModule(bridge);
+
+const { granted } = await bluetooth.requestPermission();
+const { state } = await bluetooth.getState();
+// → { state: 'poweredOn' }
+
+await bluetooth.startScan({ serviceUUIDs: ['180D'] });
+bluetooth.onDeviceFound((device) => console.log(device.name, device.rssi));
+
+const { success } = await bluetooth.connect({ deviceId: 'ABC-123' });
+const { services } = await bluetooth.getServices({ deviceId: 'ABC-123' });
+const { value } = await bluetooth.readCharacteristic({
+  deviceId: 'ABC-123', serviceUUID: '180D', characteristicUUID: '2A37'
+});
+bluetooth.onCharacteristicChange((change) => console.log(change.value));
+await bluetooth.disconnect({ deviceId: 'ABC-123' });
+```
+
+### Health (`@rynbridge/health`)
+
+Health data access via HealthKit (iOS) or Health Connect (Android).
+
+```typescript
+const health = new HealthModule(bridge);
+
+const { available } = await health.isAvailable();
+const { granted } = await health.requestPermission({
+  readTypes: ['stepCount', 'heartRate'], writeTypes: ['stepCount']
+});
+
+const { steps } = await health.getSteps({ startDate: '2025-01-01', endDate: '2025-01-31' });
+const { records } = await health.queryData({
+  dataType: 'heartRate', startDate: '2025-01-01', endDate: '2025-01-31'
+});
+await health.writeData({
+  dataType: 'stepCount', value: 1000, unit: 'count',
+  startDate: '2025-01-01T00:00:00Z', endDate: '2025-01-01T23:59:59Z'
+});
+health.onDataChange((event) => console.log(event.dataType));
+```
+
+### Background Task (`@rynbridge/background-task`)
+
+Schedule and manage background tasks (BGTaskScheduler on iOS, WorkManager on Android).
+
+```typescript
+const bgTask = new BackgroundTaskModule(bridge);
+
+const { granted } = await bgTask.requestPermission();
+const { taskId, success } = await bgTask.scheduleTask({
+  taskId: 'sync-data', type: 'periodic', interval: 3600,
+  requiresNetwork: true, requiresCharging: false
+});
+
+const { tasks } = await bgTask.getScheduledTasks();
+bgTask.onTaskExecute((event) => {
+  console.log('Executing:', event.taskId);
+  bgTask.completeTask({ taskId: event.taskId, success: true });
+});
+
+await bgTask.cancelTask({ taskId: 'sync-data' });
+await bgTask.cancelAllTasks();
+```
+
+### Kakao Share (`@rynbridge/share-kakao`)
+
+Share content via KakaoTalk using Kakao SDK templates.
+
+```typescript
+const kakaoShare = new KakaoShareModule(bridge);
+
+const { available } = await kakaoShare.isAvailable();
+
+// Feed template
+await kakaoShare.shareFeed({
+  content: {
+    title: 'Check this out!',
+    imageUrl: 'https://example.com/image.jpg',
+    link: { webUrl: 'https://example.com' }
+  },
+  buttons: [{ title: 'Open', link: { webUrl: 'https://example.com' } }]
+});
+
+// Commerce template
+await kakaoShare.shareCommerce({
+  content: { title: 'Product', imageUrl: '...', link: { webUrl: '...' } },
+  commerce: { regularPrice: 10000, discountPrice: 8000 }
+});
+
+// List & Custom templates
+await kakaoShare.shareList({ headerTitle: 'Top Items', headerLink: {}, contents: [...] });
+await kakaoShare.shareCustom({ templateId: 12345, templateArgs: { key: 'value' } });
+```
+
 > For a complete integration walkthrough with native provider implementations, see the **[Integration Guide](docs/docs/guides/integration.md)**.
 
 ---
@@ -614,8 +726,12 @@ On iOS and Android, each module delegates to a **Provider** interface. This sepa
 | Navigation | `NavigationProvider` | `DefaultNavigationProvider` |
 | WebView | `WebViewProvider` | `DefaultWebViewProvider` |
 | Speech | `SpeechProvider` | `DefaultSpeechProvider` |
-| Analytics | `AnalyticsProvider` | — (interface only) |
-| Translation | `TranslationProvider` | — (interface only) |
+| Analytics | `AnalyticsProvider` | `DefaultAnalyticsProvider` |
+| Translation | `TranslationProvider` | `DefaultTranslationProvider` |
+| Bluetooth | `BluetoothProvider` | `DefaultBluetoothProvider` |
+| Health | `HealthProvider` | `DefaultHealthProvider` |
+| Background Task | `BackgroundTaskProvider` | `DefaultBackgroundTaskProvider` |
+| Kakao Share | — | `RynBridgeShareKakao` (requires KakaoSDK) |
 
 ```swift
 // Use a custom provider
@@ -651,6 +767,9 @@ bridge.register(StorageModule(provider: MyStorageProvider()))
 | Speech | `SpeechProvider` | `DefaultSpeechProvider` |
 | Analytics | `AnalyticsProvider` | — (interface only) |
 | Translation | `TranslationProvider` | — (interface only) |
+| Bluetooth | `BluetoothProvider` | `DefaultBluetoothProvider` |
+| Health | `HealthProvider` | `DefaultHealthProvider` |
+| Background Task | `BackgroundTaskProvider` | `DefaultBackgroundTaskProvider` |
 
 ```kotlin
 // Use a custom provider
@@ -784,6 +903,10 @@ RynBridge/
 │   ├── speech/                   # Speech recognition & TTS module
 │   ├── analytics/                # Analytics module
 │   ├── translation/              # Translation module
+│   ├── bluetooth/                # Bluetooth BLE module
+│   ├── health/                   # Health data module
+│   ├── background-task/          # Background task module
+│   ├── share-kakao/              # Kakao Talk share module
 │   ├── cli/                      # CLI tool (init, add, generate, doctor)
 │   ├── codegen/                  # Schema → TypeScript/Swift/Kotlin code generator
 │   └── devtools/                 # In-app debug panel
@@ -806,7 +929,15 @@ RynBridge/
 │   │   ├── RynBridgeWebView/
 │   │   ├── RynBridgeSpeech/
 │   │   ├── RynBridgeAnalytics/
-│   │   └── RynBridgeTranslation/
+│   │   ├── RynBridgeTranslation/
+│   │   ├── RynBridgeBluetooth/
+│   │   ├── RynBridgeHealth/
+│   │   ├── RynBridgeBackgroundTask/
+│   │   ├── RynBridgeShareKakao/
+│   │   ├── RynBridgeAuthApple/
+│   │   ├── RynBridgeAuthKakao/
+│   │   ├── RynBridgePushAPNs/
+│   │   └── RynBridgePaymentStoreKit/
 │   └── Package.swift
 ├── android/                      # Android SDK (Kotlin, Gradle)
 │   ├── core/
@@ -827,6 +958,13 @@ RynBridge/
 │   ├── speech/
 │   ├── analytics/
 │   ├── translation/
+│   ├── bluetooth/
+│   ├── health/
+│   ├── background-task/
+│   ├── auth-google/              # Google Sign-In provider
+│   ├── auth-kakao/               # Kakao login provider
+│   ├── push-fcm/                 # Firebase Cloud Messaging provider
+│   ├── payment-google-play/      # Google Play Billing provider
 │   └── playground/               # Android playground app
 ├── contracts/                    # JSON Schema definitions (source of truth)
 ├── docs/                         # Docusaurus documentation site
@@ -865,8 +1003,8 @@ Managed by [Turborepo](https://turbo.build). Build order respects dependencies:
 
 ```
 core → device, storage, secure-storage, ui, auth, push, payment, media, crypto,
-       share, contacts, calendar, navigation, webview, speech, analytics, translation
-       → playground-web
+       share, contacts, calendar, navigation, webview, speech, analytics, translation,
+       bluetooth, health, background-task, share-kakao → playground-web
 ```
 
 ---
@@ -882,9 +1020,10 @@ core → device, storage, secure-storage, ui, auth, push, payment, media, crypto
 | **v0.5.0** | Native providers — crypto, media implementation + auth/push/payment sub-packages | ✅ Done |
 | **v0.6.0** | Phase 3 basic — share, contacts, calendar | ✅ Done |
 | **v0.7.0** | Phase 3 intermediate — navigation, webview, speech, analytics, translation | ✅ Done |
-| **v0.8.0** | Phase 3 advanced — bluetooth, health, background-task | 🔲 Next |
-| **v0.9.0** | Release pipeline — npm publish, SPM release, Maven Central | 🔲 Planned |
-| **v1.0.0** | Stable release, API stabilization, performance benchmarks | 🔲 Planned |
+| **v0.8.0** | Phase 3 advanced — bluetooth, health, background-task | ✅ Done |
+| **v0.9.0** | Release pipeline — npm publish, SPM release, Maven Central | ✅ Done |
+| **v0.9.4** | Native → Web event emission, CLI doctor, bundle size check | ✅ Done |
+| **v1.0.0** | Stable release, API stabilization, performance benchmarks, Kakao Share module | ✅ Done |
 
 ### Module Phases
 
@@ -892,9 +1031,9 @@ core → device, storage, secure-storage, ui, auth, push, payment, media, crypto
 
 **Phase 2:** auth, push, payment, media, crypto
 
-**Phase 3 (v0.6.0–v0.7.0, done):** share, contacts, calendar, navigation, webview, speech, analytics, translation
+**Phase 3:** share, contacts, calendar, navigation, webview, speech, analytics, translation, bluetooth, health, background-task
 
-**Phase 3 (v0.8.0, planned):** bluetooth, health, background-task
+**Platform-specific:** share-kakao
 
 ---
 
