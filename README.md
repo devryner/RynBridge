@@ -1013,17 +1013,22 @@ core → device, storage, secure-storage, ui, auth, push, payment, media, crypto
 
 | Version | Milestone | Status |
 |---------|-----------|--------|
-| **v0.1.0** | Core protocol, 3-platform SDKs, Playground | ✅ Done |
-| **v0.2.0** | Phase 1 modules (device, storage, secure-storage, ui) | ✅ Done |
-| **v0.3.0** | DX tools — CLI, codegen, DevTools, docs site | ✅ Done |
-| **v0.4.0** | Phase 2 modules (auth, push, payment, media, crypto) | ✅ Done |
-| **v0.5.0** | Native providers — crypto, media implementation + auth/push/payment sub-packages | ✅ Done |
-| **v0.6.0** | Phase 3 basic — share, contacts, calendar | ✅ Done |
-| **v0.7.0** | Phase 3 intermediate — navigation, webview, speech, analytics, translation | ✅ Done |
-| **v0.8.0** | Phase 3 advanced — bluetooth, health, background-task | ✅ Done |
-| **v0.9.0** | Release pipeline — npm publish, SPM release, Maven Central | ✅ Done |
-| **v0.9.4** | Native → Web event emission, CLI doctor, bundle size check | ✅ Done |
-| **v1.0.0** | Stable release, API stabilization, performance benchmarks, Kakao Share module | ✅ Done |
+| **v0.0.1** | Core protocol, 3-platform SDKs, Playground | ✅ Done |
+| **v0.0.2** | Phase 1 modules (device, storage, secure-storage, ui) | ✅ Done |
+| **v0.0.3** | DX tools — CLI, codegen, DevTools, docs site | ✅ Done |
+| **v0.0.4** | Phase 2 modules (auth, push, payment, media, crypto) | ✅ Done |
+| **v0.0.5** | Native providers — crypto, media + auth/push/payment sub-packages | ✅ Done |
+| **v0.0.6** | Phase 3 basic — share, contacts, calendar | ✅ Done |
+| **v0.0.7** | Phase 3 intermediate — navigation, webview, speech, analytics, translation | ✅ Done |
+| **v0.0.8** | Phase 3 advanced — bluetooth, health, background-task | ✅ Done |
+| **v0.0.9** | Release pipeline — npm publish, SPM release, Maven Central | ✅ Done |
+| **v0.1.0** | Full module unit tests (3-platform CI integration) | ✅ Done |
+| **v0.1.1** | CLI doctor enhancement (dependency, permission, schema validation) | ✅ Done |
+| **v0.1.2** | API stabilization, performance benchmarks, bundle size CI | ✅ Done |
+| **v0.1.3** | Native → Web event emission (`emitEvent` API) | ✅ Done |
+| **v0.1.4** | 3rd-party sub-modules — Kakao Share (Web + iOS) | ✅ Done |
+| **v0.2.0** | Package publishing — npm, SPM release, Maven Central | 🔲 Next |
+| **v0.3.0** | Stable release + open source governance | 🔲 Planned |
 
 ### Module Phases
 
