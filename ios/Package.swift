@@ -36,7 +36,7 @@ let package = Package(
         .library(name: "RynBridgeShareKakao", targets: ["RynBridgeShareKakao"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/kakao/kakao-ios-sdk", from: "2.22.0"),
+        .package(url: "https://github.com/kakao/kakao-ios-sdk", from: "2.27.0"),
     ],
     targets: [
         .target(
