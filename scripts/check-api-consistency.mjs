@@ -15,13 +15,15 @@ const contractsDir = join(root, 'contracts');
 // Module name mappings between contract dir names and platform conventions
 function toWebPkg(contractName) {
   // Contract dirs use either kebab-case or camelCase
-  const map = { backgroundTask: 'background-task', secureStorage: 'secure-storage' };
+  const map = { backgroundTask: 'background-task', secureStorage: 'secure-storage', kakaoShare: 'share-kakao' };
   return map[contractName] ?? contractName;
 }
 
 function toIosTarget(contractName) {
   // Convert contract dir name to iOS SPM target name
   // e.g. "secure-storage" → "RynBridgeSecureStorage", "backgroundTask" → "RynBridgeBackgroundTask"
+  const iosMap = { kakaoShare: 'RynBridgeShareKakao', ui: 'RynBridgeUI', webview: 'RynBridgeWebView' };
+  if (iosMap[contractName]) return iosMap[contractName];
   const pascal = contractName
     .split(/[-]/)
     .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
@@ -30,7 +32,7 @@ function toIosTarget(contractName) {
 }
 
 function toAndroidDir(contractName) {
-  const map = { backgroundTask: 'background-task', secureStorage: 'secure-storage' };
+  const map = { backgroundTask: 'background-task', secureStorage: 'secure-storage', kakaoShare: 'share-kakao' };
   return map[contractName] ?? contractName;
 }
 
