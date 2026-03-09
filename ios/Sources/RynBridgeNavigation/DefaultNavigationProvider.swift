@@ -6,13 +6,48 @@ import RynBridge
 public final class DefaultNavigationProvider: NavigationProvider, @unchecked Sendable {
     private var initialURL: String?
     private var screenFactory: (@MainActor @Sendable (String, [String: AnyCodable]?) -> UIViewController?)?
+    private let eventEmitter: BridgeEventEmitter?
+    private var appStateObservers: [NSObjectProtocol] = []
 
-    public init(initialURL: String? = nil) {
+    public init(initialURL: String? = nil, eventEmitter: BridgeEventEmitter? = nil) {
         self.initialURL = initialURL
+        self.eventEmitter = eventEmitter
+        setupAppStateObservers()
+    }
+
+    private func setupAppStateObservers() {
+        guard eventEmitter != nil else { return }
+
+        let activeObserver = NotificationCenter.default.addObserver(
+            forName: UIApplication.didBecomeActiveNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.eventEmitter?("navigation", "appStateChange", ["state": .string("active")])
+        }
+        let inactiveObserver = NotificationCenter.default.addObserver(
+            forName: UIApplication.willResignActiveNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.eventEmitter?("navigation", "appStateChange", ["state": .string("inactive")])
+        }
+        let backgroundObserver = NotificationCenter.default.addObserver(
+            forName: UIApplication.didEnterBackgroundNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.eventEmitter?("navigation", "appStateChange", ["state": .string("background")])
+        }
+        appStateObservers = [activeObserver, inactiveObserver, backgroundObserver]
+    }
+
+    /// Call this from SceneDelegate/AppDelegate when a deep link is received
+    public func handleDeepLink(url: String) {
+        eventEmitter?("navigation", "deepLink", ["url": .string(url)])
     }
 
     /// Register a factory to create UIViewControllers for screen names.
-    /// Without this, push/present will create a basic UIViewController with the screen name as title.
     public func setScreenFactory(_ factory: @escaping @MainActor @Sendable (String, [String: AnyCodable]?) -> UIViewController?) {
         self.screenFactory = factory
     }
@@ -150,6 +185,12 @@ public final class DefaultNavigationProvider: NavigationProvider, @unchecked Sen
             state = "active"
         }
         return AppStateResult(state: state)
+    }
+
+    deinit {
+        for observer in appStateObservers {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
 }
 #endif

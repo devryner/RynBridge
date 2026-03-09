@@ -58,11 +58,42 @@ import LocalAuthentication
 public final class DefaultDeviceInfoProvider: NSObject, DeviceInfoProvider, CLLocationManagerDelegate, @unchecked Sendable {
     private var locationContinuation: CheckedContinuation<LocationInfo, any Error>?
     private let locationManager = CLLocationManager()
+    private let eventEmitter: BridgeEventEmitter?
+    private var batteryObservers: [NSObjectProtocol] = []
+    private var isTrackingLocation = false
 
-    public override init() {
+    public init(eventEmitter: BridgeEventEmitter? = nil) {
+        self.eventEmitter = eventEmitter
         super.init()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        setupBatteryObservers()
+    }
+
+    private func setupBatteryObservers() {
+        guard eventEmitter != nil else { return }
+        UIDevice.current.isBatteryMonitoringEnabled = true
+
+        let levelObserver = NotificationCenter.default.addObserver(
+            forName: UIDevice.batteryLevelDidChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.emitBatteryChange()
+        }
+        let stateObserver = NotificationCenter.default.addObserver(
+            forName: UIDevice.batteryStateDidChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.emitBatteryChange()
+        }
+        batteryObservers = [levelObserver, stateObserver]
+    }
+
+    private func emitBatteryChange() {
+        let info = getBatteryInfo()
+        eventEmitter?("device", "batteryChange", info.toPayload())
     }
 
     public func getDeviceInfo() -> DeviceInfo {
@@ -82,7 +113,7 @@ public final class DefaultDeviceInfoProvider: NSObject, DeviceInfoProvider, CLLo
         device.isBatteryMonitoringEnabled = true
         let level = Int(device.batteryLevel * 100)
         let isCharging = device.batteryState == .charging || device.batteryState == .full
-        if !wasEnabled { device.isBatteryMonitoringEnabled = false }
+        if !wasEnabled && eventEmitter == nil { device.isBatteryMonitoringEnabled = false }
         return BatteryInfo(level: max(level, 0), isCharging: isCharging)
     }
 
@@ -128,7 +159,6 @@ public final class DefaultDeviceInfoProvider: NSObject, DeviceInfoProvider, CLLo
                 imagePicker.sourceType = .camera
                 imagePicker.cameraDevice = camera == "front" ? .front : .rear
                 imagePicker.delegate = picker
-                // Retain coordinator until picker is dismissed
                 objc_setAssociatedObject(imagePicker, "coordinator", picker, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
                 viewController.present(imagePicker, animated: true)
             }
@@ -172,8 +202,12 @@ public final class DefaultDeviceInfoProvider: NSObject, DeviceInfoProvider, CLLo
             longitude: location.coordinate.longitude,
             accuracy: location.horizontalAccuracy
         )
-        locationContinuation?.resume(returning: info)
-        locationContinuation = nil
+        if let continuation = locationContinuation {
+            continuation.resume(returning: info)
+            locationContinuation = nil
+        }
+        // Emit location change event
+        eventEmitter?("device", "locationChange", info.toPayload())
     }
 
     public func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
@@ -196,6 +230,12 @@ public final class DefaultDeviceInfoProvider: NSObject, DeviceInfoProvider, CLLo
             top = presented
         }
         return top
+    }
+
+    deinit {
+        for observer in batteryObservers {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
 }
 

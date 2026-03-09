@@ -14,8 +14,10 @@ public final class DefaultBluetoothProvider: NSObject, BluetoothProvider, CBCent
     private var serviceDiscoveryContinuations: [String: CheckedContinuation<[[String: AnyCodable]], any Error>] = [:]
     private var readContinuations: [String: CheckedContinuation<String, any Error>] = [:]
     private var writeContinuations: [String: CheckedContinuation<Bool, any Error>] = [:]
+    private let eventEmitter: BridgeEventEmitter?
 
-    public override init() {
+    public init(eventEmitter: BridgeEventEmitter? = nil) {
+        self.eventEmitter = eventEmitter
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: queue)
     }
@@ -30,13 +32,6 @@ public final class DefaultBluetoothProvider: NSObject, BluetoothProvider, CBCent
                     stateReadyContinuation = continuation
                 }
             }
-        }
-    }
-
-    public func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        if central.state == .poweredOn {
-            stateReadyContinuation?.resume()
-            stateReadyContinuation = nil
         }
     }
 
@@ -149,7 +144,11 @@ public final class DefaultBluetoothProvider: NSObject, BluetoothProvider, CBCent
     }
 
     public func getState() async throws -> String {
-        switch centralManager.state {
+        return stateString(centralManager.state)
+    }
+
+    private func stateString(_ state: CBManagerState) -> String {
+        switch state {
         case .poweredOn: return "poweredOn"
         case .poweredOff: return "poweredOff"
         case .resetting: return "resetting"
@@ -162,9 +161,27 @@ public final class DefaultBluetoothProvider: NSObject, BluetoothProvider, CBCent
 
     // MARK: - CBCentralManagerDelegate
 
+    public func centralManagerDidUpdateState(_ central: CBCentralManager) {
+        if central.state == .poweredOn {
+            stateReadyContinuation?.resume()
+            stateReadyContinuation = nil
+        }
+        // Emit stateChange event
+        eventEmitter?("bluetooth", "stateChange", ["state": .string(stateString(central.state))])
+    }
+
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
         let id = peripheral.identifier.uuidString
         discoveredPeripherals[id] = peripheral
+
+        // Emit deviceFound event
+        let serviceUUIDs: [AnyCodable] = (advertisementData[CBAdvertisementDataServiceUUIDsKey] as? [CBUUID])?.map { .string($0.uuidString) } ?? []
+        eventEmitter?("bluetooth", "deviceFound", [
+            "deviceId": .string(id),
+            "name": peripheral.name.map { .string($0) } ?? .null,
+            "rssi": .int(RSSI.intValue),
+            "serviceUUIDs": .array(serviceUUIDs),
+        ])
     }
 
     public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
@@ -194,13 +211,7 @@ public final class DefaultBluetoothProvider: NSObject, BluetoothProvider, CBCent
             serviceDiscoveryContinuations.removeValue(forKey: id)?.resume(throwing: RynBridgeError(code: .unknown, message: error.localizedDescription))
             return
         }
-        guard let services = peripheral.services else {
-            serviceDiscoveryContinuations.removeValue(forKey: id)?.resume(returning: [])
-            return
-        }
-        // Discover characteristics for each service
-        var remaining = services.count
-        if remaining == 0 {
+        guard let services = peripheral.services, !services.isEmpty else {
             serviceDiscoveryContinuations.removeValue(forKey: id)?.resume(returning: [])
             return
         }
@@ -212,7 +223,6 @@ public final class DefaultBluetoothProvider: NSObject, BluetoothProvider, CBCent
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: (any Error)?) {
         let id = peripheral.identifier.uuidString
         guard let services = peripheral.services else { return }
-        // Check if all services have their characteristics discovered
         let allDiscovered = services.allSatisfy { $0.characteristics != nil }
         guard allDiscovered else { return }
 
@@ -233,13 +243,27 @@ public final class DefaultBluetoothProvider: NSObject, BluetoothProvider, CBCent
 
     public func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: (any Error)?) {
         let id = peripheral.identifier.uuidString
-        let key = "\(id):\(characteristic.uuid.uuidString)"
+        let charUUID = characteristic.uuid.uuidString
+        let key = "\(id):\(charUUID)"
+        let base64 = characteristic.value?.base64EncodedString() ?? ""
+
         if let error {
             readContinuations.removeValue(forKey: key)?.resume(throwing: RynBridgeError(code: .unknown, message: error.localizedDescription))
             return
         }
-        let base64 = characteristic.value?.base64EncodedString() ?? ""
-        readContinuations.removeValue(forKey: key)?.resume(returning: base64)
+
+        if let continuation = readContinuations.removeValue(forKey: key) {
+            continuation.resume(returning: base64)
+        } else {
+            // This is a notification update (not a read request) → emit characteristicChange event
+            let serviceUUID = characteristic.service?.uuid.uuidString ?? ""
+            eventEmitter?("bluetooth", "characteristicChange", [
+                "deviceId": .string(id),
+                "serviceUUID": .string(serviceUUID),
+                "characteristicUUID": .string(charUUID),
+                "value": .string(base64),
+            ])
+        }
     }
 
     public func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: (any Error)?) {

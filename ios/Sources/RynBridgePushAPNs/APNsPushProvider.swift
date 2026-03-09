@@ -8,12 +8,47 @@ import UIKit
 
 public final class APNsPushProvider: PushProvider, @unchecked Sendable {
     private var deviceToken: String?
+    private let eventEmitter: BridgeEventEmitter?
+    private var initialNotification: PushNotificationData?
 
-    public init() {}
+    public init(eventEmitter: BridgeEventEmitter? = nil) {
+        self.eventEmitter = eventEmitter
+    }
 
     /// Call this from AppDelegate's `application(_:didRegisterForRemoteNotificationsWithDeviceToken:)`
     public func setDeviceToken(_ tokenData: Data) {
-        deviceToken = tokenData.map { String(format: "%02x", $0) }.joined()
+        let newToken = tokenData.map { String(format: "%02x", $0) }.joined()
+        let tokenChanged = deviceToken != nil && deviceToken != newToken
+        deviceToken = newToken
+
+        if tokenChanged {
+            eventEmitter?("push", "tokenRefresh", ["token": .string(newToken)])
+        }
+    }
+
+    /// Call this from AppDelegate/SceneDelegate when a push notification is received in foreground
+    public func handleNotificationReceived(title: String?, body: String?, data: [String: AnyCodable]? = nil) {
+        let payload: [String: AnyCodable] = [
+            "title": title.map { .string($0) } ?? .null,
+            "body": body.map { .string($0) } ?? .null,
+            "data": data.map { .dictionary($0) } ?? .null,
+        ]
+        eventEmitter?("push", "notification", payload)
+    }
+
+    /// Call this when user taps a notification from background/terminated state
+    public func handleNotificationOpened(title: String?, body: String?, data: [String: AnyCodable]? = nil) {
+        let payload: [String: AnyCodable] = [
+            "title": title.map { .string($0) } ?? .null,
+            "body": body.map { .string($0) } ?? .null,
+            "data": data.map { .dictionary($0) } ?? .null,
+        ]
+        eventEmitter?("push", "notificationOpened", payload)
+    }
+
+    /// Call this from AppDelegate when app launches from a notification tap (cold start)
+    public func setInitialNotification(_ notification: PushNotificationData) {
+        self.initialNotification = notification
     }
 
     public func register() async throws -> PushRegistration {
@@ -63,7 +98,7 @@ public final class APNsPushProvider: PushProvider, @unchecked Sendable {
     }
 
     public func getInitialNotification() async throws -> PushNotificationData? {
-        return nil
+        return initialNotification
     }
 }
 #endif

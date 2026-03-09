@@ -5,20 +5,46 @@ import RynBridge
 
 public final class DefaultHealthProvider: HealthProvider, @unchecked Sendable {
     private let healthStore: HKHealthStore
+    private let eventEmitter: BridgeEventEmitter?
+    private var observerQueries: [HKObserverQuery] = []
 
-    public init() {
+    public init(eventEmitter: BridgeEventEmitter? = nil) {
         self.healthStore = HKHealthStore()
+        self.eventEmitter = eventEmitter
     }
 
     public func requestPermission(readTypes: [String], writeTypes: [String]) async throws -> Bool {
         let readSet = Set(readTypes.compactMap { quantityType(for: $0) as HKObjectType? })
         let writeSet = Set(writeTypes.compactMap { quantityType(for: $0) as HKSampleType? })
         try await healthStore.requestAuthorization(toShare: writeSet, read: readSet)
+
+        // Set up observer queries for read types to emit dataChange events
+        if eventEmitter != nil {
+            setupObserverQueries(for: readTypes)
+        }
+
         return true
     }
 
+    private func setupObserverQueries(for dataTypes: [String]) {
+        // Remove existing queries
+        for query in observerQueries {
+            healthStore.stop(query)
+        }
+        observerQueries.removeAll()
+
+        for dataType in dataTypes {
+            guard let sampleType = quantityType(for: dataType) else { continue }
+            let query = HKObserverQuery(sampleType: sampleType, predicate: nil) { [weak self] _, _, error in
+                guard error == nil else { return }
+                self?.eventEmitter?("health", "dataChange", ["dataType": .string(dataType)])
+            }
+            healthStore.execute(query)
+            observerQueries.append(query)
+        }
+    }
+
     public func getPermissionStatus() async throws -> String {
-        // Check a common type (steps) as a representative
         guard let stepsType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
             return "notDetermined"
         }
@@ -187,6 +213,12 @@ public final class DefaultHealthProvider: HealthProvider, @unchecked Sendable {
             return date
         }
         throw RynBridgeError(code: .invalidMessage, message: "Invalid date format: \(string)")
+    }
+
+    deinit {
+        for query in observerQueries {
+            healthStore.stop(query)
+        }
     }
 }
 #endif

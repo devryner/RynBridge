@@ -10,8 +10,11 @@ public final class DefaultSpeechProvider: SpeechProvider, @unchecked Sendable {
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
     private var currentSessionId: String?
+    private let eventEmitter: BridgeEventEmitter?
 
-    public init() {}
+    public init(eventEmitter: BridgeEventEmitter? = nil) {
+        self.eventEmitter = eventEmitter
+    }
 
     public func startRecognition(language: String?) async throws -> StartRecognitionResult {
         let locale = language.map { Locale(identifier: $0) } ?? Locale.current
@@ -38,8 +41,22 @@ public final class DefaultSpeechProvider: SpeechProvider, @unchecked Sendable {
 
         let sessionId = UUID().uuidString
 
-        recognitionTask = recognizer.recognitionTask(with: request) { _, _ in
-            // Results are delivered via the bridge event system (onRecognitionResult)
+        recognitionTask = recognizer.recognitionTask(with: request) { [weak self] result, error in
+            guard let result else {
+                if let error {
+                    self?.eventEmitter?("speech", "recognitionResult", [
+                        "transcript": .string(""),
+                        "isFinal": .bool(true),
+                    ])
+                    _ = error // consumed
+                }
+                return
+            }
+            // Emit recognition result event
+            self?.eventEmitter?("speech", "recognitionResult", [
+                "transcript": .string(result.bestTranscription.formattedString),
+                "isFinal": .bool(result.isFinal),
+            ])
         }
 
         self.audioEngine = engine

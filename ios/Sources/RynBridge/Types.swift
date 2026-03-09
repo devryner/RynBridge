@@ -61,6 +61,10 @@ public struct BridgeConfig: Sendable {
 
 public typealias ActionHandler = @Sendable ([String: AnyCodable]) async throws -> [String: AnyCodable]
 
+/// Closure type for emitting events from Native to Web.
+/// Parameters: (module, action, payload)
+public typealias BridgeEventEmitter = @Sendable (String, String, [String: AnyCodable]) -> Void
+
 public protocol BridgeModule: Sendable {
     var name: String { get }
     var version: String { get }

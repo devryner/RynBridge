@@ -1217,11 +1217,13 @@ RynBridge/
 - [x] Android core: `RynBridge.emitEvent(module, action, payload)` 메서드 추가
 - [x] 이벤트 발행은 앱 레이어에서 `bridge.emitEvent()` 호출 방식 (Provider 주입 불필요)
 - [x] 단위 테스트 (3 플랫폼)
-- [ ] 대상 이벤트:
+- [x] 대상 이벤트:
   - push: `onNotification`, `onTokenRefresh`, `onNotificationOpened`
   - navigation: `onDeepLink`, `onAppStateChange`
   - device: `onBatteryChange`, `onLocationChange`
   - bluetooth: `onDeviceFound`, `onCharacteristicChange`, `onStateChange`
+  - speech: `onRecognitionResult`
+  - health: `onDataChange`
   - 기타 `on*` 이벤트 전체
 
 ### v1.0.0 — Stable Release + 오픈소스 운영
