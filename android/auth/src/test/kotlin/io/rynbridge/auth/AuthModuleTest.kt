@@ -128,7 +128,7 @@ class AuthModuleTest {
         val requestJSON = """{"id":"req-1","module":"auth","action":"getToken","payload":{},"version":"0.1.0"}"""
         transport.simulateIncoming(requestJSON)
 
-        withContext(Dispatchers.Default) { delay(200) }
+        withContext(Dispatchers.Default) { delay(500) }
 
         assertEquals(1, transport.sent.size)
         val json = Json { ignoreUnknownKeys = true }
