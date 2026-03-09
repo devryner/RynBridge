@@ -1,19 +1,21 @@
-import Foundation
-import RynBridge
-
 #if canImport(AVFoundation) && canImport(UIKit)
+import Foundation
 import AVFoundation
 import UIKit
 import UniformTypeIdentifiers
 import PhotosUI
+import RynBridge
 
-public final class DefaultMediaProvider: MediaProvider, @unchecked Sendable {
+public final class DefaultMediaProvider: NSObject, MediaProvider, PHPickerViewControllerDelegate, @unchecked Sendable {
     private var audioPlayers: [String: AVAudioPlayer] = [:]
     private var audioRecorders: [String: AVAudioRecorder] = [:]
     private var recordingStartTimes: [String: Date] = [:]
     private let queue = DispatchQueue(label: "io.rynbridge.media")
+    private var pickContinuation: CheckedContinuation<[MediaFile], any Error>?
 
-    public init() {}
+    public override init() {
+        super.init()
+    }
 
     public func playAudio(source: String, loop: Bool, volume: Double) async throws -> String {
         let playerId = UUID().uuidString
@@ -125,7 +127,105 @@ public final class DefaultMediaProvider: MediaProvider, @unchecked Sendable {
     }
 
     public func pickMedia(type: String, multiple: Bool) async throws -> [MediaFile] {
-        throw RynBridgeError(code: .unknown, message: "pickMedia requires a UIViewController context. Use a custom provider for UI-based media picking.")
+        return try await withCheckedThrowingContinuation { continuation in
+            Task { @MainActor in
+                guard let viewController = Self.topViewController() else {
+                    continuation.resume(returning: [])
+                    return
+                }
+                self.pickContinuation = continuation
+
+                var config = PHPickerConfiguration()
+                config.selectionLimit = multiple ? 0 : 1
+                switch type {
+                case "image":
+                    config.filter = .images
+                case "video":
+                    config.filter = .videos
+                default:
+                    config.filter = .any(of: [.images, .videos])
+                }
+
+                let picker = PHPickerViewController(configuration: config)
+                picker.delegate = self
+                viewController.present(picker, animated: true)
+            }
+        }
+    }
+
+    // MARK: - PHPickerViewControllerDelegate
+
+    public func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+
+        guard !results.isEmpty else {
+            pickContinuation?.resume(returning: [])
+            pickContinuation = nil
+            return
+        }
+
+        Task {
+            var files: [MediaFile] = []
+            for result in results {
+                let provider = result.itemProvider
+
+                if provider.hasItemConformingToTypeIdentifier(UTType.image.identifier) {
+                    if let file = await loadItem(provider: provider, type: UTType.image) {
+                        files.append(file)
+                    }
+                } else if provider.hasItemConformingToTypeIdentifier(UTType.movie.identifier) {
+                    if let file = await loadItem(provider: provider, type: UTType.movie) {
+                        files.append(file)
+                    }
+                }
+            }
+            pickContinuation?.resume(returning: files)
+            pickContinuation = nil
+        }
+    }
+
+    private func loadItem(provider: NSItemProvider, type: UTType) async -> MediaFile? {
+        return await withCheckedContinuation { continuation in
+            provider.loadFileRepresentation(forTypeIdentifier: type.identifier) { url, error in
+                guard let url, error == nil else {
+                    continuation.resume(returning: nil)
+                    return
+                }
+                let tempDir = FileManager.default.temporaryDirectory
+                let destURL = tempDir.appendingPathComponent(url.lastPathComponent)
+                try? FileManager.default.removeItem(at: destURL)
+                do {
+                    try FileManager.default.copyItem(at: url, to: destURL)
+                    let attrs = try FileManager.default.attributesOfItem(atPath: destURL.path)
+                    let size = (attrs[.size] as? Int) ?? 0
+                    let mimeType = type == .image ? "image/jpeg" : "video/mp4"
+                    let file = MediaFile(
+                        name: destURL.lastPathComponent,
+                        path: destURL.path,
+                        mimeType: mimeType,
+                        size: size
+                    )
+                    continuation.resume(returning: file)
+                } catch {
+                    continuation.resume(returning: nil)
+                }
+            }
+        }
+    }
+
+    @MainActor
+    private static func topViewController() -> UIViewController? {
+        guard let windowScene = UIApplication.shared.connectedScenes
+                .compactMap({ $0 as? UIWindowScene })
+                .first,
+              let root = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController else {
+            return nil
+        }
+        var top = root
+        while let presented = top.presentedViewController {
+            top = presented
+        }
+        return top
     }
 }
 #endif

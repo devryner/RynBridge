@@ -51,9 +51,19 @@ public struct DeviceModule: BridgeModule, Sendable {
 #if canImport(UIKit)
 import UIKit
 import AudioToolbox
+import AVFoundation
+import CoreLocation
+import LocalAuthentication
 
-public final class DefaultDeviceInfoProvider: DeviceInfoProvider, @unchecked Sendable {
-    public init() {}
+public final class DefaultDeviceInfoProvider: NSObject, DeviceInfoProvider, CLLocationManagerDelegate, @unchecked Sendable {
+    private var locationContinuation: CheckedContinuation<LocationInfo, any Error>?
+    private let locationManager = CLLocationManager()
+
+    public override init() {
+        super.init()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    }
 
     public func getDeviceInfo() -> DeviceInfo {
         let device = UIDevice.current
@@ -101,15 +111,133 @@ public final class DefaultDeviceInfoProvider: DeviceInfoProvider, @unchecked Sen
     }
 
     public func capturePhoto(quality: Double, camera: String) async throws -> CapturePhotoResult {
-        throw RynBridgeError(code: .unknown, message: "capturePhoto requires a custom provider implementation")
+        return try await withCheckedThrowingContinuation { continuation in
+            Task { @MainActor in
+                guard let viewController = Self.topViewController() else {
+                    continuation.resume(throwing: RynBridgeError(code: .unknown, message: "No view controller available"))
+                    return
+                }
+
+                guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
+                    continuation.resume(throwing: RynBridgeError(code: .unknown, message: "Camera not available"))
+                    return
+                }
+
+                let picker = CameraPickerCoordinator(quality: quality, continuation: continuation)
+                let imagePicker = UIImagePickerController()
+                imagePicker.sourceType = .camera
+                imagePicker.cameraDevice = camera == "front" ? .front : .rear
+                imagePicker.delegate = picker
+                // Retain coordinator until picker is dismissed
+                objc_setAssociatedObject(imagePicker, "coordinator", picker, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+                viewController.present(imagePicker, animated: true)
+            }
+        }
     }
 
     public func getLocation() async throws -> LocationInfo {
-        throw RynBridgeError(code: .unknown, message: "getLocation requires a custom provider implementation")
+        let status = locationManager.authorizationStatus
+        if status == .notDetermined {
+            locationManager.requestWhenInUseAuthorization()
+        } else if status == .denied || status == .restricted {
+            throw RynBridgeError(code: .unknown, message: "Location permission denied")
+        }
+
+        return try await withCheckedThrowingContinuation { continuation in
+            locationContinuation = continuation
+            locationManager.requestLocation()
+        }
     }
 
     public func authenticate(reason: String) async throws -> AuthenticateResult {
-        throw RynBridgeError(code: .unknown, message: "authenticate requires a custom provider implementation")
+        let context = LAContext()
+        var error: NSError?
+        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
+            throw RynBridgeError(code: .unknown, message: error?.localizedDescription ?? "Biometric authentication not available")
+        }
+        do {
+            let success = try await context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason)
+            return AuthenticateResult(success: success)
+        } catch {
+            return AuthenticateResult(success: false)
+        }
+    }
+
+    // MARK: - CLLocationManagerDelegate
+
+    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        let info = LocationInfo(
+            latitude: location.coordinate.latitude,
+            longitude: location.coordinate.longitude,
+            accuracy: location.horizontalAccuracy
+        )
+        locationContinuation?.resume(returning: info)
+        locationContinuation = nil
+    }
+
+    public func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
+        locationContinuation?.resume(throwing: RynBridgeError(code: .unknown, message: error.localizedDescription))
+        locationContinuation = nil
+    }
+
+    // MARK: - Helpers
+
+    @MainActor
+    private static func topViewController() -> UIViewController? {
+        guard let windowScene = UIApplication.shared.connectedScenes
+                .compactMap({ $0 as? UIWindowScene })
+                .first,
+              let root = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController else {
+            return nil
+        }
+        var top = root
+        while let presented = top.presentedViewController {
+            top = presented
+        }
+        return top
+    }
+}
+
+// MARK: - Camera Picker Coordinator
+
+private class CameraPickerCoordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    let quality: Double
+    let continuation: CheckedContinuation<CapturePhotoResult, any Error>
+    private var didResume = false
+
+    init(quality: Double, continuation: CheckedContinuation<CapturePhotoResult, any Error>) {
+        self.quality = quality
+        self.continuation = continuation
+    }
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        picker.dismiss(animated: true)
+        guard !didResume else { return }
+        didResume = true
+
+        guard let image = info[.originalImage] as? UIImage else {
+            continuation.resume(throwing: RynBridgeError(code: .unknown, message: "Failed to capture image"))
+            return
+        }
+        guard let data = image.jpegData(compressionQuality: CGFloat(quality)) else {
+            continuation.resume(throwing: RynBridgeError(code: .unknown, message: "Failed to compress image"))
+            return
+        }
+        let base64 = data.base64EncodedString()
+        let result = CapturePhotoResult(
+            imageBase64: base64,
+            width: Int(image.size.width),
+            height: Int(image.size.height)
+        )
+        continuation.resume(returning: result)
+    }
+
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
+        guard !didResume else { return }
+        didResume = true
+        continuation.resume(throwing: RynBridgeError(code: .unknown, message: "Camera cancelled"))
     }
 }
 #endif

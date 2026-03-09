@@ -1,13 +1,17 @@
-#if canImport(Contacts)
+#if canImport(Contacts) && canImport(ContactsUI) && canImport(UIKit)
 import Foundation
 import Contacts
+import ContactsUI
+import UIKit
 import RynBridge
 
-public final class DefaultContactsProvider: ContactsProvider, @unchecked Sendable {
+public final class DefaultContactsProvider: NSObject, ContactsProvider, CNContactPickerDelegate, @unchecked Sendable {
     private let store: CNContactStore
+    private var pickContinuation: CheckedContinuation<ContactData?, Never>?
 
-    public init() {
+    public override init() {
         self.store = CNContactStore()
+        super.init()
     }
 
     private let keysToFetch: [CNKeyDescriptor] = [
@@ -123,7 +127,18 @@ public final class DefaultContactsProvider: ContactsProvider, @unchecked Sendabl
     }
 
     public func pickContact() async throws -> ContactData? {
-        throw RynBridgeError(code: .unknown, message: "pickContact requires UI context and must be implemented by the host application")
+        return await withCheckedContinuation { continuation in
+            Task { @MainActor in
+                guard let viewController = Self.topViewController() else {
+                    continuation.resume(returning: nil)
+                    return
+                }
+                self.pickContinuation = continuation
+                let picker = CNContactPickerViewController()
+                picker.delegate = self
+                viewController.present(picker, animated: true)
+            }
+        }
     }
 
     public func requestPermission() async throws -> Bool {
@@ -142,6 +157,36 @@ public final class DefaultContactsProvider: ContactsProvider, @unchecked Sendabl
         @unknown default:
             return "notDetermined"
         }
+    }
+
+    // MARK: - CNContactPickerDelegate
+
+    public func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
+        let data = contactToData(contact)
+        pickContinuation?.resume(returning: data)
+        pickContinuation = nil
+    }
+
+    public func contactPickerDidCancel(_ picker: CNContactPickerViewController) {
+        pickContinuation?.resume(returning: nil)
+        pickContinuation = nil
+    }
+
+    // MARK: - Helpers
+
+    @MainActor
+    private static func topViewController() -> UIViewController? {
+        guard let windowScene = UIApplication.shared.connectedScenes
+                .compactMap({ $0 as? UIWindowScene })
+                .first,
+              let root = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController else {
+            return nil
+        }
+        var top = root
+        while let presented = top.presentedViewController {
+            top = presented
+        }
+        return top
     }
 }
 #endif

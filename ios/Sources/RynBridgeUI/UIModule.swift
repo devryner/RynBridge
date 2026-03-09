@@ -70,7 +70,29 @@ import UIKit
 
 @MainActor
 public final class DefaultUIProvider: UIProvider {
-    public init() {}
+    private var keyboardHeight: Double = 0
+    private var keyboardVisible: Bool = false
+
+    public init() {
+        NotificationCenter.default.addObserver(
+            forName: UIResponder.keyboardWillShowNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] notification in
+            if let frame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+                self?.keyboardHeight = frame.height
+                self?.keyboardVisible = true
+            }
+        }
+        NotificationCenter.default.addObserver(
+            forName: UIResponder.keyboardWillHideNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.keyboardHeight = 0
+            self?.keyboardVisible = false
+        }
+    }
 
     nonisolated public func showAlert(title: String, message: String, buttonText: String) async {
         await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
@@ -173,9 +195,33 @@ public final class DefaultUIProvider: UIProvider {
 
     nonisolated public func setStatusBar(style: String?, hidden: Bool?) async {
         await MainActor.run {
-            // Status bar customization requires the host app's UIViewController to implement
-            // preferredStatusBarStyle and prefersStatusBarHidden
-            // This is a no-op in the default implementation
+            guard let windowScene = UIApplication.shared.connectedScenes
+                    .compactMap({ $0 as? UIWindowScene })
+                    .first else { return }
+
+            if let hidden {
+                let geometry = UIWindowScene.GeometryPreferences.iOS(interfaceOrientations: windowScene.interfaceOrientation.isLandscape ? .landscape : .portrait)
+                if hidden {
+                    windowScene.requestGeometryUpdate(geometry)
+                }
+            }
+            if let style {
+                let barStyle: UIStatusBarStyle
+                switch style {
+                case "light":
+                    barStyle = .lightContent
+                case "dark":
+                    barStyle = .darkContent
+                default:
+                    barStyle = .default
+                }
+                // Post notification for host app to handle status bar style change
+                NotificationCenter.default.post(
+                    name: Notification.Name("RynBridgeStatusBarStyleChange"),
+                    object: nil,
+                    userInfo: ["style": barStyle, "hidden": hidden ?? false]
+                )
+            }
         }
     }
 
@@ -192,9 +238,9 @@ public final class DefaultUIProvider: UIProvider {
     }
 
     nonisolated public func getKeyboardHeight() async -> KeyboardInfo {
-        // Keyboard height tracking requires notification observers
-        // This default implementation returns hidden state
-        return KeyboardInfo(height: 0, visible: false)
+        return await MainActor.run {
+            return KeyboardInfo(height: keyboardHeight, visible: keyboardVisible)
+        }
     }
 
     @MainActor
