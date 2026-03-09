@@ -1,7 +1,5 @@
 package io.rynbridge.core
 
-import kotlinx.coroutines.delay
-
 class MockTransport : Transport {
 
     private val lock = Any()
@@ -11,13 +9,13 @@ class MockTransport : Transport {
     val sent: List<String>
         get() = synchronized(lock) { _sent.toList() }
 
-    suspend fun awaitSent(count: Int, timeoutMs: Long = 3000L) {
+    fun awaitSent(count: Int, timeoutMs: Long = 3000L) {
         val start = System.currentTimeMillis()
         while (sent.size < count) {
             if (System.currentTimeMillis() - start > timeoutMs) {
                 error("Timed out waiting for $count sent messages (got ${sent.size})")
             }
-            delay(10)
+            Thread.sleep(10)
         }
     }
 
