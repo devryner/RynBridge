@@ -89,6 +89,7 @@ Select the products you need:
 - `RynBridgeBluetooth`
 - `RynBridgeHealth`
 - `RynBridgeBackgroundTask`
+- `RynBridgePushFCM` (requires Firebase SDK)
 - `RynBridgeShareKakao` (requires KakaoSDK)
 
 ### Android (Gradle)
@@ -756,7 +757,7 @@ On iOS and Android, each module delegates to a **Provider** interface. This sepa
 | Secure Storage | `SecureStorageProvider` | `KeychainSecureStorageProvider` |
 | UI | `UIProvider` | `DefaultUIProvider` |
 | Auth | `AuthProvider` | — (sub-packages: `RynBridgeAuthApple`) |
-| Push | `PushProvider` | — (sub-packages: `RynBridgePushAPNS`) |
+| Push | `PushProvider` | — (sub-packages: `RynBridgePushAPNs`, `RynBridgePushFCM`) |
 | Payment | `PaymentProvider` | — (sub-packages: `RynBridgePaymentStoreKit`) |
 | Media | `MediaProvider` | `DefaultMediaProvider` |
 | Crypto | `CryptoProvider` | `DefaultCryptoProvider` |
@@ -978,6 +979,7 @@ RynBridge/
 │   │   ├── RynBridgeAuthApple/
 │   │   ├── RynBridgeAuthKakao/
 │   │   ├── RynBridgePushAPNs/
+│   │   ├── RynBridgePushFCM/
 │   │   └── RynBridgePaymentStoreKit/
 │   └── Package.swift
 ├── android/                      # Android SDK (Kotlin, Gradle)
