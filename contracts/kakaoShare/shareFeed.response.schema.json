@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "KakaoShare shareFeed Response",
+  "type": "object",
+  "properties": {
+    "success": { "type": "boolean" },
+    "sharingUrl": { "type": "string", "format": "uri" }
+  },
+  "required": ["success"],
+  "additionalProperties": false
+}

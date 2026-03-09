@@ -1121,7 +1121,7 @@ RynBridge/
 
 ## 10. 로드맵
 
-### v0.1.0 — Foundation
+### v0.0.1 — Foundation
 - [x] 코어 메시지 프로토콜 설계 및 구현
 - [x] Web (TypeScript) core SDK
 - [x] iOS (Swift) core SDK
@@ -1129,27 +1129,27 @@ RynBridge/
 - [x] 기본 통신 (Request-Response) 동작 검증
 - [x] Playground 앱 (Web + iOS + Android)
 
-### v0.2.0 — Phase 1 모듈
+### v0.0.2 — Phase 1 모듈
 - [x] device 모듈 (카메라, GPS, 생체인증)
 - [x] storage 모듈 (SharedPreferences, UserDefaults, 파일시스템)
 - [x] secure-storage 모듈 (KeyChain/KeyStore, 암호화 저장)
 - [x] ui 모듈 (다이얼로그, 토스트, 상태바, 키보드)
 - [x] Event Stream 통신 패턴
 
-### v0.3.0 — DX 강화
+### v0.0.3 — DX 강화
 - [x] CLI 도구 (`rynbridge init`, `rynbridge add`)
 - [x] 타입 공유 코드 생성 시스템
 - [x] DevTools 디버그 패널
 - [x] Docusaurus 문서 사이트
 
-### v0.4.0 — Phase 2 모듈
+### v0.0.4 — Phase 2 모듈
 - [x] auth 모듈
 - [x] push 모듈 (등록/해제, 권한 관리, getInitialNotification, onNotificationOpened)
 - [x] payment 모듈
 - [x] media 모듈
 - [x] crypto 모듈 (E2EE 키 교환, AES-256-GCM 암호화, 키 로테이션)
 
-### v0.5.0 — 네이티브 Provider 실구현
+### v0.0.5 — 네이티브 Provider 실구현
 - [x] crypto Provider 구현 (CryptoKit / javax.crypto, 외부 의존성 없음)
 - [x] media Provider 구현 (AVFoundation / MediaPlayer, 외부 의존성 없음)
 - [x] auth 하위 패키지 분리 구조 도입 (iOS: `RynBridgeAuthApple`, Android: `auth-google`)
@@ -1159,13 +1159,13 @@ RynBridge/
 - [x] Android push-fcm Provider 실구현 (Firebase Messaging SDK)
 - [x] Android payment-google-play Provider 실구현 (Play Billing SDK)
 - [x] auth-kakao 하위 패키지 추가 (iOS: KakaoSDK, Android: KakaoSDK)
-### v0.6.0 — Phase 3 기본 모듈
+### v0.0.6 — Phase 3 기본 모듈
 - [x] share 모듈 (UIActivityViewController / Intent, 클립보드) + share-kakao 하위 패키지
 - [x] contacts 모듈 (Contacts.framework / ContactsContract)
 - [x] calendar 모듈 (EventKit / CalendarContract)
 - [x] 각 모듈 contract 스키마, Web SDK, iOS/Android Provider 구현
 
-### v0.7.0 — Phase 3 중급 모듈
+### v0.0.7 — Phase 3 중급 모듈
 - [x] navigation 모듈 (네이티브 화면 전환, 딥링크)
 - [x] webview 모듈 (멀티 WebView 관리, WebView 간 메시지 통신, 보안 모델)
 - [x] speech 모듈 (Speech.framework / SpeechRecognizer, STT/TTS)
@@ -1173,20 +1173,20 @@ RynBridge/
 - [x] translation 모듈 + 하위 패키지 분리 (`translation-apple`, `translation-mlkit`)
 - [x] 각 모듈 contract 스키마, Web SDK, iOS/Android Provider 구현
 
-### v0.8.0 — Phase 3 고급 모듈
+### v0.0.8 — Phase 3 고급 모듈
 - [x] bluetooth 모듈 (CoreBluetooth / BluetoothGatt, BLE 스캔/연결/데이터 교환)
 - [x] health 모듈 (HealthKit / Health Connect, 건강 데이터 조회/기록)
 - [x] background-task 모듈 (BGTaskScheduler / WorkManager, 오프라인 동기화)
 - [x] 각 모듈 contract 스키마, Web SDK, iOS/Android Provider 구현
 
-### v0.9.0 — 배포 파이프라인
+### v0.0.9 — 배포 파이프라인
 - [x] npm publish 워크플로우 (GitHub Actions, 태그 기반 자동 배포)
 - [x] NPM_TOKEN 시크릿 및 `.npmrc` 레지스트리 설정
 - [x] 모노레포 버전 관리 도구 도입 (changesets)
 - [x] iOS SPM 릴리스 (GitHub Release 태그)
 - [x] Android Maven Central 배포 설정
 
-### v0.9.1 — 전체 모듈 단위 테스트
+### v0.1.0 — 전체 모듈 단위 테스트
 - [x] Phase 1 모듈 테스트 보강 (device, storage, secure-storage, ui)
 - [x] Phase 2 모듈 플랫폼별 단위 테스트 (auth, push, payment, media, crypto)
 - [x] Phase 3 기본 모듈 테스트 (share, contacts, calendar)
@@ -1195,7 +1195,7 @@ RynBridge/
 - [x] 각 테스트 3플랫폼 대응 (Web: Vitest, iOS: XCTest, Android: JUnit)
 - [x] CI 파이프라인에 전체 테스트 통합
 
-### v0.9.2 — CLI doctor 강화
+### v0.1.1 — CLI doctor 강화
 - [x] 모듈 간 의존성 검증 (core 누락, 버전 불일치 감지)
 - [x] 하위 패키지 외부 SDK 설치 여부 확인 (auth-google → Google Sign-In SDK 등)
 - [x] 플랫폼별 네이티브 설정 검증 (iOS: Info.plist 권한 키, Android: AndroidManifest 권한)
@@ -1203,13 +1203,13 @@ RynBridge/
 - [x] Playground 빌드 상태 및 web asset 동기화 확인
 - [x] 진단 결과 리포트 출력 (pass/warn/fail 요약)
 
-### v0.9.3 — Stable Release 준비
+### v0.1.2 — Stable Release 준비
 - [x] 전체 API 안정화
 - [x] 성능 최적화 및 벤치마크
 - [x] 번들 사이즈 체크 CI 추가 (core < 5KB, 모듈 < 3KB gzip 자동 검증)
 - [x] 루트 package.json에 `doctor` 스크립트 추가
 
-### v0.9.4 — Native → Web 이벤트 발행
+### v0.1.3 — Native → Web 이벤트 발행
 - [x] 이벤트 메시지 포맷: 기존 BridgeRequest 포맷 재사용 (별도 event 타입 불필요)
   - Web의 `handleIncomingMessage`가 모듈 핸들러 미등록 시 `EventEmitter`로 디스패치
 - [x] Web core: 기존 구현이 이미 이벤트 수신 처리 (`${module}:${action}` 패턴 emit)
@@ -1226,12 +1226,32 @@ RynBridge/
   - health: `onDataChange`
   - 기타 `on*` 이벤트 전체
 
-### v1.0.0 — Stable Release + 오픈소스 운영
+### v0.1.4 — 3rd-party 하위 모듈 실구현
+- [x] share-kakao: iOS `RynBridgeShareKakao` SPM 모듈 구현 (KakaoSDK 의존, Provider 패턴 없이 BridgeModule 직접 구현)
+- [x] share-kakao: Web `@rynbridge/share-kakao` npm 패키지 구현 (5 actions: shareFeed, shareCommerce, shareList, shareCustom, isAvailable)
+- [x] share-kakao: JSON Schema contract 정의 (contracts/kakaoShare/)
+- [x] share-kakao: 웹에서 카카오 템플릿 구성, 네이티브는 실행만 하는 구조
+- [ ] share-kakao: Android `share-kakao` Gradle 모듈 구현
+
+### v0.2.0 — 패키지 배포
+- [ ] npm 최초 배포 (`@rynbridge/core`, 전체 모듈 패키지)
+  - changesets 기반 버전 관리
+  - GitHub Actions CI → npm publish 자동화
+  - `NPM_TOKEN` 시크릿 설정 및 `.npmrc` 검증
+- [ ] iOS SPM 릴리스 태그 (GitHub Release)
+  - Package.swift 버전 태깅
+  - 3rd-party 의존성 모듈(share-kakao 등) 별도 검증
+- [ ] Android Maven Central 배포
+  - Gradle publish 설정
+  - Signing key 및 Sonatype 계정 설정
+- [ ] 배포 후 GhostLegs 프로젝트 npm 레지스트리 전환 (vendor → npm)
+
+### v0.3.0 — Stable Release + 오픈소스 운영
 - [x] CONTRIBUTING.md (기여 가이드)
 - [x] CODE_OF_CONDUCT.md (행동 강령)
 - [x] GitHub Issue Template (bug_report, feature_request)
 - [x] GitHub PR Template
-- [ ] v1.0.0 태깅 및 최초 배포
+- [ ] v0.3.0 태깅 및 안정 릴리스
 
 ---
 

@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "KakaoShare shareFeed Request",
+  "type": "object",
+  "$defs": {
+    "Link": {
+      "type": "object",
+      "properties": {
+        "webUrl": { "type": "string", "format": "uri" },
+        "mobileWebUrl": { "type": "string", "format": "uri" },
+        "androidExecutionParams": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "iosExecutionParams": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "Content": {
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "imageUrl": { "type": "string", "format": "uri" },
+        "imageWidth": { "type": "integer" },
+        "imageHeight": { "type": "integer" },
+        "link": { "$ref": "#/$defs/Link" }
+      },
+      "required": ["title", "imageUrl", "link"],
+      "additionalProperties": false
+    },
+    "Button": {
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "link": { "$ref": "#/$defs/Link" }
+      },
+      "required": ["title", "link"],
+      "additionalProperties": false
+    },
+    "Social": {
+      "type": "object",
+      "properties": {
+        "likeCount": { "type": "integer" },
+        "commentCount": { "type": "integer" },
+        "sharedCount": { "type": "integer" },
+        "viewCount": { "type": "integer" },
+        "subscriberCount": { "type": "integer" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "content": { "$ref": "#/$defs/Content" },
+    "social": { "$ref": "#/$defs/Social" },
+    "buttons": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Button" }
+    },
+    "serverCallbackArgs": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    }
+  },
+  "required": ["content"],
+  "additionalProperties": false
+}
