@@ -1,0 +1,8 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "push-fcm.deleteToken.request",
+  "description": "Delete the current FCM registration token",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

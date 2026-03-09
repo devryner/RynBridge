@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "push-fcm.unsubscribeFromTopic.request",
+  "description": "Unsubscribe from an FCM topic",
+  "type": "object",
+  "properties": {
+    "topic": {
+      "type": "string",
+      "description": "The topic name to unsubscribe from"
+    }
+  },
+  "required": ["topic"],
+  "additionalProperties": false
+}

@@ -57,6 +57,7 @@ npm install @rynbridge/health
 npm install @rynbridge/background-task
 
 # Platform-specific modules
+npm install @rynbridge/push-fcm
 npm install @rynbridge/share-kakao
 ```
 
@@ -347,6 +348,45 @@ const { granted } = await push.requestPermission();
 const { token } = await push.register();
 push.onNotification((n) => console.log(n.title, n.body));
 ```
+
+### Push FCM (`@rynbridge/push-fcm`)
+
+Firebase Cloud Messaging provider — FCM token management, topic subscription, and auto-init control.
+
+```typescript
+const fcm = new PushFcmModule(bridge);
+
+// Get FCM registration token
+const { token } = await fcm.getToken();
+
+// Delete token (e.g., on logout)
+await fcm.deleteToken();
+
+// Topic management
+await fcm.subscribeToTopic('news');
+await fcm.unsubscribeFromTopic('news');
+
+// Auto-init control
+const { enabled } = await fcm.getAutoInitEnabled();
+await fcm.setAutoInitEnabled(false);
+
+// Token refresh events
+fcm.onTokenRefresh(({ token }) => sendTokenToServer(token));
+```
+
+#### API
+
+| Method | Return Type | Pattern |
+|--------|-----------|---------|
+| `getToken()` | `Promise<FcmToken>` | Request-Response |
+| `deleteToken()` | `Promise<void>` | Request-Response |
+| `subscribeToTopic(topic)` | `Promise<void>` | Request-Response |
+| `unsubscribeFromTopic(topic)` | `Promise<void>` | Request-Response |
+| `getAutoInitEnabled()` | `Promise<FcmAutoInit>` | Request-Response |
+| `setAutoInitEnabled(enabled)` | `Promise<void>` | Request-Response |
+| `onTokenRefresh(listener)` | `() => void` | Event Stream |
+
+---
 
 ### Payment (`@rynbridge/payment`)
 
@@ -906,6 +946,7 @@ RynBridge/
 │   ├── bluetooth/                # Bluetooth BLE module
 │   ├── health/                   # Health data module
 │   ├── background-task/          # Background task module
+│   ├── push-fcm/                 # Firebase Cloud Messaging provider
 │   ├── share-kakao/              # Kakao Talk share module
 │   ├── cli/                      # CLI tool (init, add, generate, doctor)
 │   ├── codegen/                  # Schema → TypeScript/Swift/Kotlin code generator
@@ -1004,7 +1045,7 @@ Managed by [Turborepo](https://turbo.build). Build order respects dependencies:
 ```
 core → device, storage, secure-storage, ui, auth, push, payment, media, crypto,
        share, contacts, calendar, navigation, webview, speech, analytics, translation,
-       bluetooth, health, background-task, share-kakao → playground-web
+       bluetooth, health, background-task, push-fcm, share-kakao → playground-web
 ```
 
 ---
@@ -1038,7 +1079,7 @@ core → device, storage, secure-storage, ui, auth, push, payment, media, crypto
 
 **Phase 3:** share, contacts, calendar, navigation, webview, speech, analytics, translation, bluetooth, health, background-task
 
-**Platform-specific:** share-kakao
+**Platform-specific:** push-fcm, share-kakao
 
 ---
 

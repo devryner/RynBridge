@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "push-fcm.getToken.response",
+  "description": "FCM registration token",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Firebase Cloud Messaging registration token"
+    }
+  },
+  "required": ["token"],
+  "additionalProperties": false
+}

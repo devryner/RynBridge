@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "push-fcm.onTokenRefresh.response",
+  "description": "FCM token refresh event payload",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "New FCM registration token"
+    }
+  },
+  "required": ["token"],
+  "additionalProperties": false
+}

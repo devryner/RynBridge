@@ -1,0 +1,8 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "push-fcm.deleteToken.response",
+  "description": "Empty response for token deletion",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}

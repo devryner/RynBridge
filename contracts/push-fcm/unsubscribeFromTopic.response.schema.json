@@ -1,0 +1,8 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "push-fcm.unsubscribeFromTopic.response",
+  "description": "Empty response for topic unsubscription",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}
