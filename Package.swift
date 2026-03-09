@@ -33,6 +33,10 @@ let package = Package(
         .library(name: "RynBridgeBluetooth", targets: ["RynBridgeBluetooth"]),
         .library(name: "RynBridgeHealth", targets: ["RynBridgeHealth"]),
         .library(name: "RynBridgeBackgroundTask", targets: ["RynBridgeBackgroundTask"]),
+        .library(name: "RynBridgeShareKakao", targets: ["RynBridgeShareKakao"]),
+    ],
+    dependencies: [
+        .package(url: "https://github.com/kakao/kakao-ios-sdk", from: "2.27.0"),
     ],
     targets: [
         .target(
@@ -153,6 +157,16 @@ let package = Package(
             name: "RynBridgeBackgroundTask",
             dependencies: ["RynBridge"],
             path: "ios/Sources/RynBridgeBackgroundTask"
+        ),
+        .target(
+            name: "RynBridgeShareKakao",
+            dependencies: [
+                "RynBridge",
+                .product(name: "KakaoSDKCommon", package: "KakaoOpenSDK"),
+                .product(name: "KakaoSDKShare", package: "KakaoOpenSDK"),
+                .product(name: "KakaoSDKTemplate", package: "KakaoOpenSDK"),
+            ],
+            path: "ios/Sources/RynBridgeShareKakao"
         ),
     ]
 )
