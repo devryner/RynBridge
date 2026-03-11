@@ -1,5 +1,6 @@
 package io.rynbridge.device
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
 import android.os.BatteryManager
@@ -47,6 +48,7 @@ class DefaultDeviceInfoProvider(private val context: Context) : DeviceInfoProvid
         )
     }
 
+    @SuppressLint("MissingPermission")
     override fun vibrate(pattern: List<Int>) {
         val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val manager = context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
