@@ -1,6 +1,5 @@
 package io.rynbridge.device
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
 import android.os.BatteryManager
@@ -8,8 +7,9 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
-import android.util.DisplayMetrics
 import android.view.WindowManager
+import io.rynbridge.core.ErrorCode
+import io.rynbridge.core.RynBridgeError
 
 class DefaultDeviceInfoProvider(private val context: Context) : DeviceInfoProvider {
 
@@ -48,7 +48,6 @@ class DefaultDeviceInfoProvider(private val context: Context) : DeviceInfoProvid
         )
     }
 
-    @SuppressLint("MissingPermission")
     override fun vibrate(pattern: List<Int>) {
         val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val manager = context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
@@ -66,20 +65,23 @@ class DefaultDeviceInfoProvider(private val context: Context) : DeviceInfoProvid
     }
 
     override suspend fun capturePhoto(quality: Double, camera: String): CapturePhotoResult {
-        throw UnsupportedOperationException(
-            "capturePhoto requires an Activity context. Use a custom provider with Activity-based camera integration."
+        throw RynBridgeError(
+            code = ErrorCode.UNKNOWN,
+            message = "capturePhoto requires an Activity context. Use a custom provider with Activity-based camera integration."
         )
     }
 
     override suspend fun getLocation(): LocationInfo {
-        throw UnsupportedOperationException(
-            "getLocation requires location permissions and an Activity context. Use a custom provider with FusedLocationProviderClient."
+        throw RynBridgeError(
+            code = ErrorCode.UNKNOWN,
+            message = "getLocation requires location permissions and an Activity context. Use a custom provider with FusedLocationProviderClient."
         )
     }
 
     override suspend fun authenticate(reason: String): AuthenticateResult {
-        throw UnsupportedOperationException(
-            "authenticate requires an Activity context. Use a custom provider with BiometricPrompt."
+        throw RynBridgeError(
+            code = ErrorCode.UNKNOWN,
+            message = "authenticate requires an Activity context. Use a custom provider with BiometricPrompt."
         )
     }
 }

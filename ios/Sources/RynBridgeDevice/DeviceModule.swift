@@ -142,6 +142,19 @@ public final class DefaultDeviceInfoProvider: NSObject, DeviceInfoProvider, CLLo
     }
 
     public func capturePhoto(quality: Double, camera: String) async throws -> CapturePhotoResult {
+        let cameraStatus = AVCaptureDevice.authorizationStatus(for: .video)
+        switch cameraStatus {
+        case .denied, .restricted:
+            throw RynBridgeError(code: .unknown, message: "Camera permission denied")
+        case .notDetermined:
+            let granted = await AVCaptureDevice.requestAccess(for: .video)
+            if !granted {
+                throw RynBridgeError(code: .unknown, message: "Camera permission denied")
+            }
+        default:
+            break
+        }
+
         return try await withCheckedThrowingContinuation { continuation in
             Task { @MainActor in
                 guard let viewController = Self.topViewController() else {

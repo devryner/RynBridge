@@ -13,15 +13,18 @@ import android.bluetooth.le.ScanFilter
 import android.bluetooth.le.ScanResult
 import android.bluetooth.le.ScanSettings
 import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.ParcelUuid
 import io.rynbridge.core.BridgeValue
+import io.rynbridge.core.ErrorCode
+import io.rynbridge.core.RynBridgeError
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-@SuppressLint("MissingPermission")
 class DefaultBluetoothProvider(private val context: Context) : BluetoothProvider {
 
     private val bluetoothManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
@@ -29,7 +32,22 @@ class DefaultBluetoothProvider(private val context: Context) : BluetoothProvider
     private val connectedGatts = ConcurrentHashMap<String, BluetoothGatt>()
     private var scanCallback: ScanCallback? = null
 
+    private fun requireBluetoothPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (context.checkSelfPermission(android.Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED ||
+                context.checkSelfPermission(android.Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED
+            ) {
+                throw RynBridgeError(
+                    code = ErrorCode.UNKNOWN,
+                    message = "Bluetooth permissions denied. Required: BLUETOOTH_SCAN, BLUETOOTH_CONNECT"
+                )
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
     override suspend fun startScan(serviceUUIDs: List<String>?): Boolean {
+        requireBluetoothPermission()
         val adapter = bluetoothAdapter ?: return false
         val scanner = adapter.bluetoothLeScanner ?: return false
 
@@ -64,6 +82,7 @@ class DefaultBluetoothProvider(private val context: Context) : BluetoothProvider
         return true
     }
 
+    @SuppressLint("MissingPermission")
     override fun stopScan() {
         val adapter = bluetoothAdapter ?: return
         val scanner = adapter.bluetoothLeScanner ?: return
@@ -73,7 +92,9 @@ class DefaultBluetoothProvider(private val context: Context) : BluetoothProvider
         }
     }
 
+    @SuppressLint("MissingPermission")
     override suspend fun connect(deviceId: String): Boolean {
+        requireBluetoothPermission()
         val adapter = bluetoothAdapter ?: return false
         val device = adapter.getRemoteDevice(deviceId) ?: return false
 
@@ -97,6 +118,7 @@ class DefaultBluetoothProvider(private val context: Context) : BluetoothProvider
         }
     }
 
+    @SuppressLint("MissingPermission")
     override suspend fun disconnect(deviceId: String): Boolean {
         val gatt = connectedGatts.remove(deviceId)
         if (gatt != null) {
@@ -109,7 +131,7 @@ class DefaultBluetoothProvider(private val context: Context) : BluetoothProvider
 
     override suspend fun getServices(deviceId: String): List<Map<String, BridgeValue>> {
         val gatt = connectedGatts[deviceId]
-            ?: throw IllegalStateException("Device not connected: $deviceId")
+            ?: throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Device not connected: $deviceId")
 
         return gatt.services.map { service ->
             val characteristics = service.characteristics.map { char ->
@@ -127,18 +149,19 @@ class DefaultBluetoothProvider(private val context: Context) : BluetoothProvider
         }
     }
 
+    @SuppressLint("MissingPermission")
     override suspend fun readCharacteristic(
         deviceId: String,
         serviceUUID: String,
         characteristicUUID: String
     ): String {
         val gatt = connectedGatts[deviceId]
-            ?: throw IllegalStateException("Device not connected: $deviceId")
+            ?: throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Device not connected: $deviceId")
 
         val service = gatt.getService(UUID.fromString(serviceUUID))
-            ?: throw IllegalStateException("Service not found: $serviceUUID")
+            ?: throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Service not found: $serviceUUID")
         val characteristic = service.getCharacteristic(UUID.fromString(characteristicUUID))
-            ?: throw IllegalStateException("Characteristic not found: $characteristicUUID")
+            ?: throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Characteristic not found: $characteristicUUID")
 
         return suspendCancellableCoroutine { cont ->
             gatt.readCharacteristic(characteristic)
@@ -154,6 +177,7 @@ class DefaultBluetoothProvider(private val context: Context) : BluetoothProvider
         }
     }
 
+    @SuppressLint("MissingPermission")
     override suspend fun writeCharacteristic(
         deviceId: String,
         serviceUUID: String,
@@ -161,12 +185,12 @@ class DefaultBluetoothProvider(private val context: Context) : BluetoothProvider
         value: String
     ): Boolean {
         val gatt = connectedGatts[deviceId]
-            ?: throw IllegalStateException("Device not connected: $deviceId")
+            ?: throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Device not connected: $deviceId")
 
         val service = gatt.getService(UUID.fromString(serviceUUID))
-            ?: throw IllegalStateException("Service not found: $serviceUUID")
+            ?: throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Service not found: $serviceUUID")
         val characteristic = service.getCharacteristic(UUID.fromString(characteristicUUID))
-            ?: throw IllegalStateException("Characteristic not found: $characteristicUUID")
+            ?: throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Characteristic not found: $characteristicUUID")
 
         val bytes = android.util.Base64.decode(value, android.util.Base64.NO_WRAP)
         return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
@@ -184,8 +208,10 @@ class DefaultBluetoothProvider(private val context: Context) : BluetoothProvider
     }
 
     override suspend fun requestPermission(): Boolean {
-        // Permission requests require an Activity context
-        // Return true assuming permissions are already granted
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            return context.checkSelfPermission(android.Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_GRANTED &&
+                context.checkSelfPermission(android.Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED
+        }
         return true
     }
 

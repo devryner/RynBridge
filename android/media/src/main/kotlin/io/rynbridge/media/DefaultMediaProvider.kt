@@ -5,6 +5,8 @@ import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Build
 import java.io.File
+import io.rynbridge.core.ErrorCode
+import io.rynbridge.core.RynBridgeError
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 
@@ -31,20 +33,20 @@ class DefaultMediaProvider(private val context: Context) : MediaProvider {
 
     override suspend fun pauseAudio(playerId: String) {
         val player = players[playerId]
-            ?: throw IllegalStateException("Player not found: $playerId")
+            ?: throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Player not found: $playerId")
         player.pause()
     }
 
     override suspend fun stopAudio(playerId: String) {
         val player = players.remove(playerId)
-            ?: throw IllegalStateException("Player not found: $playerId")
+            ?: throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Player not found: $playerId")
         player.stop()
         player.release()
     }
 
     override suspend fun getAudioStatus(playerId: String): AudioStatus {
         val player = players[playerId]
-            ?: throw IllegalStateException("Player not found: $playerId")
+            ?: throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Player not found: $playerId")
         return AudioStatus(
             position = player.currentPosition.toDouble() / 1000.0,
             duration = player.duration.toDouble() / 1000.0,
@@ -93,7 +95,7 @@ class DefaultMediaProvider(private val context: Context) : MediaProvider {
 
     override suspend fun stopRecording(recordingId: String): RecordingResult {
         val recorder = recorders.remove(recordingId)
-            ?: throw IllegalStateException("Recorder not found: $recordingId")
+            ?: throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Recorder not found: $recordingId")
         val file = recordingFiles.remove(recordingId)!!
         val startTime = recordingStartTimes.remove(recordingId)!!
 
@@ -111,6 +113,6 @@ class DefaultMediaProvider(private val context: Context) : MediaProvider {
     }
 
     override suspend fun pickMedia(type: String, multiple: Boolean): List<MediaFile> {
-        throw UnsupportedOperationException("pickMedia requires an Activity context. Use a custom provider for UI-based media picking.")
+        throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "pickMedia requires an Activity context. Use a custom provider for UI-based media picking.")
     }
 }

@@ -73,6 +73,23 @@ public final class DefaultMediaProvider: NSObject, MediaProvider, PHPickerViewCo
 
     public func startRecording(format: String, quality: String) async throws -> String {
         let session = AVAudioSession.sharedInstance()
+
+        switch session.recordPermission {
+        case .denied:
+            throw RynBridgeError(code: .unknown, message: "Microphone permission denied")
+        case .undetermined:
+            let granted = await withCheckedContinuation { (continuation: CheckedContinuation<Bool, Never>) in
+                session.requestRecordPermission { allowed in
+                    continuation.resume(returning: allowed)
+                }
+            }
+            if !granted {
+                throw RynBridgeError(code: .unknown, message: "Microphone permission denied")
+            }
+        default:
+            break
+        }
+
         try session.setCategory(.playAndRecord, mode: .default)
         try session.setActive(true)
 

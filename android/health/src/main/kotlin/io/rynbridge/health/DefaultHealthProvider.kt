@@ -8,6 +8,8 @@ import androidx.health.connect.client.request.AggregateRequest
 import androidx.health.connect.client.request.ReadRecordsRequest
 import androidx.health.connect.client.time.TimeRangeFilter
 import io.rynbridge.core.BridgeValue
+import io.rynbridge.core.ErrorCode
+import io.rynbridge.core.RynBridgeError
 import java.time.Instant
 import java.time.ZoneOffset
 
@@ -18,9 +20,8 @@ class DefaultHealthProvider(private val context: Context) : HealthProvider {
     }
 
     override suspend fun requestPermission(readTypes: List<String>, writeTypes: List<String>): Boolean {
-        // Permission requests require an Activity context and ActivityResultLauncher
-        // Return true assuming permissions are already granted via the host app
-        return true
+        val granted = healthConnectClient.permissionController.getGrantedPermissions()
+        return granted.isNotEmpty()
     }
 
     override suspend fun getPermissionStatus(): String {
@@ -59,7 +60,7 @@ class DefaultHealthProvider(private val context: Context) : HealthProvider {
                     )
                 }
             }
-            else -> throw IllegalArgumentException("Unsupported data type: $dataType")
+            else -> throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Unsupported data type: $dataType")
         }
     }
 
@@ -85,7 +86,7 @@ class DefaultHealthProvider(private val context: Context) : HealthProvider {
                 healthConnectClient.insertRecords(listOf(record))
                 true
             }
-            else -> throw IllegalArgumentException("Unsupported data type: $dataType")
+            else -> throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Unsupported data type: $dataType")
         }
     }
 

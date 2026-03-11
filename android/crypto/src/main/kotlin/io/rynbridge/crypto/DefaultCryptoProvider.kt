@@ -1,5 +1,7 @@
 package io.rynbridge.crypto
 
+import io.rynbridge.core.ErrorCode
+import io.rynbridge.core.RynBridgeError
 import java.security.KeyFactory
 import java.security.KeyPairGenerator
 import java.security.PublicKey
@@ -54,7 +56,7 @@ class DefaultCryptoProvider : CryptoProvider {
 
     override suspend fun encrypt(data: String, associatedData: String?): EncryptResult {
         val key = symmetricKey
-            ?: throw IllegalStateException("Key exchange not performed. Call performKeyExchange first.")
+            ?: throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Key exchange not performed. Call performKeyExchange first.")
 
         val cipher = Cipher.getInstance("AES/GCM/NoPadding")
         cipher.init(Cipher.ENCRYPT_MODE, key)
@@ -76,7 +78,7 @@ class DefaultCryptoProvider : CryptoProvider {
 
     override suspend fun decrypt(ciphertext: String, iv: String, tag: String, associatedData: String?): String {
         val key = symmetricKey
-            ?: throw IllegalStateException("Key exchange not performed. Call performKeyExchange first.")
+            ?: throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Key exchange not performed. Call performKeyExchange first.")
 
         val ciphertextBytes = Base64.getDecoder().decode(ciphertext)
         val ivBytes = Base64.getDecoder().decode(iv)

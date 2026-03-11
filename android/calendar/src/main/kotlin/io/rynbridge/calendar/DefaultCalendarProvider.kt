@@ -6,6 +6,8 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.pm.PackageManager
 import android.provider.CalendarContract
+import io.rynbridge.core.ErrorCode
+import io.rynbridge.core.RynBridgeError
 import java.time.Instant
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -17,6 +19,18 @@ class DefaultCalendarProvider(private val context: Context) : CalendarProvider {
 
     private val isoFormatter: DateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME
 
+    private fun requireReadPermission() {
+        if (context.checkSelfPermission(android.Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Calendar read permission denied. Required: READ_CALENDAR")
+        }
+    }
+
+    private fun requireWritePermission() {
+        if (context.checkSelfPermission(android.Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Calendar write permission denied. Required: WRITE_CALENDAR")
+        }
+    }
+
     private fun parseIsoToMillis(iso: String): Long {
         val zdt = ZonedDateTime.parse(iso, isoFormatter)
         return zdt.toInstant().toEpochMilli()
@@ -27,6 +41,7 @@ class DefaultCalendarProvider(private val context: Context) : CalendarProvider {
     }
 
     override suspend fun getCalendars(): List<CalendarData> {
+        requireReadPermission()
         val projection = arrayOf(
             CalendarContract.Calendars._ID,
             CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
@@ -68,6 +83,7 @@ class DefaultCalendarProvider(private val context: Context) : CalendarProvider {
     }
 
     override suspend fun getEvents(calendarId: String?, from: String, to: String): List<CalendarEventData> {
+        requireReadPermission()
         val startMillis = parseIsoToMillis(from)
         val endMillis = parseIsoToMillis(to)
 
@@ -126,6 +142,7 @@ class DefaultCalendarProvider(private val context: Context) : CalendarProvider {
     }
 
     override suspend fun getEvent(id: String): CalendarEventData {
+        requireReadPermission()
         val projection = arrayOf(
             CalendarContract.Events._ID,
             CalendarContract.Events.CALENDAR_ID,
@@ -152,7 +169,7 @@ class DefaultCalendarProvider(private val context: Context) : CalendarProvider {
                 )
             }
         }
-        throw IllegalArgumentException("Event not found: $id")
+        throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Event not found: $id")
     }
 
     override suspend fun createEvent(
@@ -164,6 +181,7 @@ class DefaultCalendarProvider(private val context: Context) : CalendarProvider {
         notes: String?,
         isAllDay: Boolean
     ): String {
+        requireWritePermission()
         val values = ContentValues().apply {
             put(CalendarContract.Events.TITLE, title)
             put(CalendarContract.Events.DTSTART, parseIsoToMillis(startDate))
@@ -180,7 +198,7 @@ class DefaultCalendarProvider(private val context: Context) : CalendarProvider {
         }
 
         val uri = contentResolver.insert(CalendarContract.Events.CONTENT_URI, values)
-            ?: throw IllegalStateException("Failed to create event")
+            ?: throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Failed to create event")
         return ContentUris.parseId(uri).toString()
     }
 
@@ -193,6 +211,7 @@ class DefaultCalendarProvider(private val context: Context) : CalendarProvider {
         notes: String?,
         isAllDay: Boolean?
     ) {
+        requireWritePermission()
         val values = ContentValues().apply {
             title?.let { put(CalendarContract.Events.TITLE, it) }
             startDate?.let { put(CalendarContract.Events.DTSTART, parseIsoToMillis(it)) }
@@ -207,6 +226,7 @@ class DefaultCalendarProvider(private val context: Context) : CalendarProvider {
     }
 
     override suspend fun deleteEvent(id: String) {
+        requireWritePermission()
         val uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, id.toLong())
         contentResolver.delete(uri, null, null)
     }
@@ -277,6 +297,6 @@ class DefaultCalendarProvider(private val context: Context) : CalendarProvider {
             }
         }
 
-        throw IllegalStateException("No calendar found on device")
+        throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "No calendar found on device")
     }
 }

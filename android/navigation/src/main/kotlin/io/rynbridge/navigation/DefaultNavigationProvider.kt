@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import io.rynbridge.core.BridgeValue
+import io.rynbridge.core.ErrorCode
+import io.rynbridge.core.RynBridgeError
 
 class DefaultNavigationProvider(private val context: Context) : NavigationProvider {
 
@@ -15,23 +17,23 @@ class DefaultNavigationProvider(private val context: Context) : NavigationProvid
     }
 
     override suspend fun push(screen: String, params: Map<String, BridgeValue>?): PopResult {
-        throw UnsupportedOperationException("push requires an Activity context. Use a custom provider for navigation.")
+        throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "push requires an Activity context. Use a custom provider for navigation.")
     }
 
     override suspend fun pop(): PopResult {
-        throw UnsupportedOperationException("pop requires an Activity context. Use a custom provider for navigation.")
+        throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "pop requires an Activity context. Use a custom provider for navigation.")
     }
 
     override suspend fun popToRoot(): PopResult {
-        throw UnsupportedOperationException("popToRoot requires an Activity context. Use a custom provider for navigation.")
+        throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "popToRoot requires an Activity context. Use a custom provider for navigation.")
     }
 
     override suspend fun present(screen: String, style: String?, params: Map<String, BridgeValue>?): PopResult {
-        throw UnsupportedOperationException("present requires an Activity context. Use a custom provider for navigation.")
+        throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "present requires an Activity context. Use a custom provider for navigation.")
     }
 
     override suspend fun dismiss(): PopResult {
-        throw UnsupportedOperationException("dismiss requires an Activity context. Use a custom provider for navigation.")
+        throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "dismiss requires an Activity context. Use a custom provider for navigation.")
     }
 
     override suspend fun openURL(url: String): OpenURLResult {

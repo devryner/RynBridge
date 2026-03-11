@@ -3,15 +3,17 @@ package io.rynbridge.share
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import io.rynbridge.core.ErrorCode
+import io.rynbridge.core.RynBridgeError
 
 class DefaultShareProvider(private val context: Context) : ShareProvider {
 
     override suspend fun share(text: String?, url: String?, title: String?): Boolean {
-        throw UnsupportedOperationException("share requires an Activity context. Use a custom provider for UI-based sharing.")
+        throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "share requires an Activity context. Use a custom provider for UI-based sharing.")
     }
 
     override suspend fun shareFile(filePath: String, mimeType: String): Boolean {
-        throw UnsupportedOperationException("shareFile requires an Activity context. Use a custom provider for UI-based sharing.")
+        throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "shareFile requires an Activity context. Use a custom provider for UI-based sharing.")
     }
 
     override suspend fun copyToClipboard(text: String) {

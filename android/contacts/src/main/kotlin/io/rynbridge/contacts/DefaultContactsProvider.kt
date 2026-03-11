@@ -9,12 +9,27 @@ import android.provider.ContactsContract
 import android.provider.ContactsContract.CommonDataKinds
 import android.provider.ContactsContract.Data
 import android.provider.ContactsContract.RawContacts
+import io.rynbridge.core.ErrorCode
+import io.rynbridge.core.RynBridgeError
 
 class DefaultContactsProvider(private val context: Context) : ContactsProvider {
 
     private val contentResolver get() = context.contentResolver
 
+    private fun requireReadPermission() {
+        if (context.checkSelfPermission(android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Contacts read permission denied. Required: READ_CONTACTS")
+        }
+    }
+
+    private fun requireWritePermission() {
+        if (context.checkSelfPermission(android.Manifest.permission.WRITE_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Contacts write permission denied. Required: WRITE_CONTACTS")
+        }
+    }
+
     override suspend fun getContacts(query: String?, limit: Int, offset: Int): List<ContactData> {
+        requireReadPermission()
         val selection = if (!query.isNullOrEmpty()) {
             "${ContactsContract.Contacts.DISPLAY_NAME} LIKE ?"
         } else null
@@ -66,6 +81,7 @@ class DefaultContactsProvider(private val context: Context) : ContactsProvider {
     }
 
     override suspend fun getContact(id: String): ContactData {
+        requireReadPermission()
         val cursor = contentResolver.query(
             ContactsContract.Contacts.CONTENT_URI,
             arrayOf(
@@ -75,11 +91,11 @@ class DefaultContactsProvider(private val context: Context) : ContactsProvider {
             "${ContactsContract.Contacts._ID} = ?",
             arrayOf(id),
             null
-        ) ?: throw IllegalStateException("Contact not found: $id")
+        ) ?: throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Contact not found: $id")
 
         cursor.use {
             if (!it.moveToFirst()) {
-                throw IllegalStateException("Contact not found: $id")
+                throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Contact not found: $id")
             }
             val displayName = it.getString(it.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME)) ?: ""
             val nameParts = displayName.split(" ", limit = 2)
@@ -99,6 +115,7 @@ class DefaultContactsProvider(private val context: Context) : ContactsProvider {
         phoneNumbers: List<Pair<String, String>>,
         emailAddresses: List<Pair<String, String>>
     ): String {
+        requireWritePermission()
         val ops = ArrayList<ContentProviderOperation>()
 
         ops.add(
@@ -143,9 +160,9 @@ class DefaultContactsProvider(private val context: Context) : ContactsProvider {
 
         val results = contentResolver.applyBatch(ContactsContract.AUTHORITY, ops)
         val rawContactUri = results[0].uri
-            ?: throw IllegalStateException("Failed to create contact")
+            ?: throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Failed to create contact")
         val rawContactId = rawContactUri.lastPathSegment
-            ?: throw IllegalStateException("Failed to get raw contact ID")
+            ?: throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Failed to get raw contact ID")
 
         // Look up the aggregate contact ID
         val cursor = contentResolver.query(
@@ -170,8 +187,9 @@ class DefaultContactsProvider(private val context: Context) : ContactsProvider {
         phoneNumbers: List<Pair<String, String>>?,
         emailAddresses: List<Pair<String, String>>?
     ) {
+        requireWritePermission()
         val rawContactId = getRawContactId(id)
-            ?: throw IllegalStateException("Contact not found: $id")
+            ?: throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Contact not found: $id")
 
         val ops = ArrayList<ContentProviderOperation>()
 
@@ -236,15 +254,16 @@ class DefaultContactsProvider(private val context: Context) : ContactsProvider {
     }
 
     override suspend fun deleteContact(id: String) {
+        requireWritePermission()
         val uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, id)
         val deleted = contentResolver.delete(uri, null, null)
         if (deleted == 0) {
-            throw IllegalStateException("Contact not found: $id")
+            throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "Contact not found: $id")
         }
     }
 
     override suspend fun pickContact(): ContactData? {
-        throw UnsupportedOperationException("pickContact requires Activity context and must be implemented by the host application")
+        throw RynBridgeError(code = ErrorCode.UNKNOWN, message = "pickContact requires Activity context and must be implemented by the host application")
     }
 
     override suspend fun requestPermission(): Boolean {
