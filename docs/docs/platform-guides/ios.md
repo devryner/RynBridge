@@ -52,9 +52,25 @@ class ViewController: UIViewController {
 }
 ```
 
-### 3. Implement Providers
+### 3. Use Default Providers
 
-Each module requires a platform-specific provider:
+Each module ships with a **default provider** that works out of the box:
+
+```swift
+import RynBridgeDevice
+import RynBridgeMedia
+import RynBridgeBluetooth
+
+let device = DeviceModule(provider: DefaultDeviceInfoProvider())
+let media = MediaModule(provider: DefaultMediaProvider())
+let bluetooth = BluetoothModule(provider: DefaultBluetoothProvider())
+
+bridge.register(module: device)
+bridge.register(module: media)
+bridge.register(module: bluetooth)
+```
+
+Or implement your own provider for custom behavior:
 
 ```swift
 class MyDeviceProvider: DeviceInfoProvider {
@@ -66,15 +82,24 @@ class MyDeviceProvider: DeviceInfoProvider {
             appVersion: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown"
         )
     }
-
-    func getBattery() async -> BatteryInfo {
-        UIDevice.current.isBatteryMonitoringEnabled = true
-        return BatteryInfo(
-            level: Int(UIDevice.current.batteryLevel * 100),
-            isCharging: UIDevice.current.batteryState == .charging
-        )
-    }
 }
+```
+
+See the [Providers Guide](../guides/providers.md) for a full list of default providers.
+
+## Permission Handling
+
+Default providers automatically check permissions before accessing protected APIs. If permission is denied, a `RynBridgeError` is thrown. For undetermined permissions, providers auto-request access.
+
+| Module | Permission | Behavior |
+|--------|-----------|----------|
+| Device | Camera (`AVCaptureDevice`) | Auto-request on `capturePhoto` |
+| Media | Microphone (`AVAudioSession`) | Auto-request on `startRecording` |
+| Health | HealthKit (`HKHealthStore`) | Check via `authorizationStatus` |
+
+```swift
+// Errors propagate to the web layer automatically
+// Web side receives: { code: "UNKNOWN", message: "Camera permission denied" }
 ```
 
 ## Code Generation

@@ -27,13 +27,36 @@ Every module follows the same pattern:
 | Secure Storage | `@rynbridge/secure-storage` | Encrypted key-value store |
 | UI | `@rynbridge/ui` | Alerts, toasts, action sheets, keyboard |
 
-### Phase 2 (Planned)
+### Phase 2 (Implemented)
 
-Auth, Push, Payment, Media, Crypto
+| Module | Package | Description |
+|--------|---------|-------------|
+| Auth | `@rynbridge/auth` | OAuth login, token management |
+| Push | `@rynbridge/push` | Push notification registration & handling |
+| Payment | `@rynbridge/payment` | In-app purchases (StoreKit 2 / Google Play Billing) |
+| Media | `@rynbridge/media` | Audio playback, recording, media picker |
+| Crypto | `@rynbridge/crypto` | Key exchange, E2E encryption (AES-GCM) |
 
-### Phase 3 (Planned)
+### Phase 3 (Implemented)
 
-Analytics, Navigation, Share, Health, Bluetooth, Contacts, Calendar, Speech, Background Task
+| Module | Package | Description |
+|--------|---------|-------------|
+| Analytics | `@rynbridge/analytics` | Event tracking, screen views |
+| Navigation | `@rynbridge/navigation` | Native navigation (push, pop, present) |
+| Share | `@rynbridge/share` | System share sheet |
+| Health | `@rynbridge/health` | HealthKit / Health Connect |
+| Bluetooth | `@rynbridge/bluetooth` | BLE scan, connect, read/write |
+| Contacts | `@rynbridge/contacts` | Contact CRUD, picker |
+| Calendar | `@rynbridge/calendar` | Calendar & event management |
+| Speech | `@rynbridge/speech` | Speech recognition & synthesis |
+| Background Task | `@rynbridge/background-task` | Background task scheduling |
+
+### Platform-Specific Modules
+
+| Module | Package | Description |
+|--------|---------|-------------|
+| Push FCM | `@rynbridge/push-fcm` | Firebase Cloud Messaging |
+| Share Kakao | `@rynbridge/share-kakao` | Kakao SDK share |
 
 ## Creating a Custom Module
 

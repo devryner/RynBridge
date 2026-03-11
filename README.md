@@ -842,6 +842,46 @@ bridge.register(StorageModule(MyStorageProvider(context)))
 
 ---
 
+## Permission Handling
+
+RynBridge default providers include **runtime permission checks** before accessing protected APIs. If a required permission is not granted, the provider throws a `RynBridgeError` with a descriptive message instead of crashing.
+
+### Android Permissions
+
+| Module | Required Permissions | Checked At |
+|--------|---------------------|------------|
+| Device | `VIBRATE` | Declared in manifest (auto-granted) |
+| Bluetooth | `BLUETOOTH_SCAN`, `BLUETOOTH_CONNECT` | Before scan/connect/read/write operations |
+| Contacts | `READ_CONTACTS`, `WRITE_CONTACTS` | Before read/write operations respectively |
+| Calendar | `READ_CALENDAR`, `WRITE_CALENDAR` | Before read/write operations respectively |
+| Health | Health Connect permissions | Checked via `getPermissionStatus()` |
+
+```kotlin
+// Permission denied → RynBridgeError propagated to Web as UNKNOWN error
+try {
+    await contacts.getContacts({ limit: 50 });
+} catch (error) {
+    // error.code === 'UNKNOWN'
+    // error.message === 'Contacts read permission denied. Required: READ_CONTACTS'
+}
+```
+
+### iOS Permissions
+
+| Module | Required Permission | Behavior |
+|--------|-------------------|----------|
+| Device (Camera) | Camera (`NSCameraUsageDescription`) | Checks `AVCaptureDevice.authorizationStatus`, auto-requests if undetermined |
+| Device (Location) | Location (`NSLocationWhenInUseUsageDescription`) | Checks `authorizationStatus`, auto-requests if undetermined |
+| Media (Recording) | Microphone (`NSMicrophoneUsageDescription`) | Checks `recordPermission`, auto-requests if undetermined |
+| Health | HealthKit (`NSHealthShareUsageDescription`) | Uses `HKHealthStore.requestAuthorization` |
+| Bluetooth | Bluetooth (`NSBluetoothAlwaysUsageDescription`) | Checks `CBCentralManager.authorization` |
+| Speech | Speech Recognition (`NSSpeechRecognitionUsageDescription`) | Checks `SFSpeechRecognizer.authorizationStatus` |
+| Calendar | Calendar (`NSCalendarsFullAccessUsageDescription`) | Uses `EKEventStore.requestFullAccessToEvents` |
+
+> **Note:** Some Android default provider methods (e.g., `capturePhoto`, `getLocation`, `authenticate`) require an Activity context and throw `RynBridgeError` with a descriptive message. Use a custom provider with Activity-based integration for these features.
+
+---
+
 ## Error Handling
 
 Bridge errors include a structured error code:
@@ -1088,6 +1128,7 @@ core → device, storage, secure-storage, ui, auth, push, payment, media, crypto
 | **v0.1.4** | 3rd-party sub-modules — Kakao Share (Web + iOS) | ✅ Done |
 | **v0.1.5** | Android default providers — all modules with production-ready implementations | ✅ Done |
 | **v0.1.6** | Android platform-specific modules — Push FCM, Share Kakao | ✅ Done |
+| **v0.1.7** | Runtime permission checks — all modules validate permissions before API access | ✅ Done |
 | **v0.2.0** | Package publishing — npm, SPM release, Maven Central | 🔲 Next |
 | **v0.3.0** | Stable release + open source governance | 🔲 Planned |
 

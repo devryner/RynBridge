@@ -689,3 +689,63 @@ For detailed API documentation, see:
 - [Payment API](../api/payment.md)
 - [Media API](../api/media.md)
 - [Crypto API](../api/crypto.md)
+
+---
+
+## Phase 3 Modules
+
+Phase 3 modules follow the same pattern. Most ship with **default providers** so you can use them immediately without custom implementations.
+
+### Install
+
+```bash
+# Web
+npm install @rynbridge/share @rynbridge/contacts @rynbridge/calendar \
+  @rynbridge/navigation @rynbridge/bluetooth @rynbridge/health \
+  @rynbridge/analytics @rynbridge/speech @rynbridge/background-task
+```
+
+### Register with Default Providers
+
+#### iOS
+
+```swift
+import RynBridgeShare
+import RynBridgeContacts
+import RynBridgeBluetooth
+
+bridge.register(ShareModule(provider: DefaultShareProvider()))
+bridge.register(ContactsModule(provider: DefaultContactsProvider()))
+bridge.register(BluetoothModule(provider: DefaultBluetoothProvider()))
+```
+
+#### Android
+
+```kotlin
+import io.rynbridge.share.*
+import io.rynbridge.contacts.*
+import io.rynbridge.bluetooth.*
+
+bridge.register(ShareModule(DefaultShareProvider(context)))
+bridge.register(ContactsModule(DefaultContactsProvider(context)))
+bridge.register(BluetoothModule(DefaultBluetoothProvider(context)))
+```
+
+### Permission Handling
+
+Phase 3 modules that access protected APIs check permissions before each operation. If permissions are missing, a `RynBridgeError` is thrown with a descriptive message.
+
+```typescript
+import { RynBridgeError } from '@rynbridge/core';
+
+try {
+  const contacts = await contactsModule.getContacts({});
+} catch (error) {
+  if (error instanceof RynBridgeError) {
+    // error.message: "Contacts read permission denied. Required: READ_CONTACTS"
+    await requestContactsPermission();
+  }
+}
+```
+
+See the [Providers Guide](../guides/providers.md) for default provider details and required permissions.

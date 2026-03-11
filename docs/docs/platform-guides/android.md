@@ -47,7 +47,28 @@ class MainActivity : AppCompatActivity() {
 }
 ```
 
-### 3. Implement Providers
+### 3. Use Default Providers
+
+Each module ships with a **default provider** that works out of the box:
+
+```kotlin
+import io.rynbridge.device.DeviceModule
+import io.rynbridge.device.DefaultDeviceInfoProvider
+import io.rynbridge.media.MediaModule
+import io.rynbridge.media.DefaultMediaProvider
+import io.rynbridge.bluetooth.BluetoothModule
+import io.rynbridge.bluetooth.DefaultBluetoothProvider
+
+val device = DeviceModule(DefaultDeviceInfoProvider(context))
+val media = MediaModule(DefaultMediaProvider(context))
+val bluetooth = BluetoothModule(DefaultBluetoothProvider(context))
+
+bridge.register(device)
+bridge.register(media)
+bridge.register(bluetooth)
+```
+
+Or implement your own provider for custom behavior:
 
 ```kotlin
 class MyDeviceProvider(private val context: Context) : DeviceInfoProvider {
@@ -60,16 +81,32 @@ class MyDeviceProvider(private val context: Context) : DeviceInfoProvider {
                 .getPackageInfo(context.packageName, 0).versionName ?: "unknown"
         )
     }
-
-    override suspend fun getBattery(): BatteryInfo {
-        val bm = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
-        return BatteryInfo(
-            level = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY),
-            isCharging = bm.isCharging
-        )
-    }
 }
 ```
+
+See the [Providers Guide](../guides/providers.md) for a full list of default providers.
+
+## Permission Handling
+
+Default providers check `context.checkSelfPermission()` before accessing protected APIs. If permission is not granted, a `RynBridgeError` is thrown with a descriptive message.
+
+| Module | Required Permissions |
+|--------|---------------------|
+| Device | `VIBRATE` |
+| Contacts | `READ_CONTACTS`, `WRITE_CONTACTS` |
+| Calendar | `READ_CALENDAR`, `WRITE_CALENDAR` |
+| Bluetooth | `BLUETOOTH_SCAN`, `BLUETOOTH_CONNECT` (API 31+) |
+| Health | Health Connect permissions |
+| Media | `RECORD_AUDIO` (recording only) |
+
+```kotlin
+// Errors propagate to the web layer automatically
+// Web side receives: { code: "UNKNOWN", message: "Bluetooth permissions denied. Required: BLUETOOTH_SCAN, BLUETOOTH_CONNECT" }
+```
+
+:::tip
+Default providers only **check** permissions — they don't request them at runtime. Your app must request permissions through the standard Android permission flow (e.g., `ActivityCompat.requestPermissions()`) before calling bridge methods.
+:::
 
 ## Code Generation
 

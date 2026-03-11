@@ -125,6 +125,50 @@ class MyDeviceProvider(private val context: Context) : DeviceInfoProvider {
 val device = DeviceModule(MyDeviceProvider(context))
 ```
 
+## Permission Handling
+
+Default providers that access protected platform APIs perform runtime permission checks. If the required permission is not granted, the provider throws a `RynBridgeError` that propagates to the web layer.
+
+### Android
+
+Android default providers use `context.checkSelfPermission()` before each protected operation:
+
+| Provider | Required Permissions |
+|----------|---------------------|
+| `DefaultDeviceInfoProvider` | `VIBRATE` (for haptic feedback) |
+| `DefaultContactsProvider` | `READ_CONTACTS` (read ops), `WRITE_CONTACTS` (write ops) |
+| `DefaultCalendarProvider` | `READ_CALENDAR` (read ops), `WRITE_CALENDAR` (write ops) |
+| `DefaultBluetoothProvider` | `BLUETOOTH_SCAN`, `BLUETOOTH_CONNECT` (API 31+) |
+| `DefaultHealthProvider` | Health Connect permissions |
+| `DefaultMediaProvider` | `RECORD_AUDIO` (recording) |
+
+:::warning
+Android default providers only **check** permissions — they don't request them. Your app must call `ActivityCompat.requestPermissions()` before invoking protected bridge methods.
+:::
+
+### iOS
+
+iOS default providers check authorization status and auto-request for undetermined state:
+
+| Provider | Permission | Auto-Request |
+|----------|-----------|--------------|
+| `DefaultDeviceInfoProvider` | Camera (`AVCaptureDevice`) | Yes |
+| `DefaultMediaProvider` | Microphone (`AVAudioSession`) | Yes |
+| `DefaultHealthProvider` | HealthKit | Via `HKHealthStore` |
+| `DefaultBluetoothProvider` | Bluetooth (`CBManager`) | Via system prompt |
+
+### Error Format
+
+Permission errors follow a consistent format:
+
+```typescript
+// Web side receives:
+{
+  code: "UNKNOWN",
+  message: "Contacts read permission denied. Required: READ_CONTACTS"
+}
+```
+
 ## Best Practices
 
 - **Start with default providers** — they cover most use cases out of the box
@@ -132,3 +176,4 @@ val device = DeviceModule(MyDeviceProvider(context))
 - **Keep providers focused** — one provider per module, implementing only the required interface
 - **Use dependency injection** — pass providers to modules via constructors for easy testing
 - **Test with mock providers** — create test doubles of your providers for unit testing
+- **Handle permission errors** — catch `RynBridgeError` on the web side and guide users to grant permissions
