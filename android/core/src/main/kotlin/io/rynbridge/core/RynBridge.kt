@@ -4,7 +4,8 @@ import kotlinx.coroutines.*
 
 class RynBridge(
     private val transport: Transport,
-    private val config: BridgeConfig = BridgeConfig.DEFAULT
+    private val config: BridgeConfig = BridgeConfig.DEFAULT,
+    dispatcher: CoroutineDispatcher = Dispatchers.Default
 ) {
     private val serializer = MessageSerializer(version = config.version)
     private val deserializer = MessageDeserializer()
@@ -12,7 +13,7 @@ class RynBridge(
     private val events = EventEmitter()
     private val modules = ModuleRegistry()
     private val versionNegotiator = VersionNegotiator()
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    private val scope = CoroutineScope(SupervisorJob() + dispatcher)
     @Volatile
     private var disposed = false
 

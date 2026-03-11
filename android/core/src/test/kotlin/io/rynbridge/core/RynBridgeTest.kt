@@ -1,5 +1,6 @@
 package io.rynbridge.core
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -79,7 +80,7 @@ class RynBridgeTest {
     @Test
     fun `incoming request routes to module`() = runTest {
         val transport = MockTransport()
-        val bridge = RynBridge(transport = transport, config = BridgeConfig(timeout = 5000L))
+        val bridge = RynBridge(transport = transport, config = BridgeConfig(timeout = 5000L), dispatcher = Dispatchers.Unconfined)
 
         val module = object : BridgeModule {
             override val name = "test"
@@ -96,9 +97,6 @@ class RynBridgeTest {
         val requestJSON = """{"id":"web-req-1","module":"test","action":"greet","payload":{"name":"Kotlin"},"version":"0.1.0"}"""
         transport.simulateIncoming(requestJSON)
 
-        // Bridge processes on Dispatchers.Default, need real-time wait
-        transport.awaitSent(transport.sent.size + 1)
-
         assertEquals(1, transport.sent.size)
         val response = json.decodeFromString<BridgeResponse>(transport.sent[0])
         assertEquals("web-req-1", response.id)
@@ -111,13 +109,10 @@ class RynBridgeTest {
     @Test
     fun `incoming request module not found`() = runTest {
         val transport = MockTransport()
-        val bridge = RynBridge(transport = transport)
+        val bridge = RynBridge(transport = transport, dispatcher = Dispatchers.Unconfined)
 
         val requestJSON = """{"id":"web-req-2","module":"missing","action":"doSomething","payload":{},"version":"0.1.0"}"""
         transport.simulateIncoming(requestJSON)
-
-        // Bridge processes on Dispatchers.Default, need real-time wait
-        transport.awaitSent(transport.sent.size + 1)
 
         assertEquals(1, transport.sent.size)
         val response = json.decodeFromString<BridgeResponse>(transport.sent[0])
