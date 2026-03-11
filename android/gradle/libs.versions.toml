@@ -11,6 +11,11 @@ google-id = "1.1.1"
 firebase-messaging = "24.1.0"
 billing = "7.1.1"
 kakao-sdk = "2.20.6"
+security-crypto = "1.1.0-alpha06"
+health-connect = "1.1.0-alpha10"
+work = "2.10.0"
+mlkit-translate = "17.0.3"
+mlkit-language-id = "17.0.6"
 
 [libraries]
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
@@ -27,6 +32,13 @@ google-id = { module = "com.google.android.libraries.identity.googleid:googleid"
 firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx", version.ref = "firebase-messaging" }
 billing-ktx = { module = "com.android.billingclient:billing-ktx", version.ref = "billing" }
 kakao-user = { module = "com.kakao.sdk:v2-user", version.ref = "kakao-sdk" }
+kakao-share = { module = "com.kakao.sdk:v2-share", version.ref = "kakao-sdk" }
+kakao-template = { module = "com.kakao.sdk:v2-template", version.ref = "kakao-sdk" }
+security-crypto = { module = "androidx.security:security-crypto", version.ref = "security-crypto" }
+health-connect = { module = "androidx.health.connect:connect-client", version.ref = "health-connect" }
+work-runtime = { module = "androidx.work:work-runtime-ktx", version.ref = "work" }
+mlkit-translate = { module = "com.google.mlkit:translate", version.ref = "mlkit-translate" }
+mlkit-language-id = { module = "com.google.mlkit:language-id", version.ref = "mlkit-language-id" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

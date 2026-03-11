@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 RynBridge is a lightweight, modular bridge framework for Web ↔ Native (iOS/Android) communication in WebView-based hybrid apps. It standardizes the communication interface and allows selective module installation. The project plan is written in Korean — see `PROJECT_PLAN.md` for the full spec.
 
-**Status:** Web SDK Phase 1 implemented (core + 4 modules). iOS/Android SDKs not yet started.
+**Status:** All 3 platforms (Web/iOS/Android) fully implemented with default providers for every module.
 
 ## Build & Test Commands
 
@@ -22,6 +22,14 @@ pnpm lint                             # Lint all packages (turbo)
 pnpm --filter @rynbridge/core test    # Test a specific package
 pnpm --filter @rynbridge/core build   # Build a specific package
 npx vitest run src/__tests__/X.test.ts  # Run a single test file (from package dir)
+
+# iOS build
+cd ios && swift build                 # Build all iOS targets
+cd ios && swift build --target RynBridgeDevice  # Build single target
+
+# Android build
+cd android && ./gradlew compileDebugKotlin      # Build all Android modules
+cd android && ./gradlew :device:compileDebugKotlin  # Build single module
 ```
 
 Each package uses: `rollup -c rollup.config.mjs` for build, `vitest run` for test, `tsc --noEmit` for lint.
@@ -63,6 +71,15 @@ Every module package (device, storage, secure-storage, ui) follows the same stru
 - Types are defined in `types.ts`, re-exported from `index.ts`
 - Modules depend on `@rynbridge/core` as a `peerDependency` (linked via `workspace:*` in dev)
 
+### Native Provider Pattern
+
+On iOS and Android, each module delegates to a **Provider** interface/protocol. Default providers are named `Default<Module>Provider` (e.g., `DefaultDeviceInfoProvider`, `DefaultStorageProvider`). Third-party specific providers use their service name (e.g., `FirebaseFCMPushProvider`, `GoogleAuthProvider`, `KakaoAuthProvider`).
+
+**iOS providers** are embedded in the module's Swift file or in a separate `Default<Module>Provider.swift`.
+**Android providers** are in `Default<Module>Provider.kt` within each module's source directory.
+
+Some provider methods that require Activity context (e.g., `capturePhoto`, `getLocation`, `authenticate` on Device) throw `UnsupportedOperationException` in the default provider — consumers should provide a custom Activity-aware provider for these features.
+
 ### Key Types (`packages/core/src/types.ts`)
 
 - `BridgeRequest` / `BridgeResponse` — Wire format types
@@ -70,13 +87,23 @@ Every module package (device, storage, secure-storage, ui) follows the same stru
 - `Transport` — Transport interface
 - `BridgeConfig` — `{ timeout?: number, version?: string }`
 
+### Android Key Types (`android/core/`)
+
+- `BridgeValue` — Sealed class with `StringValue`, `IntValue` (Long), `DoubleValue`, `BoolValue`, `ArrayValue`, `DictValue`, `NullValue`. Access via `.stringValue`, `.intValue`, `.doubleValue`, `.boolValue`, `.arrayValue`, `.dictionaryValue`. Create via `BridgeValue.string()`, `.int()`, `.double()`, `.bool()`, `.array()`, `.dict()`, `.nullValue()`.
+- `BridgeModule` — Interface: `name: String`, `version: String`, `actions: Map<String, ActionHandler>`
+- `ActionHandler` — `suspend (Map<String, BridgeValue>) -> Map<String, BridgeValue>`
+- `RynBridgeError` — `(code: ErrorCode, message: String)`
+
 ## Module System
 
 All modules follow the naming pattern: `@rynbridge/<module>` (npm) / `RynBridge<Module>` (SPM) / `io.rynbridge:<module>` (Gradle).
 
-Phase 1 (implemented on web): core, device, storage, secure-storage, ui
-Phase 2 (planned): auth, push, payment, media, crypto
-Phase 3 (planned): analytics, navigation, share, health, bluetooth, contacts, calendar, speech, background-task
+### All Modules (implemented on all 3 platforms)
+
+**Phase 1:** core, device, storage, secure-storage, ui
+**Phase 2:** auth, push, payment, media, crypto
+**Phase 3:** share, contacts, calendar, navigation, webview, speech, analytics, translation, bluetooth, health, background-task
+**Platform-specific:** push-fcm (Firebase), share-kakao (Kakao), auth-google, auth-kakao, auth-apple (iOS), push-apns (iOS), payment-storekit (iOS), payment-google-play (Android)
 
 ## Key Conventions
 
@@ -86,6 +113,7 @@ Phase 3 (planned): analytics, navigation, share, health, bluetooth, contacts, ca
 - **Module independence** — each module depends only on core, never on other modules
 - **Contract-first** — Changes to the bridge API should start with updating the contract schema in `contracts/`, then updating platform code
 - **Error codes** — Use `ErrorCode` constants from `errors.ts` (TIMEOUT, MODULE_NOT_FOUND, ACTION_NOT_FOUND, INVALID_MESSAGE, SERIALIZATION_ERROR, TRANSPORT_ERROR, VERSION_MISMATCH, UNKNOWN)
+- **Default provider naming** — All default providers use `Default` prefix (e.g., `DefaultStorageProvider`, `DefaultSecureStorageProvider`)
 
 ## Performance Targets
 
@@ -96,3 +124,19 @@ Phase 3 (planned): analytics, navigation, share, health, bluetooth, contacts, ca
 ## Platform Minimums
 
 - iOS 17+ / Android API 30+ / ES2022+
+
+## Android External Dependencies
+
+Some Android modules require additional libraries beyond core:
+
+| Module | Dependency | Version Catalog Key |
+|--------|-----------|-------------------|
+| secure-storage | `androidx.security:security-crypto` | `libs.security.crypto` |
+| ui | `androidx.appcompat:appcompat` | `libs.appcompat` |
+| health | `androidx.health.connect:connect-client` | `libs.health.connect` |
+| background-task | `androidx.work:work-runtime-ktx` | `libs.work.runtime` |
+| translation | `com.google.mlkit:translate` + `language-id` | `libs.mlkit.translate`, `libs.mlkit.language.id` |
+| share-kakao | `com.kakao.sdk:v2-share` + `v2-template` | `libs.kakao.share`, `libs.kakao.template` |
+| push-fcm | `com.google.firebase:firebase-messaging-ktx` | `libs.firebase.messaging` |
+
+Version catalog: `android/gradle/libs.versions.toml`

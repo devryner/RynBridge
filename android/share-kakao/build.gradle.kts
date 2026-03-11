@@ -1,11 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
-    namespace = "io.rynbridge.translation"
+    namespace = "io.rynbridge.share.kakao"
     compileSdk = 35
 
     defaultConfig {
@@ -24,16 +23,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
-    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kakao.share)
+    implementation(libs.kakao.template)
     implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.mlkit.translate)
-    implementation(libs.mlkit.language.id)
-
-    testImplementation(libs.junit.jupiter.api)
-    testRuntimeOnly(libs.junit.jupiter.engine)
-    testImplementation(libs.kotlinx.coroutines.test)
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
 }

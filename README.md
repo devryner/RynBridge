@@ -121,6 +121,10 @@ dependencies {
     implementation(project(":bluetooth"))
     implementation(project(":health"))
     implementation(project(":background-task"))
+
+    // Platform-specific modules
+    implementation(project(":push-fcm"))          // Firebase Cloud Messaging
+    implementation(project(":share-kakao"))        // Kakao Talk sharing
 }
 ```
 
@@ -168,8 +172,8 @@ let bridge = RynBridge(transport: transport)
 
 // Register modules with providers
 bridge.register(DeviceModule(provider: DefaultDeviceInfoProvider()))
-bridge.register(StorageModule(provider: UserDefaultsStorageProvider()))
-bridge.register(SecureStorageModule(provider: KeychainSecureStorageProvider()))
+bridge.register(StorageModule(provider: DefaultStorageProvider()))
+bridge.register(SecureStorageModule(provider: DefaultSecureStorageProvider()))
 bridge.register(UIModule(provider: DefaultUIProvider()))
 ```
 
@@ -180,7 +184,13 @@ import android.webkit.WebView
 import io.rynbridge.core.RynBridge
 import io.rynbridge.core.WebViewTransport
 import io.rynbridge.device.DeviceModule
+import io.rynbridge.device.DefaultDeviceInfoProvider
 import io.rynbridge.storage.StorageModule
+import io.rynbridge.storage.DefaultStorageProvider
+import io.rynbridge.securestorage.SecureStorageModule
+import io.rynbridge.securestorage.DefaultSecureStorageProvider
+import io.rynbridge.ui.UIModule
+import io.rynbridge.ui.DefaultUIProvider
 
 val webView: WebView = // your WebView
 
@@ -188,10 +198,12 @@ val webView: WebView = // your WebView
 val transport = WebViewTransport(webView)
 webView.addJavascriptInterface(transport, "RynBridgeAndroid")
 
-// Create bridge and register modules
+// Create bridge and register modules with default providers
 val bridge = RynBridge(transport)
-bridge.register(DeviceModule(deviceInfoProvider))
-bridge.register(StorageModule(storageProvider))
+bridge.register(DeviceModule(DefaultDeviceInfoProvider(context)))
+bridge.register(StorageModule(DefaultStorageProvider(context)))
+bridge.register(SecureStorageModule(DefaultSecureStorageProvider(context)))
+bridge.register(UIModule(DefaultUIProvider(this)))
 ```
 
 ---
@@ -753,8 +765,8 @@ On iOS and Android, each module delegates to a **Provider** interface. This sepa
 | Module | Provider Protocol | Default Implementation |
 |--------|-------------------|----------------------|
 | Device | `DeviceInfoProvider` | `DefaultDeviceInfoProvider` |
-| Storage | `StorageProvider` | `UserDefaultsStorageProvider` |
-| Secure Storage | `SecureStorageProvider` | `KeychainSecureStorageProvider` |
+| Storage | `StorageProvider` | `DefaultStorageProvider` |
+| Secure Storage | `SecureStorageProvider` | `DefaultSecureStorageProvider` |
 | UI | `UIProvider` | `DefaultUIProvider` |
 | Auth | `AuthProvider` | — (sub-packages: `RynBridgeAuthApple`) |
 | Push | `PushProvider` | — (sub-packages: `RynBridgePushAPNs`, `RynBridgePushFCM`) |
@@ -772,7 +784,8 @@ On iOS and Android, each module delegates to a **Provider** interface. This sepa
 | Bluetooth | `BluetoothProvider` | `DefaultBluetoothProvider` |
 | Health | `HealthProvider` | `DefaultHealthProvider` |
 | Background Task | `BackgroundTaskProvider` | `DefaultBackgroundTaskProvider` |
-| Kakao Share | — | `RynBridgeShareKakao` (requires KakaoSDK) |
+| Push FCM | `FCMPushProvider` | `FirebaseFCMPushProvider` (requires Firebase) |
+| Kakao Share | `KakaoShareProvider` | `KakaoShareModule` (requires KakaoSDK) |
 
 ```swift
 // Use a custom provider
@@ -789,12 +802,12 @@ bridge.register(StorageModule(provider: MyStorageProvider()))
 
 ### Android Providers
 
-| Module | Provider Interface | Default/Playground Implementation |
-|--------|-------------------|----------------------------------|
-| Device | `DeviceInfoProvider` | `AndroidDeviceInfoProvider` |
-| Storage | `StorageProvider` | `SharedPrefsStorageProvider` |
-| Secure Storage | `SecureStorageProvider` | `InMemorySecureStorageProvider` |
-| UI | `UIProvider` | `AndroidUIProvider` |
+| Module | Provider Interface | Default Implementation |
+|--------|-------------------|----------------------|
+| Device | `DeviceInfoProvider` | `DefaultDeviceInfoProvider` |
+| Storage | `StorageProvider` | `DefaultStorageProvider` |
+| Secure Storage | `SecureStorageProvider` | `DefaultSecureStorageProvider` |
+| UI | `UIProvider` | `DefaultUIProvider` |
 | Auth | `AuthProvider` | — (sub-packages: `auth-google`, `auth-kakao`) |
 | Push | `PushProvider` | — (sub-packages: `push-fcm`) |
 | Payment | `PaymentProvider` | — (sub-packages: `payment-google-play`) |
@@ -806,11 +819,13 @@ bridge.register(StorageModule(provider: MyStorageProvider()))
 | Navigation | `NavigationProvider` | `DefaultNavigationProvider` |
 | WebView | `WebViewProvider` | `DefaultWebViewProvider` |
 | Speech | `SpeechProvider` | `DefaultSpeechProvider` |
-| Analytics | `AnalyticsProvider` | — (interface only) |
-| Translation | `TranslationProvider` | — (interface only) |
+| Analytics | `AnalyticsProvider` | `DefaultAnalyticsProvider` |
+| Translation | `TranslationProvider` | `DefaultTranslationProvider` |
 | Bluetooth | `BluetoothProvider` | `DefaultBluetoothProvider` |
 | Health | `HealthProvider` | `DefaultHealthProvider` |
 | Background Task | `BackgroundTaskProvider` | `DefaultBackgroundTaskProvider` |
+| Push FCM | `PushFCMProvider` | `FirebasePushFCMProvider` (requires Firebase) |
+| Kakao Share | `KakaoShareProvider` | `DefaultKakaoShareProvider` (requires KakaoSDK) |
 
 ```kotlin
 // Use a custom provider
@@ -1008,6 +1023,7 @@ RynBridge/
 │   ├── auth-kakao/               # Kakao login provider
 │   ├── push-fcm/                 # Firebase Cloud Messaging provider
 │   ├── payment-google-play/      # Google Play Billing provider
+│   ├── share-kakao/              # Kakao Talk share provider
 │   └── playground/               # Android playground app
 ├── contracts/                    # JSON Schema definitions (source of truth)
 ├── docs/                         # Docusaurus documentation site
@@ -1070,6 +1086,8 @@ core → device, storage, secure-storage, ui, auth, push, payment, media, crypto
 | **v0.1.2** | API stabilization, performance benchmarks, bundle size CI | ✅ Done |
 | **v0.1.3** | Native → Web event emission (`emitEvent` API) | ✅ Done |
 | **v0.1.4** | 3rd-party sub-modules — Kakao Share (Web + iOS) | ✅ Done |
+| **v0.1.5** | Android default providers — all modules with production-ready implementations | ✅ Done |
+| **v0.1.6** | Android platform-specific modules — Push FCM, Share Kakao | ✅ Done |
 | **v0.2.0** | Package publishing — npm, SPM release, Maven Central | 🔲 Next |
 | **v0.3.0** | Stable release + open source governance | 🔲 Planned |
 

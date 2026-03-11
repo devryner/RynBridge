@@ -11,6 +11,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url = uri("https://devrepo.kakao.com/nexus/content/groups/public/") }
     }
 }
 
@@ -41,4 +42,5 @@ include(":payment-google-play")
 include(":bluetooth")
 include(":health")
 include(":background-task")
+include(":share-kakao")
 include(":playground")

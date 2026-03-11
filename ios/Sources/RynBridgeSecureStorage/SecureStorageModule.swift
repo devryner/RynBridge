@@ -48,7 +48,7 @@ public struct SecureStorageModule: BridgeModule, Sendable {
     }
 }
 
-public final class KeychainSecureStorageProvider: SecureStorageProvider, @unchecked Sendable {
+public final class DefaultSecureStorageProvider: SecureStorageProvider, @unchecked Sendable {
     private let service: String
 
     public init(service: String = "io.rynbridge.secure-storage") {

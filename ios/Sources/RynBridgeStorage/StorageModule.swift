@@ -88,7 +88,7 @@ public struct StorageModule: BridgeModule, Sendable {
     }
 }
 
-public final class UserDefaultsStorageProvider: StorageProvider, @unchecked Sendable {
+public final class DefaultStorageProvider: StorageProvider, @unchecked Sendable {
     private let defaults: UserDefaults
     private let prefix: String
 
