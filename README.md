@@ -401,6 +401,35 @@ fcm.onTokenRefresh(({ token }) => sendTokenToServer(token));
 
 ---
 
+### Push APNs (`@rynbridge/push-apns`)
+
+Apple Push Notification service provider (iOS only) — APNs token management, badge control, and delivered notification management.
+
+```typescript
+// APNs-specific actions are called through the bridge directly
+const { token } = await bridge.call('push-apns', 'getToken', {});
+
+// Badge management
+await bridge.call('push-apns', 'setBadgeCount', { count: 3 });
+const { count } = await bridge.call('push-apns', 'getBadgeCount', {});
+
+// Delivered notification management
+const { count: delivered } = await bridge.call('push-apns', 'getDeliveredNotificationCount', {});
+await bridge.call('push-apns', 'removeAllDeliveredNotifications', {});
+```
+
+#### API
+
+| Action | Return Type | Pattern |
+|--------|-----------|---------|
+| `getToken` | `{ token: string \| null }` | Request-Response |
+| `setBadgeCount` | `{}` | Request-Response |
+| `getBadgeCount` | `{ count: number }` | Request-Response |
+| `removeAllDeliveredNotifications` | `{}` | Request-Response |
+| `getDeliveredNotificationCount` | `{ count: number }` | Request-Response |
+
+---
+
 ### Payment (`@rynbridge/payment`)
 
 In-app purchases, product queries, and transaction management.
@@ -769,7 +798,7 @@ On iOS and Android, each module delegates to a **Provider** interface. This sepa
 | Secure Storage | `SecureStorageProvider` | `DefaultSecureStorageProvider` |
 | UI | `UIProvider` | `DefaultUIProvider` |
 | Auth | `AuthProvider` | — (sub-packages: `RynBridgeAuthApple`) |
-| Push | `PushProvider` | — (sub-packages: `RynBridgePushAPNs`, `RynBridgePushFCM`) |
+| Push | `PushProvider` | `DefaultAPNsPushProvider` (via `RynBridgePushAPNs`) |
 | Payment | `PaymentProvider` | — (sub-packages: `RynBridgePaymentStoreKit`) |
 | Media | `MediaProvider` | `DefaultMediaProvider` |
 | Crypto | `CryptoProvider` | `DefaultCryptoProvider` |
@@ -784,6 +813,7 @@ On iOS and Android, each module delegates to a **Provider** interface. This sepa
 | Bluetooth | `BluetoothProvider` | `DefaultBluetoothProvider` |
 | Health | `HealthProvider` | `DefaultHealthProvider` |
 | Background Task | `BackgroundTaskProvider` | `DefaultBackgroundTaskProvider` |
+| Push APNs | `APNsPushProvider` | `DefaultAPNsPushProvider` |
 | Push FCM | `FCMPushProvider` | `FirebaseFCMPushProvider` (requires Firebase) |
 | Kakao Share | `KakaoShareProvider` | `KakaoShareModule` (requires KakaoSDK) |
 
@@ -1140,7 +1170,7 @@ core → device, storage, secure-storage, ui, auth, push, payment, media, crypto
 
 **Phase 3:** share, contacts, calendar, navigation, webview, speech, analytics, translation, bluetooth, health, background-task
 
-**Platform-specific:** push-fcm, share-kakao
+**Platform-specific:** push-fcm, push-apns (iOS), share-kakao
 
 ---
 
