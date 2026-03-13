@@ -1,8 +1,11 @@
 package io.rynbridge.device
 
+import android.content.Context
 import io.rynbridge.core.*
 
 class DeviceModule(provider: DeviceInfoProvider) : BridgeModule {
+
+    constructor(context: Context) : this(DefaultDeviceInfoProvider(context))
 
     override val name = "device"
     override val version = "0.1.0"

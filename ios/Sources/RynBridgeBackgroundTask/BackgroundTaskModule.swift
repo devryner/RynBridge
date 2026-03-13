@@ -6,6 +6,10 @@ public struct BackgroundTaskModule: BridgeModule, Sendable {
     public let version = "0.1.0"
     public let actions: [String: ActionHandler]
 
+    public init() {
+        self.init(provider: DefaultBackgroundTaskProvider())
+    }
+
     public init(provider: BackgroundTaskProvider) {
         actions = [
             "scheduleTask": { payload in

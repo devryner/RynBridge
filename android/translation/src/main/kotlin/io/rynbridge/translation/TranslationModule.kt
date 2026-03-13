@@ -1,8 +1,10 @@
 package io.rynbridge.translation
 
+import android.content.Context
 import io.rynbridge.core.*
 
 class TranslationModule(provider: TranslationProvider) : BridgeModule {
+    constructor(context: Context) : this(DefaultTranslationProvider())
 
     override val name = "translation"
     override val version = "0.1.0"

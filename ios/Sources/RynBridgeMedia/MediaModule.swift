@@ -60,3 +60,11 @@ public struct MediaModule: BridgeModule, Sendable {
         ]
     }
 }
+
+#if canImport(UIKit)
+extension MediaModule {
+    public init() {
+        self.init(provider: DefaultMediaProvider())
+    }
+}
+#endif

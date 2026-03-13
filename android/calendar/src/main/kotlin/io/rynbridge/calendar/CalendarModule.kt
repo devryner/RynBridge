@@ -1,8 +1,10 @@
 package io.rynbridge.calendar
 
+import android.content.Context
 import io.rynbridge.core.*
 
 class CalendarModule(provider: CalendarProvider) : BridgeModule {
+    constructor(context: Context) : this(DefaultCalendarProvider(context))
 
     override val name = "calendar"
     override val version = "0.1.0"

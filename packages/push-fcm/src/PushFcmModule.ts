@@ -1,4 +1,4 @@
-import type { RynBridge } from '@rynbridge/core';
+import { RynBridge } from '@rynbridge/core';
 import type {
   FcmToken,
   FcmAutoInit,
@@ -11,8 +11,8 @@ const MODULE = 'push-fcm';
 export class PushFcmModule {
   private readonly bridge: RynBridge;
 
-  constructor(bridge: RynBridge) {
-    this.bridge = bridge;
+  constructor(bridge?: RynBridge) {
+    this.bridge = bridge ?? RynBridge.shared;
   }
 
   async getToken(): Promise<FcmToken> {

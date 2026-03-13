@@ -1,8 +1,10 @@
 package io.rynbridge.media
 
+import android.content.Context
 import io.rynbridge.core.*
 
 class MediaModule(provider: MediaProvider) : BridgeModule {
+    constructor(context: Context) : this(DefaultMediaProvider(context))
 
     override val name = "media"
     override val version = "0.1.0"

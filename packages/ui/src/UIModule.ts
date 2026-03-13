@@ -1,4 +1,4 @@
-import type { RynBridge } from '@rynbridge/core';
+import { RynBridge } from '@rynbridge/core';
 import type {
   ShowAlertPayload,
   ShowConfirmPayload,
@@ -16,8 +16,8 @@ const MODULE = 'ui';
 export class UIModule {
   private readonly bridge: RynBridge;
 
-  constructor(bridge: RynBridge) {
-    this.bridge = bridge;
+  constructor(bridge?: RynBridge) {
+    this.bridge = bridge ?? RynBridge.shared;
   }
 
   async showAlert(payload: ShowAlertPayload): Promise<void> {

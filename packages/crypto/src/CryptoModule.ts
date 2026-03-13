@@ -1,4 +1,4 @@
-import type { RynBridge } from '@rynbridge/core';
+import { RynBridge } from '@rynbridge/core';
 import type {
   KeyPairResult,
   KeyExchangePayload,
@@ -15,8 +15,8 @@ const MODULE = 'crypto';
 export class CryptoModule {
   private readonly bridge: RynBridge;
 
-  constructor(bridge: RynBridge) {
-    this.bridge = bridge;
+  constructor(bridge?: RynBridge) {
+    this.bridge = bridge ?? RynBridge.shared;
   }
 
   async generateKeyPair(): Promise<KeyPairResult> {

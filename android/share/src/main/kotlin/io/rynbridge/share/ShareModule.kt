@@ -1,8 +1,10 @@
 package io.rynbridge.share
 
+import android.content.Context
 import io.rynbridge.core.*
 
 class ShareModule(provider: ShareProvider) : BridgeModule {
+    constructor(context: Context) : this(DefaultShareProvider(context))
 
     override val name = "share"
     override val version = "0.1.0"

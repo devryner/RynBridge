@@ -3,6 +3,7 @@ package io.rynbridge.crypto
 import io.rynbridge.core.*
 
 class CryptoModule(provider: CryptoProvider) : BridgeModule {
+    constructor() : this(DefaultCryptoProvider())
 
     override val name = "crypto"
     override val version = "0.1.0"

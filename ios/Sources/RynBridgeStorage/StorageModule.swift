@@ -6,6 +6,10 @@ public struct StorageModule: BridgeModule, Sendable {
     public let version = "0.1.0"
     public let actions: [String: ActionHandler]
 
+    public init() {
+        self.init(provider: DefaultStorageProvider())
+    }
+
     public init(provider: StorageProvider) {
         actions = [
             "get": { payload in

@@ -1,4 +1,5 @@
 import Foundation
+import WebKit
 
 public final class RynBridge: @unchecked Sendable {
     private let transport: Transport
@@ -24,6 +25,17 @@ public final class RynBridge: @unchecked Sendable {
         transport.onMessage { [weak self] raw in
             guard let self = self else { return }
             Task { await self.handleIncomingMessage(raw) }
+        }
+    }
+
+    @MainActor
+    public convenience init(webView: WKWebView, config: BridgeConfig = .default) {
+        self.init(transport: WKWebViewTransport(webView: webView), config: config)
+    }
+
+    public func makeEventEmitter() -> BridgeEventEmitter {
+        return { [weak self] module, action, payload in
+            self?.emitEvent(module, action: action, payload: payload)
         }
     }
 

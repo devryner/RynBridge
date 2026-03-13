@@ -1,4 +1,4 @@
-import type { RynBridge } from '@rynbridge/core';
+import { RynBridge } from '@rynbridge/core';
 import type {
   GetCalendarsResult,
   GetEventsPayload,
@@ -20,8 +20,8 @@ const MODULE = 'calendar';
 export class CalendarModule {
   private readonly bridge: RynBridge;
 
-  constructor(bridge: RynBridge) {
-    this.bridge = bridge;
+  constructor(bridge?: RynBridge) {
+    this.bridge = bridge ?? RynBridge.shared;
   }
 
   async getCalendars(): Promise<GetCalendarsResult> {

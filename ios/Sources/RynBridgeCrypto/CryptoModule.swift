@@ -6,6 +6,10 @@ public struct CryptoModule: BridgeModule, Sendable {
     public let version = "0.1.0"
     public let actions: [String: ActionHandler]
 
+    public init() {
+        self.init(provider: DefaultCryptoProvider())
+    }
+
     public init(provider: CryptoProvider) {
         actions = [
             "generateKeyPair": { _ in

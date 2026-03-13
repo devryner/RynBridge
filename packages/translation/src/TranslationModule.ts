@@ -1,4 +1,4 @@
-import type { RynBridge } from '@rynbridge/core';
+import { RynBridge } from '@rynbridge/core';
 import type {
   TranslatePayload,
   TranslateResult,
@@ -20,8 +20,8 @@ const MODULE = 'translation';
 export class TranslationModule {
   private readonly bridge: RynBridge;
 
-  constructor(bridge: RynBridge) {
-    this.bridge = bridge;
+  constructor(bridge?: RynBridge) {
+    this.bridge = bridge ?? RynBridge.shared;
   }
 
   async translate(payload: TranslatePayload): Promise<TranslateResult> {

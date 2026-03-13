@@ -1,8 +1,10 @@
 package io.rynbridge.health
 
+import android.content.Context
 import io.rynbridge.core.*
 
 class HealthModule(provider: HealthProvider) : BridgeModule {
+    constructor(context: Context) : this(DefaultHealthProvider(context))
 
     override val name = "health"
     override val version = "0.1.0"

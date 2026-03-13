@@ -6,6 +6,10 @@ public struct TranslationModule: BridgeModule, Sendable {
     public let version = "0.1.0"
     public let actions: [String: ActionHandler]
 
+    public init() {
+        self.init(provider: DefaultTranslationProvider())
+    }
+
     public init(provider: TranslationProvider) {
         actions = [
             "translate": { payload in

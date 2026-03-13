@@ -1,8 +1,10 @@
 package io.rynbridge.storage
 
+import android.content.Context
 import io.rynbridge.core.*
 
 class StorageModule(provider: StorageProvider) : BridgeModule {
+    constructor(context: Context) : this(DefaultStorageProvider(context))
 
     override val name = "storage"
     override val version = "0.1.0"

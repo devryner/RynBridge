@@ -43,3 +43,11 @@ public struct ShareModule: BridgeModule, Sendable {
         ]
     }
 }
+
+#if canImport(UIKit)
+extension ShareModule {
+    public init() {
+        self.init(provider: DefaultShareProvider())
+    }
+}
+#endif

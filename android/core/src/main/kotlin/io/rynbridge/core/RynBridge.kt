@@ -1,5 +1,6 @@
 package io.rynbridge.core
 
+import android.webkit.WebView
 import kotlinx.coroutines.*
 
 class RynBridge(
@@ -7,6 +8,12 @@ class RynBridge(
     private val config: BridgeConfig = BridgeConfig.DEFAULT,
     dispatcher: CoroutineDispatcher = Dispatchers.Default
 ) {
+    constructor(webView: WebView, config: BridgeConfig = BridgeConfig.DEFAULT) : this(
+        transport = WebViewTransport(webView).also { transport ->
+            webView.addJavascriptInterface(transport, "RynBridgeAndroid")
+        },
+        config = config
+    )
     private val serializer = MessageSerializer(version = config.version)
     private val deserializer = MessageDeserializer()
     private val callbacks = CallbackRegistry()

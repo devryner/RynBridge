@@ -91,3 +91,11 @@ public struct ContactsModule: BridgeModule, Sendable {
         ]
     }
 }
+
+#if canImport(UIKit)
+extension ContactsModule {
+    public init() {
+        self.init(provider: DefaultContactsProvider())
+    }
+}
+#endif

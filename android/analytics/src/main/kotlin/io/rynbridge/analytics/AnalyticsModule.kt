@@ -3,6 +3,7 @@ package io.rynbridge.analytics
 import io.rynbridge.core.*
 
 class AnalyticsModule(provider: AnalyticsProvider) : BridgeModule {
+    constructor() : this(DefaultAnalyticsProvider())
 
     override val name = "analytics"
     override val version = "0.1.0"

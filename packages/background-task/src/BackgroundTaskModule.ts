@@ -1,4 +1,4 @@
-import type { RynBridge } from '@rynbridge/core';
+import { RynBridge } from '@rynbridge/core';
 import type {
   ScheduleTaskPayload,
   ScheduleTaskResult,
@@ -16,8 +16,8 @@ const MODULE = 'backgroundTask';
 export class BackgroundTaskModule {
   private readonly bridge: RynBridge;
 
-  constructor(bridge: RynBridge) {
-    this.bridge = bridge;
+  constructor(bridge?: RynBridge) {
+    this.bridge = bridge ?? RynBridge.shared;
   }
 
   async scheduleTask(payload: ScheduleTaskPayload): Promise<ScheduleTaskResult> {

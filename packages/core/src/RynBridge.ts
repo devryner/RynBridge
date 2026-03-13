@@ -15,6 +15,22 @@ import { ModuleRegistry } from './module/ModuleRegistry.js';
 import { WebViewTransport } from './transport/WebViewTransport.js';
 
 export class RynBridge {
+  private static _shared: RynBridge | null = null;
+
+  static get shared(): RynBridge {
+    if (!RynBridge._shared) {
+      RynBridge._shared = new RynBridge();
+    }
+    return RynBridge._shared;
+  }
+
+  static resetShared(): void {
+    if (RynBridge._shared) {
+      RynBridge._shared.dispose();
+      RynBridge._shared = null;
+    }
+  }
+
   private readonly config: Required<BridgeConfig>;
   private readonly transport: Transport;
   private readonly serializer: MessageSerializer;

@@ -6,6 +6,10 @@ public struct BluetoothModule: BridgeModule, Sendable {
     public let version = "0.1.0"
     public let actions: [String: ActionHandler]
 
+    public init() {
+        self.init(provider: DefaultBluetoothProvider())
+    }
+
     public init(provider: BluetoothProvider) {
         actions = [
             "startScan": { payload in

@@ -1,8 +1,10 @@
 package io.rynbridge.backgroundtask
 
+import android.content.Context
 import io.rynbridge.core.*
 
 class BackgroundTaskModule(provider: BackgroundTaskProvider) : BridgeModule {
+    constructor(context: Context) : this(DefaultBackgroundTaskProvider(context))
 
     override val name = "backgroundTask"
     override val version = "0.1.0"

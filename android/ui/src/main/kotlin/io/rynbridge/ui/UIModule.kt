@@ -1,10 +1,12 @@
 package io.rynbridge.ui
 
+import android.content.Context
 import io.rynbridge.core.ActionHandler
 import io.rynbridge.core.BridgeModule
 import io.rynbridge.core.BridgeValue
 
 class UIModule(provider: UIProvider) : BridgeModule {
+    constructor(context: Context) : this(DefaultUIProvider(context as android.app.Activity))
 
     override val name = "ui"
     override val version = "0.1.0"

@@ -1,8 +1,10 @@
 package io.rynbridge.webview
 
+import android.content.Context
 import io.rynbridge.core.*
 
 class WebViewModule(provider: WebViewProvider) : BridgeModule {
+    constructor(context: Context) : this(DefaultWebViewProvider(context))
 
     override val name = "webview"
     override val version = "0.1.0"

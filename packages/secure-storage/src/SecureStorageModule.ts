@@ -1,4 +1,4 @@
-import type { RynBridge } from '@rynbridge/core';
+import { RynBridge } from '@rynbridge/core';
 import type {
   SecureStorageGetResponse,
   SecureStorageHasResponse,
@@ -9,8 +9,8 @@ const MODULE = 'secure-storage';
 export class SecureStorageModule {
   private readonly bridge: RynBridge;
 
-  constructor(bridge: RynBridge) {
-    this.bridge = bridge;
+  constructor(bridge?: RynBridge) {
+    this.bridge = bridge ?? RynBridge.shared;
   }
 
   async get(key: string): Promise<string | null> {

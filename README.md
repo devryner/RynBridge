@@ -132,78 +132,88 @@ dependencies {
 
 ## Quick Start
 
-### Web — Initialize the Bridge
+### Web
 
 ```typescript
-import { RynBridge, WebViewTransport } from '@rynbridge/core';
 import { DeviceModule } from '@rynbridge/device';
 import { StorageModule } from '@rynbridge/storage';
-import { UIModule } from '@rynbridge/ui';
 
-// Create bridge (WebViewTransport is used by default if omitted)
-const bridge = new RynBridge();
+// Just import and use — no bridge setup needed
+const device = new DeviceModule();
+const storage = new StorageModule();
 
-// Create module instances
-const device = new DeviceModule(bridge);
-const storage = new StorageModule(bridge);
-const ui = new UIModule(bridge);
-
-// Request-Response
 const info = await device.getInfo();
 console.log(info.platform, info.model);
 
-// Fire-and-Forget
 device.vibrate();
 ```
 
-### iOS — Set Up WKWebView Bridge
+모듈을 생성하면 내부적으로 `RynBridge.shared` 싱글턴을 사용합니다. 커스텀 설정이 필요한 경우에만 직접 Bridge를 주입합니다:
+
+```typescript
+import { RynBridge } from '@rynbridge/core';
+import { DeviceModule } from '@rynbridge/device';
+
+const bridge = new RynBridge({ timeout: 10_000 });
+const device = new DeviceModule(bridge);  // 명시적 주입
+```
+
+`RynBridge.shared`는 lazy하게 생성되며, 테스트나 HMR 시 `RynBridge.resetShared()`로 초기화할 수 있습니다.
+
+### iOS
 
 ```swift
-import WebKit
 import RynBridge
 import RynBridgeDevice
 import RynBridgeStorage
-import RynBridgeSecureStorage
-import RynBridgeUI
 
-// Create transport with your WKWebView
-let transport = WKWebViewTransport(webView: webView)
-let bridge = RynBridge(transport: transport)
+// WebView만 넘기면 Transport 자동 생성
+let bridge = RynBridge(webView: webView)
 
-// Register modules with providers
-bridge.register(DeviceModule(provider: DefaultDeviceInfoProvider()))
-bridge.register(StorageModule(provider: DefaultStorageProvider()))
-bridge.register(SecureStorageModule(provider: DefaultSecureStorageProvider()))
-bridge.register(UIModule(provider: DefaultUIProvider()))
+// 모듈은 DefaultProvider를 자동 사용
+bridge.register(DeviceModule())
+bridge.register(StorageModule())
 ```
 
-### Android — Set Up WebView Bridge
+커스텀 Provider가 필요한 경우 기존 방식도 동일하게 지원됩니다:
+
+```swift
+bridge.register(DeviceModule(provider: MyCustomDeviceProvider()))
+```
+
+이벤트 스트림이 필요한 모듈(Device, Bluetooth 등)은 `makeEventEmitter()`로 연결합니다:
+
+```swift
+let emitter = bridge.makeEventEmitter()
+bridge.register(DeviceModule(provider: DefaultDeviceInfoProvider(eventEmitter: emitter)))
+```
+
+### Android
 
 ```kotlin
-import android.webkit.WebView
 import io.rynbridge.core.RynBridge
-import io.rynbridge.core.WebViewTransport
 import io.rynbridge.device.DeviceModule
-import io.rynbridge.device.DefaultDeviceInfoProvider
 import io.rynbridge.storage.StorageModule
-import io.rynbridge.storage.DefaultStorageProvider
-import io.rynbridge.securestorage.SecureStorageModule
-import io.rynbridge.securestorage.DefaultSecureStorageProvider
-import io.rynbridge.ui.UIModule
-import io.rynbridge.ui.DefaultUIProvider
 
-val webView: WebView = // your WebView
+// WebView만 넘기면 Transport + JavascriptInterface 자동 설정
+val bridge = RynBridge(webView)
 
-// Create transport and add JS interface
-val transport = WebViewTransport(webView)
-webView.addJavascriptInterface(transport, "RynBridgeAndroid")
+// Context만 넘기면 DefaultProvider 자동 생성
+bridge.register(DeviceModule(context))
+bridge.register(StorageModule(context))
+```
 
-// Create bridge and register modules with default providers
-val bridge = RynBridge(transport)
-bridge.register(DeviceModule(DefaultDeviceInfoProvider(context)))
-bridge.register(StorageModule(DefaultStorageProvider(context)))
-bridge.register(SecureStorageModule(DefaultSecureStorageProvider(context)))
-bridge.register(UIModule(DefaultUIProvider(this)))
+커스텀 Provider 주입도 그대로 지원됩니다:
+
+```kotlin
+bridge.register(DeviceModule(MyCustomDeviceProvider()))
+```
+
+Context가 필요 없는 모듈은 인자 없이 생성합니다:
+
+```kotlin
+bridge.register(CryptoModule())
+bridge.register(AnalyticsModule())
 ```
 
 ---
@@ -215,7 +225,7 @@ bridge.register(UIModule(DefaultUIProvider(this)))
 Provides device information, battery status, screen metrics, and haptic feedback.
 
 ```typescript
-const device = new DeviceModule(bridge);
+const device = new DeviceModule();
 
 // Get device info
 const info = await device.getInfo();
@@ -250,7 +260,7 @@ device.vibrate({ pattern: [100, 200, 100] });
 Key-value storage backed by UserDefaults (iOS) or SharedPreferences (Android).
 
 ```typescript
-const storage = new StorageModule(bridge);
+const storage = new StorageModule();
 
 await storage.set('username', 'ryn');
 const value = await storage.get('username');   // "ryn"
@@ -276,7 +286,7 @@ await storage.clear();
 Encrypted key-value storage backed by Keychain (iOS) or KeyStore (Android).
 
 ```typescript
-const secureStorage = new SecureStorageModule(bridge);
+const secureStorage = new SecureStorageModule();
 
 await secureStorage.set('token', 'eyJhbGci...');
 const token = await secureStorage.get('token');    // "eyJhbGci..."
@@ -300,7 +310,7 @@ await secureStorage.remove('token');
 Native UI components: alerts, confirms, toasts, and action sheets.
 
 ```typescript
-const ui = new UIModule(bridge);
+const ui = new UIModule();
 
 // Show alert (waits for dismiss)
 await ui.showAlert({ title: 'Hello', message: 'Welcome!' });
@@ -342,7 +352,7 @@ const selectedIndex = await ui.showActionSheet({
 Authentication with OAuth providers, token management, and auth state observation.
 
 ```typescript
-const auth = new AuthModule(bridge);
+const auth = new AuthModule();
 
 const result = await auth.login({ provider: 'google', scopes: ['email'] });
 const { token } = await auth.getToken();
@@ -355,7 +365,7 @@ await auth.logout();
 Push notification registration, permission management, and notification events.
 
 ```typescript
-const push = new PushModule(bridge);
+const push = new PushModule();
 
 const { granted } = await push.requestPermission();
 const { token } = await push.register();
@@ -367,7 +377,7 @@ push.onNotification((n) => console.log(n.title, n.body));
 Firebase Cloud Messaging provider — FCM token management, topic subscription, and auto-init control.
 
 ```typescript
-const fcm = new PushFcmModule(bridge);
+const fcm = new PushFcmModule();
 
 // Get FCM registration token
 const { token } = await fcm.getToken();
@@ -435,7 +445,7 @@ await bridge.call('push-apns', 'removeAllDeliveredNotifications', {});
 In-app purchases, product queries, and transaction management.
 
 ```typescript
-const payment = new PaymentModule(bridge);
+const payment = new PaymentModule();
 
 const { products } = await payment.getProducts({ productIds: ['premium'] });
 const receipt = await payment.purchase({ productId: 'premium' });
@@ -447,7 +457,7 @@ await payment.finishTransaction({ transactionId: receipt.transactionId });
 Audio playback, recording, and media picker.
 
 ```typescript
-const media = new MediaModule(bridge);
+const media = new MediaModule();
 
 const { playerId } = await media.playAudio({ source: 'https://example.com/song.mp3' });
 const { recordingId } = await media.startRecording({ format: 'm4a' });
@@ -459,7 +469,7 @@ const { files } = await media.pickMedia({ type: 'image', multiple: true });
 Key generation, key exchange, authenticated encryption (AES-GCM), and key rotation.
 
 ```typescript
-const crypto = new CryptoModule(bridge);
+const crypto = new CryptoModule();
 
 const { publicKey } = await crypto.generateKeyPair();
 await crypto.performKeyExchange({ remotePublicKey: '...' });
@@ -472,7 +482,7 @@ const { plaintext } = await crypto.decrypt(encrypted);
 Share content via the native share sheet.
 
 ```typescript
-const share = new ShareModule(bridge);
+const share = new ShareModule();
 
 await share.share({ text: 'Check this out!', url: 'https://example.com' });
 const { available } = await share.canShare({ url: 'https://example.com' });
@@ -483,7 +493,7 @@ const { available } = await share.canShare({ url: 'https://example.com' });
 Read and write device contacts with permission management.
 
 ```typescript
-const contacts = new ContactsModule(bridge);
+const contacts = new ContactsModule();
 
 const { granted } = await contacts.requestPermission();
 const { contacts: list } = await contacts.getContacts({ limit: 50 });
@@ -497,7 +507,7 @@ const { contactId } = await contacts.addContact({
 Create, read, and manage calendar events.
 
 ```typescript
-const calendar = new CalendarModule(bridge);
+const calendar = new CalendarModule();
 
 const { granted } = await calendar.requestPermission();
 const { events } = await calendar.getEvents({ startDate: '2025-01-01', endDate: '2025-12-31' });
@@ -511,7 +521,7 @@ const { eventId } = await calendar.createEvent({
 URL opening, deep link handling, and app state observation.
 
 ```typescript
-const navigation = new NavigationModule(bridge);
+const navigation = new NavigationModule();
 
 await navigation.openURL({ url: 'https://example.com' });
 const { canOpen } = await navigation.canOpenURL({ url: 'myapp://settings' });
@@ -524,7 +534,7 @@ navigation.onAppStateChange((state) => console.log(state.state));
 Manage embedded WebView instances and inter-WebView messaging.
 
 ```typescript
-const webview = new WebViewModule(bridge);
+const webview = new WebViewModule();
 
 const { webviewId } = await webview.open({ url: 'https://example.com', style: 'modal' });
 await webview.sendMessage({ targetId: webviewId, data: { action: 'refresh' } });
@@ -537,7 +547,7 @@ await webview.close({ webviewId });
 Speech recognition (STT) and text-to-speech (TTS).
 
 ```typescript
-const speech = new SpeechModule(bridge);
+const speech = new SpeechModule();
 
 const { granted } = await speech.requestPermission();
 const { sessionId } = await speech.startRecognition({ language: 'ko-KR' });
@@ -550,7 +560,7 @@ await speech.speak({ text: 'Hello, world!', language: 'en-US' });
 Event tracking and user property management. Interface-only — requires a provider sub-package (e.g., `analytics-firebase`).
 
 ```typescript
-const analytics = new AnalyticsModule(bridge);
+const analytics = new AnalyticsModule();
 
 await analytics.logEvent({ name: 'purchase', params: { item: 'premium' } });
 await analytics.setUserProperty({ name: 'plan', value: 'pro' });
@@ -562,7 +572,7 @@ await analytics.setUserId({ userId: 'user_123' });
 Text translation and language detection. Interface-only — requires a provider sub-package (e.g., `translation-apple`, `translation-mlkit`).
 
 ```typescript
-const translation = new TranslationModule(bridge);
+const translation = new TranslationModule();
 
 const { translatedText } = await translation.translate({
   text: '안녕하세요', sourceLanguage: 'ko', targetLanguage: 'en'
@@ -576,7 +586,7 @@ const { languages } = await translation.getSupportedLanguages();
 Bluetooth Low Energy (BLE) device scanning, connection, and characteristic read/write.
 
 ```typescript
-const bluetooth = new BluetoothModule(bridge);
+const bluetooth = new BluetoothModule();
 
 const { granted } = await bluetooth.requestPermission();
 const { state } = await bluetooth.getState();
@@ -599,7 +609,7 @@ await bluetooth.disconnect({ deviceId: 'ABC-123' });
 Health data access via HealthKit (iOS) or Health Connect (Android).
 
 ```typescript
-const health = new HealthModule(bridge);
+const health = new HealthModule();
 
 const { available } = await health.isAvailable();
 const { granted } = await health.requestPermission({
@@ -622,7 +632,7 @@ health.onDataChange((event) => console.log(event.dataType));
 Schedule and manage background tasks (BGTaskScheduler on iOS, WorkManager on Android).
 
 ```typescript
-const bgTask = new BackgroundTaskModule(bridge);
+const bgTask = new BackgroundTaskModule();
 
 const { granted } = await bgTask.requestPermission();
 const { taskId, success } = await bgTask.scheduleTask({
@@ -645,7 +655,7 @@ await bgTask.cancelAllTasks();
 Share content via KakaoTalk using Kakao SDK templates.
 
 ```typescript
-const kakaoShare = new KakaoShareModule(bridge);
+const kakaoShare = new KakaoShareModule();
 
 const { available } = await kakaoShare.isAvailable();
 
@@ -683,8 +693,9 @@ npm install @rynbridge/devtools
 ```
 
 ```typescript
-import { RynBridge, WebViewTransport } from '@rynbridge/core';
+import { RynBridge } from '@rynbridge/core';
 import { DevToolsTransport, DevToolsPanel } from '@rynbridge/devtools';
+import { WebViewTransport } from '@rynbridge/core';
 
 const devtools = new DevToolsTransport(new WebViewTransport());
 const bridge = new RynBridge({}, devtools);
@@ -1159,6 +1170,7 @@ core → device, storage, secure-storage, ui, auth, push, payment, media, crypto
 | **v0.1.5** | Android default providers — all modules with production-ready implementations | ✅ Done |
 | **v0.1.6** | Android platform-specific modules — Push FCM, Share Kakao | ✅ Done |
 | **v0.1.7** | Runtime permission checks — all modules validate permissions before API access | ✅ Done |
+| **v0.1.8** | Simplified Setup API — singleton, convenience inits, zero-config modules | ✅ Done |
 | **v0.2.0** | Package publishing — npm, SPM release, Maven Central | 🔲 Next |
 | **v0.3.0** | Stable release + open source governance | 🔲 Planned |
 

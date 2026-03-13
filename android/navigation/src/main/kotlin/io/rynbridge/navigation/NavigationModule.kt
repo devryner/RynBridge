@@ -1,8 +1,10 @@
 package io.rynbridge.navigation
 
+import android.content.Context
 import io.rynbridge.core.*
 
 class NavigationModule(provider: NavigationProvider) : BridgeModule {
+    constructor(context: Context) : this(DefaultNavigationProvider(context))
 
     override val name = "navigation"
     override val version = "0.1.0"

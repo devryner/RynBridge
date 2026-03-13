@@ -1,4 +1,4 @@
-import type { RynBridge } from '@rynbridge/core';
+import { RynBridge } from '@rynbridge/core';
 import type {
   StartScanPayload,
   StartScanResult,
@@ -24,8 +24,8 @@ const MODULE = 'bluetooth';
 export class BluetoothModule {
   private readonly bridge: RynBridge;
 
-  constructor(bridge: RynBridge) {
-    this.bridge = bridge;
+  constructor(bridge?: RynBridge) {
+    this.bridge = bridge ?? RynBridge.shared;
   }
 
   async startScan(payload?: StartScanPayload): Promise<StartScanResult> {

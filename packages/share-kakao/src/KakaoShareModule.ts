@@ -1,4 +1,4 @@
-import type { RynBridge } from '@rynbridge/core';
+import { RynBridge } from '@rynbridge/core';
 import type {
   ShareFeedPayload,
   ShareCommercePayload,
@@ -13,8 +13,8 @@ const MODULE = 'kakaoShare';
 export class KakaoShareModule {
   private readonly bridge: RynBridge;
 
-  constructor(bridge: RynBridge) {
-    this.bridge = bridge;
+  constructor(bridge?: RynBridge) {
+    this.bridge = bridge ?? RynBridge.shared;
   }
 
   async shareFeed(payload: ShareFeedPayload): Promise<KakaoShareResult> {

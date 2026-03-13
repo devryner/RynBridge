@@ -6,6 +6,10 @@ public struct SpeechModule: BridgeModule, Sendable {
     public let version = "0.1.0"
     public let actions: [String: ActionHandler]
 
+    public init() {
+        self.init(provider: DefaultSpeechProvider())
+    }
+
     public init(provider: SpeechProvider) {
         actions = [
             "startRecognition": { payload in

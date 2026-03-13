@@ -58,3 +58,11 @@ public struct NavigationModule: BridgeModule, Sendable {
         ]
     }
 }
+
+#if canImport(UIKit)
+extension NavigationModule {
+    public init() {
+        self.init(provider: DefaultNavigationProvider())
+    }
+}
+#endif

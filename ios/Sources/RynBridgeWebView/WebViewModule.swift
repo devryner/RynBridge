@@ -71,3 +71,11 @@ public struct WebViewModule: BridgeModule, Sendable {
         ]
     }
 }
+
+#if canImport(UIKit)
+extension WebViewModule {
+    public init() {
+        self.init(provider: DefaultWebViewProvider())
+    }
+}
+#endif

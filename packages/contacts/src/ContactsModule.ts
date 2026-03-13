@@ -1,4 +1,4 @@
-import type { RynBridge } from '@rynbridge/core';
+import { RynBridge } from '@rynbridge/core';
 import type {
   Contact,
   GetContactsPayload,
@@ -18,8 +18,8 @@ const MODULE = 'contacts';
 export class ContactsModule {
   private readonly bridge: RynBridge;
 
-  constructor(bridge: RynBridge) {
-    this.bridge = bridge;
+  constructor(bridge?: RynBridge) {
+    this.bridge = bridge ?? RynBridge.shared;
   }
 
   async getContacts(payload?: GetContactsPayload): Promise<GetContactsResult> {

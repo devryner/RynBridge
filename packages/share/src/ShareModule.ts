@@ -1,4 +1,4 @@
-import type { RynBridge } from '@rynbridge/core';
+import { RynBridge } from '@rynbridge/core';
 import type {
   SharePayload,
   ShareFilePayload,
@@ -12,8 +12,8 @@ const MODULE = 'share';
 export class ShareModule {
   private readonly bridge: RynBridge;
 
-  constructor(bridge: RynBridge) {
-    this.bridge = bridge;
+  constructor(bridge?: RynBridge) {
+    this.bridge = bridge ?? RynBridge.shared;
   }
 
   async share(payload: SharePayload): Promise<ShareResult> {

@@ -1,4 +1,4 @@
-import type { RynBridge } from '@rynbridge/core';
+import { RynBridge } from '@rynbridge/core';
 import type {
   LoginPayload,
   LoginResult,
@@ -12,8 +12,8 @@ const MODULE = 'auth';
 export class AuthModule {
   private readonly bridge: RynBridge;
 
-  constructor(bridge: RynBridge) {
-    this.bridge = bridge;
+  constructor(bridge?: RynBridge) {
+    this.bridge = bridge ?? RynBridge.shared;
   }
 
   async login(payload: LoginPayload): Promise<LoginResult> {

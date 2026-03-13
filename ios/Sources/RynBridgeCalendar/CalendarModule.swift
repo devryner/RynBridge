@@ -91,3 +91,11 @@ public struct CalendarModule: BridgeModule, Sendable {
         ]
     }
 }
+
+#if canImport(UIKit)
+extension CalendarModule {
+    public init() {
+        self.init(provider: DefaultCalendarProvider())
+    }
+}
+#endif

@@ -1,4 +1,4 @@
-import type { RynBridge } from '@rynbridge/core';
+import { RynBridge } from '@rynbridge/core';
 import type {
   StartRecognitionPayload,
   StartRecognitionResult,
@@ -16,8 +16,8 @@ const MODULE = 'speech';
 export class SpeechModule {
   private readonly bridge: RynBridge;
 
-  constructor(bridge: RynBridge) {
-    this.bridge = bridge;
+  constructor(bridge?: RynBridge) {
+    this.bridge = bridge ?? RynBridge.shared;
   }
 
   async startRecognition(payload?: StartRecognitionPayload): Promise<StartRecognitionResult> {

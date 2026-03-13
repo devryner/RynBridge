@@ -1,8 +1,10 @@
 package io.rynbridge.speech
 
+import android.content.Context
 import io.rynbridge.core.*
 
 class SpeechModule(provider: SpeechProvider) : BridgeModule {
+    constructor(context: Context) : this(DefaultSpeechProvider(context))
 
     override val name = "speech"
     override val version = "0.1.0"

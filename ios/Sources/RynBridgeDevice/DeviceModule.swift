@@ -49,6 +49,12 @@ public struct DeviceModule: BridgeModule, Sendable {
 }
 
 #if canImport(UIKit)
+extension DeviceModule {
+    public init() {
+        self.init(provider: DefaultDeviceInfoProvider())
+    }
+}
+
 import UIKit
 import AudioToolbox
 import AVFoundation

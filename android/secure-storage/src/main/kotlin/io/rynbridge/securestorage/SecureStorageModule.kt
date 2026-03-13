@@ -1,8 +1,10 @@
 package io.rynbridge.securestorage
 
+import android.content.Context
 import io.rynbridge.core.*
 
 class SecureStorageModule(provider: SecureStorageProvider) : BridgeModule {
+    constructor(context: Context) : this(DefaultSecureStorageProvider(context))
 
     override val name = "secure-storage"
     override val version = "0.1.0"

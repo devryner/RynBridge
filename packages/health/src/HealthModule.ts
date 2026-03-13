@@ -1,4 +1,4 @@
-import type { RynBridge } from '@rynbridge/core';
+import { RynBridge } from '@rynbridge/core';
 import type {
   RequestPermissionPayload,
   PermissionResult,
@@ -18,8 +18,8 @@ const MODULE = 'health';
 export class HealthModule {
   private readonly bridge: RynBridge;
 
-  constructor(bridge: RynBridge) {
-    this.bridge = bridge;
+  constructor(bridge?: RynBridge) {
+    this.bridge = bridge ?? RynBridge.shared;
   }
 
   async requestPermission(payload: RequestPermissionPayload): Promise<PermissionResult> {

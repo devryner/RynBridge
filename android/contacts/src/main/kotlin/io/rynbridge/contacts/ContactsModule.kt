@@ -1,8 +1,10 @@
 package io.rynbridge.contacts
 
+import android.content.Context
 import io.rynbridge.core.*
 
 class ContactsModule(provider: ContactsProvider) : BridgeModule {
+    constructor(context: Context) : this(DefaultContactsProvider(context))
 
     override val name = "contacts"
     override val version = "0.1.0"

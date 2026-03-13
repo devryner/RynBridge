@@ -1,4 +1,4 @@
-import type { RynBridge } from '@rynbridge/core';
+import { RynBridge } from '@rynbridge/core';
 import type {
   OpenPayload,
   OpenResult,
@@ -16,8 +16,8 @@ const MODULE = 'webview';
 export class WebViewModule {
   private readonly bridge: RynBridge;
 
-  constructor(bridge: RynBridge) {
-    this.bridge = bridge;
+  constructor(bridge?: RynBridge) {
+    this.bridge = bridge ?? RynBridge.shared;
   }
 
   async open(payload: OpenPayload): Promise<OpenResult> {

@@ -1,8 +1,10 @@
 package io.rynbridge.bluetooth
 
+import android.content.Context
 import io.rynbridge.core.*
 
 class BluetoothModule(provider: BluetoothProvider) : BridgeModule {
+    constructor(context: Context) : this(DefaultBluetoothProvider(context))
 
     override val name = "bluetooth"
     override val version = "0.1.0"

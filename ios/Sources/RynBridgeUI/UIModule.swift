@@ -66,6 +66,12 @@ public struct UIModule: BridgeModule, Sendable {
 }
 
 #if canImport(UIKit)
+extension UIModule {
+    public init() {
+        self.init(provider: DefaultUIProvider())
+    }
+}
+
 import UIKit
 
 @MainActor
