@@ -6,7 +6,7 @@ import RynBridgePush
 #if canImport(UIKit)
 import UIKit
 
-public final class APNsPushProvider: PushProvider, @unchecked Sendable {
+public final class DefaultAPNsPushProvider: PushProvider, APNsPushProvider, @unchecked Sendable {
     private var deviceToken: String?
     private let eventEmitter: BridgeEventEmitter?
     private var initialNotification: PushNotificationData?
@@ -50,6 +50,8 @@ public final class APNsPushProvider: PushProvider, @unchecked Sendable {
     public func setInitialNotification(_ notification: PushNotificationData) {
         self.initialNotification = notification
     }
+
+    // MARK: - PushProvider
 
     public func register() async throws -> PushRegistration {
         return try await withCheckedThrowingContinuation { continuation in
@@ -99,6 +101,29 @@ public final class APNsPushProvider: PushProvider, @unchecked Sendable {
 
     public func getInitialNotification() async throws -> PushNotificationData? {
         return initialNotification
+    }
+
+    // MARK: - APNsPushProvider
+
+    public func setBadgeCount(_ count: Int) async throws {
+        await MainActor.run {
+            UIApplication.shared.applicationIconBadgeNumber = count
+        }
+    }
+
+    public func getBadgeCount() async throws -> Int {
+        await MainActor.run {
+            UIApplication.shared.applicationIconBadgeNumber
+        }
+    }
+
+    public func removeAllDeliveredNotifications() async throws {
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+    }
+
+    public func getDeliveredNotificationCount() async throws -> Int {
+        let notifications = await UNUserNotificationCenter.current().deliveredNotifications()
+        return notifications.count
     }
 }
 #endif

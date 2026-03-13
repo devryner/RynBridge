@@ -285,6 +285,11 @@ let package = Package(
             path: "Tests/RynBridgeBackgroundTaskTests"
         ),
         .testTarget(
+            name: "RynBridgePushAPNsTests",
+            dependencies: ["RynBridge", "RynBridgePushAPNs"],
+            path: "Tests/RynBridgePushAPNsTests"
+        ),
+        .testTarget(
             name: "RynBridgePushFCMTests",
             dependencies: ["RynBridge", "RynBridgePushFCM"],
             path: "Tests/RynBridgePushFCMTests"

@@ -67,6 +67,7 @@ const sidebars: SidebarsConfig = {
           label: 'Platform-Specific',
           items: [
             'api/push-fcm',
+            'api/push-apns',
             'api/share-kakao',
           ],
         },
