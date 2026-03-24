@@ -1285,7 +1285,34 @@ Tag (vX.Y.Z)
 
 ---
 
-## 12. 경쟁 분석 및 차별점
+## 12. Release History
+
+| Version | Milestone | Status |
+|---------|-----------|--------|
+| **v0.0.1** | Core protocol, 3-platform SDKs, Playground | Done |
+| **v0.0.2** | Phase 1 modules (device, storage, secure-storage, ui) | Done |
+| **v0.0.3** | DX tools — CLI, codegen, DevTools, docs site | Done |
+| **v0.0.4** | Phase 2 modules (auth, push, payment, media, crypto) | Done |
+| **v0.0.5** | Native providers — crypto, media + auth/push/payment sub-packages | Done |
+| **v0.0.6** | Phase 3 basic — share, contacts, calendar | Done |
+| **v0.0.7** | Phase 3 intermediate — navigation, webview, speech, analytics, translation | Done |
+| **v0.0.8** | Phase 3 advanced — bluetooth, health, background-task | Done |
+| **v0.0.9** | Release pipeline — npm publish, SPM release, Maven Central | Done |
+| **v0.1.0** | Full module unit tests (3-platform CI integration) | Done |
+| **v0.1.1** | CLI doctor enhancement (dependency, permission, schema validation) | Done |
+| **v0.1.2** | API stabilization, performance benchmarks, bundle size CI | Done |
+| **v0.1.3** | Native → Web event emission (`emitEvent` API) | Done |
+| **v0.1.4** | 3rd-party sub-modules — Kakao Share (Web + iOS) | Done |
+| **v0.1.5** | Android default providers — all modules with production-ready implementations | Done |
+| **v0.1.6** | Android platform-specific modules — Push FCM, Share Kakao | Done |
+| **v0.1.7** | Runtime permission checks — all modules validate permissions before API access | Done |
+| **v0.1.8** | Simplified Setup API — singleton, convenience inits, zero-config modules | Done |
+| **v0.2.0** | Package publishing — npm, SPM release, Maven Central | In Progress |
+| **v0.3.0** | Stable release + open source governance | Planned |
+
+---
+
+## 13. 경쟁 분석 및 차별점
 
 | | RynBridge | WebViewJavascriptBridge | Capacitor |
 |---|---|---|---|
