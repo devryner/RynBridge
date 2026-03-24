@@ -4,3 +4,10 @@ dist/
 *.tsbuildinfo
 .DS_Store
 .build/
+
+# Android build/error logs
+android/.kotlin/
+*.log
+
+# Swift Package Manager (필요에 따라 유지할 수도 있지만 보통 공유하지 않음)
+Package.resolved
