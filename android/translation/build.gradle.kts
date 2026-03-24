@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "io.rynbridge.translation"
+    namespace = "com.devryner.rynbridge.translation"
     compileSdk = 35
 
     defaultConfig {

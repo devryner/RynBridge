@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "io.rynbridge.bluetooth"
+    namespace = "com.devryner.rynbridge.bluetooth"
     compileSdk = 35
 
     defaultConfig {

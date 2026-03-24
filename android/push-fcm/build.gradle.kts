@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "io.rynbridge.push.fcm"
+    namespace = "com.devryner.rynbridge.push.fcm"
     compileSdk = 35
 
     defaultConfig {

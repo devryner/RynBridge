@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "io.rynbridge.share.kakao"
+    namespace = "com.devryner.rynbridge.share.kakao"
     compileSdk = 35
 
     defaultConfig {

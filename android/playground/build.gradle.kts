@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "io.rynbridge.playground"
+    namespace = "com.devryner.rynbridge.playground"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "io.rynbridge.playground"
+        applicationId = "com.devryner.rynbridge.playground"
         minSdk = 30
         targetSdk = 35
         versionCode = 1

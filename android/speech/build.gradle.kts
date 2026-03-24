@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "io.rynbridge.speech"
+    namespace = "com.devryner.rynbridge.speech"
     compileSdk = 35
 
     defaultConfig {

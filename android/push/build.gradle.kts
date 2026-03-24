@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "io.rynbridge.push"
+    namespace = "com.devryner.rynbridge.push"
     compileSdk = 35
 
     defaultConfig {

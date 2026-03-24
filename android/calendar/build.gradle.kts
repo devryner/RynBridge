@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "io.rynbridge.calendar"
+    namespace = "com.devryner.rynbridge.calendar"
     compileSdk = 35
 
     defaultConfig {

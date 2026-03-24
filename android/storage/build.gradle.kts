@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "io.rynbridge.storage"
+    namespace = "com.devryner.rynbridge.storage"
     compileSdk = 35
 
     defaultConfig {

@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "io.rynbridge.media"
+    namespace = "com.devryner.rynbridge.media"
     compileSdk = 35
 
     defaultConfig {

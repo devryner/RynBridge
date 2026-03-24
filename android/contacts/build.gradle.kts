@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "io.rynbridge.contacts"
+    namespace = "com.devryner.rynbridge.contacts"
     compileSdk = 35
 
     defaultConfig {

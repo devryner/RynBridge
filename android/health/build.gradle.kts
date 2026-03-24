@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "io.rynbridge.health"
+    namespace = "com.devryner.rynbridge.health"
     compileSdk = 35
 
     defaultConfig {

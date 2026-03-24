@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "io.rynbridge.crypto"
+    namespace = "com.devryner.rynbridge.crypto"
     compileSdk = 35
 
     defaultConfig {

@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "io.rynbridge.auth.google"
+    namespace = "com.devryner.rynbridge.auth.google"
     compileSdk = 35
 
     defaultConfig {

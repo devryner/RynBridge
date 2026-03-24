@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "io.rynbridge.ui"
+    namespace = "com.devryner.rynbridge.ui"
     compileSdk = 35
 
     defaultConfig {

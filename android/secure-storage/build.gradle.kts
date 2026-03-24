@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "io.rynbridge.securestorage"
+    namespace = "com.devryner.rynbridge.securestorage"
     compileSdk = 35
 
     defaultConfig {

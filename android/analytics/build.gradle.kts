@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "io.rynbridge.analytics"
+    namespace = "com.devryner.rynbridge.analytics"
     compileSdk = 35
 
     defaultConfig {

@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "io.rynbridge.share"
+    namespace = "com.devryner.rynbridge.share"
     compileSdk = 35
 
     defaultConfig {

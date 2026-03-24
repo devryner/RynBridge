@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "io.rynbridge.navigation"
+    namespace = "com.devryner.rynbridge.navigation"
     compileSdk = 35
 
     defaultConfig {

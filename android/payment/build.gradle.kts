@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "io.rynbridge.payment"
+    namespace = "com.devryner.rynbridge.payment"
     compileSdk = 35
 
     defaultConfig {

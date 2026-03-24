@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "io.rynbridge.backgroundtask"
+    namespace = "com.devryner.rynbridge.backgroundtask"
     compileSdk = 35
 
     defaultConfig {

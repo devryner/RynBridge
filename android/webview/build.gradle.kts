@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "io.rynbridge.webview"
+    namespace = "com.devryner.rynbridge.webview"
     compileSdk = 35
 
     defaultConfig {
