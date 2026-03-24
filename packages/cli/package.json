@@ -1,6 +1,7 @@
 {
   "name": "@rynbridge/cli",
   "version": "0.3.0",
+  "description": "CLI tool for RynBridge project scaffolding and diagnostics",
   "type": "module",
   "bin": {
     "rynbridge": "./dist/cli.mjs"
